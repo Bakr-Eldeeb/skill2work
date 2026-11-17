@@ -1,0 +1,9 @@
+.interview {
+  margin-top: 15px;
+  padding: 20px;
+  background: var(--soft);
+  border-radius: 12px;
+}
+.interview label {
+  max-width: 550px;
+}

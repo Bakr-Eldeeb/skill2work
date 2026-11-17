@@ -1,0 +1,50 @@
+<s2w-header title="Profile" subtitle="Complete your profile" />
+<div class="two-column">
+  <form class="card" [formGroup]="form" (ngSubmit)="save()">
+    <h2>{{ 'Your account' | t }}</h2>
+    <div class="fields">
+      <label>{{ 'Name' | t }}<input formControlName="name" required /></label
+      ><label>{{ 'Location' | t }}<input formControlName="location" required /></label
+      ><label
+        >{{ 'University' | t
+        }}<select formControlName="universityId">
+          @for (u of s.state().universities; track u.id) {
+            <option [value]="u.id">{{ u.name }}</option>
+          }</select
+        ><span class="form-help">{{
+          'University selection is self-reported, not enrollment-verified.' | t
+        }}</span></label
+      ><label
+        >{{ 'Career track' | t
+        }}<select formControlName="track">
+          @for (
+            track of ['Frontend Development', 'Backend Development', 'Product Design'];
+            track track
+          ) {
+            <option>{{ track }}</option>
+          }
+        </select></label
+      ><label class="full">{{ 'Bio' | t }}<textarea formControlName="bio"></textarea></label
+      ><label class="full"
+        >{{ 'Education' | t }}<textarea formControlName="education"></textarea></label
+      ><label class="full"
+        >{{ 'Experience' | t }}<textarea formControlName="experience"></textarea></label
+      ><label class="full"
+        >{{ 'Projects' | t }}<textarea formControlName="projects"></textarea>
+      </label>
+    </div>
+    @if (error) {
+      <div class="error" role="alert">{{ error | t }}</div>
+    }
+    <button class="primary" type="submit">{{ 'Save profile' | t }}</button>
+  </form>
+  <aside class="card aura">
+    <h3>{{ 'Your skills, with evidence.' | t }}</h3>
+    <p class="muted">
+      {{
+        'Changing your career track keeps skill results and recalculates your overall score. Changing university cancels your previous fair registrations.'
+          | t
+      }}
+    </p>
+  </aside>
+</div>

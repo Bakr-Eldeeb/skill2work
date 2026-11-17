@@ -1,0 +1,46 @@
+<s2w-header title="Applications" subtitle="Application updates" />
+<p class="muted">
+  {{ 'Applied' | t }} → {{ 'Shortlisted' | t }} → {{ 'Interview' | t }} → {{ 'Offer' | t }} →
+  {{ 'Hired' | t }} /
+  {{ 'Rejected' | t }}
+</p>
+<div class="stack">
+  @for (a of applications; track a.id) {
+    <article class="card">
+      <div class="row">
+        <div>
+          <p class="eyebrow">{{ s.company(s.job(a.jobId)!.companyId).name }}</p>
+          <h2>
+            <a [routerLink]="['/candidate/jobs', a.jobId]">{{ s.job(a.jobId)?.title }}</a>
+          </h2>
+          <p class="muted">{{ a.date | date: 'mediumDate' }}</p>
+        </div>
+        <span class="badge status-badge" [attr.data-status]="a.status">{{ a.status | t }}</span>
+      </div>
+      @if (a.interview; as interview) {
+        <section class="interview">
+          <div class="row">
+            <div>
+              <h3>{{ 'Interview' | t }}</h3>
+              <p>{{ interview.date | date: 'medium' }}</p>
+            </div>
+            <span class="badge">{{ interview.response | t }}</span>
+          </div>
+          <label>{{ 'Note (optional)' | t }}<input [(ngModel)]="notes[a.id]" /></label>
+          <div class="actions spaced">
+            <button class="secondary" (click)="respond(a.id, 'Accepted')">
+              {{ 'Accept' | t }}</button><button class="quiet" (click)="respond(a.id, 'Declined')">
+              {{ 'Decline' | t }}</button
+            ><button class="text-link" (click)="respond(a.id, 'Reschedule requested')">
+              {{ 'Request reschedule' | t }}
+            </button>
+          </div>
+        </section>
+      }
+    </article>
+  } @empty {
+    <s2w-empty text="No applications yet."
+      ><a class="primary" routerLink="/candidate/jobs">{{ 'Explore jobs' | t }}</a></s2w-empty
+    >
+  }
+</div>

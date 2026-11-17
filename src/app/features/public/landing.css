@@ -1,0 +1,29 @@
+.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.four .card {
+  padding: 22px;
+}
+.four p {
+  margin: 0;
+}
+.hero-passport .identity {
+  margin: 0;
+}
+.hero-passport .avatar {
+  background: var(--primary);
+  color: white;
+}
+.hero-passport h3 {
+  margin: 0;
+}
+@media (max-width: 950px) {
+  .four {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .four {
+    grid-template-columns: 1fr;
+  }
+}

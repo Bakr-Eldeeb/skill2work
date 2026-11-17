@@ -1,0 +1,182 @@
+@if (editing) {
+  <s2w-header [title]="id ? 'Edit fair' : 'Create fair'" />
+  <form class="card editor" [formGroup]="form" (ngSubmit)="save()">
+    <div class="fields">
+      <label class="full">{{ 'Fair name' | t }}<input formControlName="name" required /></label
+      ><label
+        >{{ 'Date and time' | t
+        }}<input type="datetime-local" formControlName="date" required /></label
+      ><label>{{ 'Location' | t }}<input formControlName="location" required /></label
+      ><label class="full"
+        >{{ 'Description' | t
+        }}<textarea formControlName="description" rows="6" required></textarea>
+      </label>
+    </div>
+    @if (error) {
+      <p class="error" role="alert">{{ error | t }}</p>
+    }
+    <button class="primary">{{ 'Save fair' | t }}</button>
+  </form>
+} @else if (id) {
+  @if (fair; as f) {
+    <s2w-header
+      [title]="f.name"
+      [eyebrow]="'Fair details'"
+      [subtitle]="f.location + ' · ' + (f.date | date: 'medium')"
+    >
+      @if (role === 'university') {
+        <a class="primary" [routerLink]="[base, f.id, 'edit']">{{ 'Edit fair' | t }}</a>
+      }
+    </s2w-header>
+    @if (role === 'university') {
+      <nav class="view-switch" aria-label="Fair sections">
+        @for (section of tabs; track section) {
+          <button
+            type="button"
+            [class.selected]="tab === section"
+            [attr.aria-pressed]="tab === section"
+            (click)="setTab(section)"
+          >
+            {{
+              {
+                overview: 'Overview',
+                companies: 'Participating companies',
+                registrations: 'Registrations',
+                jobs: 'Jobs',
+              }[section] | t
+            }}
+          </button>
+        }
+      </nav>
+    }
+    @if (role !== 'university' || tab === 'overview') {
+      <p class="detail-text">{{ f.description }}</p>
+      @if (error) {
+        <p class="error" role="alert">{{ error | t }}</p>
+      }
+      @if (role === 'candidate') {
+        <section class="card aura">
+          @if (registered(f.id)) {
+            <div class="success">✓ {{ 'Registered' | t }}</div>
+          } @else {
+            <form (ngSubmit)="register(f.id)">
+              <label
+                >{{ 'Student ID' | t
+                }}<input name="studentId" [(ngModel)]="studentIds[f.id]" required /></label
+              ><span class="form-help">{{
+                'Student IDs are self-reported and unverified.' | t
+              }}</span
+              ><button class="primary">{{ 'Register' | t }}</button>
+            </form>
+          }
+        </section>
+      }
+      @if (role === 'company') {
+        <section class="card aura">
+          <h2>{{ 'Join fair' | t }}</h2>
+          <p class="muted">{{ 'Select existing published jobs to link to this fair.' | t }}</p>
+          @for (j of ownJobs; track j.id) {
+            <label class="check"
+              ><input type="checkbox" [(ngModel)]="selected[f.id + j.id]" />{{ j.title }}</label
+            >
+          } @empty {
+            <p>{{ 'Publish a job before joining a fair.' | t }}</p>
+          }
+          <button class="primary spaced" (click)="join(f)">{{ 'Save participation' | t }}</button>
+        </section>
+      }
+      <div class="stats spaced">
+        <div class="card">
+          <p class="eyebrow">{{ 'Registrations' | t }}</p>
+          <strong class="stat">{{ registrations(f.id) }}</strong>
+        </div>
+        <div class="card">
+          <p class="eyebrow">{{ 'Participating companies' | t }}</p>
+          <strong class="stat">{{ f.companies.length }}</strong>
+        </div>
+        <div class="card">
+          <p class="eyebrow">{{ 'Fair applications' | t }}</p>
+          <strong class="stat">{{ applications(f.id) }}</strong>
+        </div>
+      </div>
+    }
+    @if (role !== 'university' || tab === 'companies') {
+      <h2>{{ 'Participating companies' | t }}</h2>
+      <div class="chips">
+        @for (co of f.companies; track co.companyId) {
+          <span>{{ s.company(co.companyId).name }}</span>
+        } @empty {
+          <span>{{ 'No data yet.' | t }}</span>
+        }
+      </div>
+    }
+    @if (role === 'university' && tab === 'registrations') {
+      <section class="card workspace-panel">
+        <h2>{{ 'Registrations' | t }}</h2>
+        <p class="notice">{{ 'Student IDs are self-reported and unverified.' | t }}</p>
+        @for (registration of fairRegistrations; track registration.id) {
+          <div class="list-row">
+            <span class="avatar">{{ s.candidate(registration.candidateId).name.slice(0, 1) }}</span>
+            <div class="grow">
+              <strong>{{ s.candidate(registration.candidateId).name }}</strong>
+              <p class="muted">{{ 'Student ID' | t }}: {{ registration.studentId }}</p>
+            </div>
+          </div>
+        } @empty {
+          <s2w-empty text="No fair registrations yet." />
+        }
+      </section>
+    }
+    @if (role !== 'university' || tab === 'jobs') {
+      <h2 class="spaced">{{ 'Linked jobs' | t }}</h2>
+      <div class="grid">
+        @for (j of jobs(f); track j!.id) {
+          @if (role === 'candidate') {
+            <s2w-job-card [job]="j!" [candidate]="s.candidate()" [fairId]="f.id" />
+          } @else {
+            <article class="card">
+              <p class="muted">{{ s.company(j!.companyId).name }}</p>
+              <h3>{{ j!.title }}</h3>
+              <p class="muted">{{ j!.location }} · {{ j!.mode | t }}</p>
+            </article>
+          }
+        } @empty {
+          <s2w-empty />
+        }
+      </div>
+    }
+  } @else {
+    <s2w-empty text="Page not found" />
+  }
+} @else {
+  <s2w-header
+    [title]="role === 'candidate' ? 'Your university fairs' : 'Career fairs'"
+    subtitle="Connect your campus to opportunity."
+  >
+    @if (role === 'university') {
+      <a class="primary" [routerLink]="base + '/new'">+ {{ 'Create fair' | t }}</a>
+    }
+  </s2w-header>
+  @if (role === 'candidate') {
+    <p class="notice">
+      {{ 'University selection is self-reported, not enrollment-verified.' | t }}
+    </p>
+  }
+  <div class="grid spaced">
+    @for (f of fairs; track f.id) {
+      <article class="card">
+        <p class="eyebrow">{{ f.date | date: 'mediumDate' }}</p>
+        <h2>{{ f.name }}</h2>
+        <p class="muted">{{ f.location }}</p>
+        <p>{{ f.description }}</p>
+        <div class="chips">
+          <span>{{ f.companies.length }} {{ 'Participating companies' | t }}</span
+          ><span>{{ jobs(f).length }} {{ 'Linked jobs' | t }}</span>
+        </div>
+        <a class="secondary spaced" [routerLink]="[base, f.id]">{{ 'View fair' | t }} ↗</a>
+      </article>
+    } @empty {
+      <s2w-empty text="No fairs available." />
+    }
+  </div>
+}

@@ -1,0 +1,166 @@
+@if (!id) {
+  <s2w-header title="Find jobs" subtitle="Your next opportunity starts here." />
+  <div class="filters">
+    <label class="search"
+      >{{ 'Search jobs' | t
+      }}<input [(ngModel)]="search" placeholder="Angular, developer…" /></label
+    ><label
+      >{{ 'Location' | t
+      }}<select [(ngModel)]="location">
+        <option value="">{{ 'All locations' | t }}</option>
+        @for (l of locations; track l) {
+          <option>{{ l }}</option>
+        }
+      </select></label
+    ><label
+      >{{ 'Work mode' | t
+      }}<select [(ngModel)]="mode">
+        <option value="">{{ 'All modes' | t }}</option>
+        @for (m of ['Remote', 'Hybrid', 'On-site']; track m) {
+          <option [value]="m">{{ m | t }}</option>
+        }
+      </select></label
+    ><label
+      >{{ 'Job type' | t
+      }}<select [(ngModel)]="type">
+        <option value="">{{ 'All types' | t }}</option>
+        @for (t of ['Full-time', 'Part-time', 'Internship']; track t) {
+          <option [value]="t">{{ t | t }}</option>
+        }
+      </select></label
+    ><label
+      >{{ 'My skills' | t
+      }}<select [(ngModel)]="skill">
+        <option value="">{{ 'All skills' | t }}</option>
+        @for (s of allSkills; track s) {
+          <option>{{ s }}</option>
+        }
+      </select></label
+    >
+  </div>
+  <div class="row">
+    <p class="muted">{{ jobs.length }} {{ 'Jobs' | t }}</p>
+    <button class="text-link" (click)="reset()">{{ 'Reset filters' | t }}</button>
+  </div>
+  <div class="grid">
+    @for (j of jobs; track j.id) {
+      <s2w-job-card [job]="j" [candidate]="c" />
+    } @empty {
+      <s2w-empty />
+    }
+  </div>
+} @else if (job && job.published) {
+  <a class="text-link" routerLink="/candidate/jobs">← {{ 'Back to jobs' | t }}</a
+  ><s2w-header
+    [title]="job.title"
+    [eyebrow]="s.company(job.companyId).name"
+    [subtitle]="job.location + ' · ' + (job.mode | t) + ' · ' + (job.type | t)"
+  >
+    @if (!applying) {
+      <a
+        class="primary"
+        [routerLink]="['/candidate/jobs', job.id, 'apply']"
+        [queryParams]="fairId ? { fair: fairId } : {}"
+        >{{ (applied ? 'Already applied' : 'Apply now') | t }} ↗</a
+      >
+    }
+  </s2w-header>
+  @if (applying) {
+    <div class="two-column">
+      <form class="card" (ngSubmit)="apply()">
+        <h2>{{ 'Apply' | t }}</h2>
+        <p>{{ 'Your profile is used for this application.' | t }}</p>
+        <p class="muted">{{ c.name }} · {{ c.location }} · {{ c.track }}</p>
+        <p class="notice">{{ 'No assessment is required to apply.' | t }}</p>
+        @if (!applied) {
+          <label
+            >{{ 'Cover letter (optional)' | t
+            }}<textarea name="letter" [(ngModel)]="letter"></textarea></label
+          ><button class="primary" type="submit">{{ 'Submit application' | t }}</button>
+        } @else {
+          <div class="success" role="status">
+            {{ (success ? 'Application submitted.' : 'Already applied') | t }}
+          </div>
+          <a class="secondary" routerLink="/candidate/applications">{{ 'Applications' | t }}</a>
+        }
+        @if (error) {
+          <p class="error" role="alert">{{ error | t }}</p>
+        }
+      </form>
+      <aside class="card aura">
+        <h3>{{ job.title }}</h3>
+        <p>{{ s.company(job.companyId).name }}</p>
+        <s2w-score [value]="s.score(c, job)" />
+      </aside>
+    </div>
+  } @else {
+    <div class="two-column">
+      <article class="card">
+        <h2>{{ 'Description' | t }}</h2>
+        <p class="detail-text">{{ job.description }}</p>
+        <div class="chips">
+          <span>{{ job.experience }}</span>
+          @if (job.salary) {
+            <span>{{ job.salary }}</span>
+          }
+        </div>
+        <h2 class="spaced">{{ 'Required skills' | t }}</h2>
+        @for (r of job.skills; track r.name) {
+          <div class="list-row">
+            <div class="grow">
+              <h3>{{ r.name }}</h3>
+              <span class="muted"
+                >{{ (r.must ? 'Must-Have' : 'Nice-to-Have') | t }} · {{ 'Weight' | t }}
+                {{ r.weight }}%
+                @if (r.must) {
+                  · {{ 'Minimum' | t }} {{ r.minimum }}/100
+                }
+              </span>
+            </div>
+            <span class="badge" [class.mint]="skillScore(r.name) !== undefined"
+              >{{ skillState(r.name) | t }}
+              @if (skillScore(r.name) !== undefined) {
+                · {{ skillScore(r.name) }}
+              }
+            </span>
+          </div>
+        }
+      </article>
+      <aside class="stack">
+        <div class="card aura">
+          <h3>{{ 'Match score' | t }}</h3>
+          <s2w-score [value]="s.score(c, job)" />
+          <div class="progress"><i [style.width.%]="s.score(c, job) ?? 0"></i></div>
+          <details>
+            <summary>{{ 'Why this match?' | t }}</summary>
+            <p class="muted spaced">
+              {{
+                'Each evaluated skill contributes its score multiplied by the job weight. Missing evidence adds no points, not a proven lack of ability.'
+                  | t
+              }}
+            </p>
+            @for (r of job.skills; track r.name) {
+              <div class="row small">
+                <span>{{ r.name }} · {{ r.weight }}% × {{ skillScore(r.name) ?? '—' }}</span
+                ><strong>{{
+                  (r.weight * (skillScore(r.name) ?? 0)) / 100 | number: '1.0-1'
+                }}</strong>
+              </div>
+            }
+          </details>
+        </div>
+        <div class="card">
+          <h3>{{ 'Keep your skills moving forward.' | t }}</h3>
+          <p class="muted">
+            {{ 'Assessment outcomes may increase or decrease a match score.' | t }}
+          </p>
+          <a class="text-link" routerLink="/candidate/skills">{{ 'My skills' | t }} ↗</a>
+        </div>
+      </aside>
+    </div>
+  }
+} @else {
+  <s2w-empty text="Page not found"
+    ><a class="text-link" routerLink="/candidate/jobs">{{ 'Back to jobs' | t }}</a></s2w-empty
+  >
+}

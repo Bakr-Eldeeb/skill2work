@@ -1,0 +1,68 @@
+<s2w-header
+  title="Your next opportunity starts here."
+  [eyebrow]="'Welcome back' | t"
+  [subtitle]="c.name + ' · ' + c.track"
+/>
+<div class="two-column">
+  <section>
+    <div class="section-title first">
+      <h2>{{ 'Jobs for you' | t }}</h2>
+      <a class="text-link" routerLink="/candidate/jobs">{{ 'Explore jobs' | t }} ↗</a>
+    </div>
+    <div class="stack">
+      @for (job of jobs; track job.id) {
+        <s2w-job-card [job]="job" [candidate]="c" />
+      }
+    </div>
+    <div class="section-title">
+      <h2>{{ 'Application updates' | t }}</h2>
+      <a class="text-link" routerLink="/candidate/applications">{{ 'Applications' | t }} ↗</a>
+    </div>
+    <div class="card">
+      @for (a of applications.slice(0, 3); track a.id) {
+        <div class="list-row">
+          <div class="grow">
+            <h3>{{ s.job(a.jobId)?.title }}</h3>
+            <p class="muted">{{ s.company(s.job(a.jobId)!.companyId).name }}</p>
+          </div>
+          <span class="badge mint">{{ a.status | t }}</span>
+        </div>
+      } @empty {
+        <p class="muted">{{ 'No applications yet.' | t }}</p>
+      }
+    </div>
+  </section>
+  <aside class="stack">
+    <section class="card aura passport-preview">
+      <div class="row">
+        <h3>{{ 'Skill Passport' | t }}</h3>
+        <span class="badge">{{ 'Demo Simulation' | t }}</span>
+      </div>
+      <div class="metric-ring"><s2w-score [value]="s.overall(c)" label="Overall score" /></div>
+      <p class="muted">
+        {{ 'Assessment coverage' | t }}: {{ assessed }} {{ 'Evaluated skills' | t }}
+      </p>
+      <a class="secondary wide-button" routerLink="/candidate/passport"
+        >{{ 'View passport' | t }} ↗</a
+      >
+    </section>
+    <section class="card assessment-cta">
+      <span class="badge">{{ 'Keep your skills moving forward.' | t }}</span>
+      <h2 class="spaced">{{ 'Your skills, with evidence.' | t }}</h2>
+      <p>{{ 'Explore a text-based assessment. This frontend uses a labeled simulation.' | t }}</p>
+      <a class="primary wide-button" routerLink="/candidate/assessments"
+        >{{ 'Start assessment' | t }} →</a
+      >
+    </section>
+    @if (fair) {
+      <section class="card">
+        <span class="eyebrow">{{ 'Your university fairs' | t }}</span>
+        <h3 class="spaced">{{ fair.name }}</h3>
+        <p class="muted">{{ fair.location }} · {{ fair.date.slice(0, 10) }}</p>
+        <a class="text-link" [routerLink]="['/candidate/fairs', fair.id]"
+          >{{ 'View fair' | t }} ↗</a
+        >
+      </section>
+    }
+  </aside>
+</div>

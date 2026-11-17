@@ -1,0 +1,177 @@
+<s2w-header
+  title="My skills"
+  subtitle="Manage your skills and see your latest evaluated results in one place."
+  ><a class="primary" routerLink="/candidate/assessments"
+    >{{ 'Start assessment' | t }} ↗</a
+  ></s2w-header
+>
+<nav class="view-switch" aria-label="Skills workspace">
+  <button
+    type="button"
+    [class.selected]="tab === 'skills'"
+    [attr.aria-pressed]="tab === 'skills'"
+    (click)="select('skills')"
+  >
+    {{ 'My skills' | t }}</button><button
+    type="button"
+    [class.selected]="tab === 'passport'"
+    [attr.aria-pressed]="tab === 'passport'"
+    (click)="select('passport')"
+  >
+    {{ 'Skill Passport' | t }}</button
+  ><button
+    type="button"
+    [class.selected]="tab === 'results'"
+    [attr.aria-pressed]="tab === 'results'"
+    (click)="select('results')"
+  >
+    {{ 'Assessment results' | t }}
+  </button>
+</nav>
+<p class="notice">
+  {{ 'Simulated evidence only; no real AI verification.' | t }}
+  {{ 'Verified means evaluated, not necessarily passed.' | t }}
+</p>
+@if (tab === 'results') {
+  <h2 class="spaced">{{ 'Assessment results' | t }}</h2>
+  <div class="stack workspace-panel">
+    @for (r of results; track r.id) {
+      <article class="card">
+        <div class="row">
+          <div>
+            <span class="badge mint">{{ 'Demo Simulation' | t }}</span>
+            <h3 class="spaced">{{ r.skill }}</h3>
+            <p class="muted">{{ r.date | date: 'medium' }}</p>
+          </div>
+          <s2w-score [value]="r.score" label="Assessed" />
+        </div>
+        <div class="grid spaced">
+          <section>
+            <h3>{{ 'Strengths' | t }}</h3>
+            <p class="muted">{{ r.strengths | t }}</p>
+          </section>
+          <section>
+            <h3>{{ 'Areas to practice' | t }}</h3>
+            <p class="muted">{{ r.weaknesses | t }}</p>
+          </section>
+        </div>
+        <details>
+          <summary>{{ 'Question explanations' | t }}</summary>
+          @for (explanation of r.explanations; track $index) {
+            <p class="muted spaced">{{ explanation }}</p>
+          }
+        </details>
+        <a
+          class="text-link spaced"
+          routerLink="/candidate/assessments"
+          [queryParams]="{ skill: r.skill }"
+          >{{ 'Reassess' | t }} ↗</a
+        >
+      </article>
+    } @empty {
+      <s2w-empty text="No results yet."
+        ><a class="secondary" routerLink="/candidate/assessments">{{
+          'Start assessment' | t
+        }}</a></s2w-empty
+      >
+    }
+  </div>
+} @else {
+  <section class="card aura row workspace-panel">
+    <div>
+      <span class="eyebrow">{{ 'Overall score' | t }}</span><s2w-score
+        [value]="s.overall(c)"
+        label="Overall score"
+      />
+    </div>
+    <div>
+      <strong class="stat">{{ assessed }}</strong>
+      <p class="stat-label">{{ 'Evaluated skills' | t }} / {{ c.skills.length }}</p>
+    </div>
+    <div>
+      <strong>{{ c.name }}</strong>
+      <p class="muted">{{ c.track }}</p>
+      <span class="badge mint">{{ 'Demo Simulation' | t }}</span>
+    </div>
+  </section>
+  @if (tab === 'skills') {
+    <form class="card skill-add" (ngSubmit)="add()">
+      <label
+        >{{ 'Skill name' | t
+        }}<input
+          name="skill"
+          [(ngModel)]="name"
+          placeholder="Angular, SQL, Figma…"
+          maxlength="70" /></label
+      ><button class="secondary">+ {{ 'Add skill' | t }}</button>
+    </form>
+    @if (error) {
+      <p class="error" role="alert">{{ error | t }}</p>
+    }
+  }
+  <section class="card spaced skill-list">
+    @for (skill of c.skills; track skill.name) {
+      <article class="skill-item">
+        <div class="row">
+          <div>
+            <h3>{{ skill.name }}</h3>
+            <span class="badge" [class.mint]="skill.score !== undefined">{{
+              (skill.score !== undefined ? 'Verified · Demo' : 'Claimed') | t
+            }}</span>
+          </div>
+          @if (skill.score !== undefined) {
+            <div class="skill-value">
+              <strong>{{ skill.score }}<small>/100</small></strong>
+              <p class="muted">{{ skill.date | date: 'mediumDate' }}</p>
+            </div>
+          } @else {
+            <span class="muted">{{ 'Not Assessed Yet' | t }}</span>
+          }
+        </div>
+        @if (skill.score !== undefined) {
+          <div
+            class="progress"
+            role="progressbar"
+            [attr.aria-label]="skill.name"
+            [attr.aria-valuenow]="skill.score"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <i [style.width.%]="skill.score"></i>
+          </div>
+        }
+        <div class="row">
+          <p class="muted skill-summary">{{ skill.summary }}</p>
+          <div class="actions">
+            <a
+              class="text-link"
+              routerLink="/candidate/assessments"
+              [queryParams]="{ skill: skill.name }"
+              >{{ (skill.score !== undefined ? 'Reassess' : 'Assess') | t }} ↗</a
+            >
+            @if (tab === 'skills') {
+              <button class="quiet" (click)="remove(skill.name)">{{ 'Remove' | t }}</button>
+            }
+          </div>
+        </div>
+        @if (latest(skill.name); as result) {
+          <details>
+            <summary>{{ 'Latest feedback' | t }}</summary>
+            <p class="muted spaced">{{ result.strengths | t }}</p>
+            <p class="muted">{{ result.weaknesses | t }}</p>
+            <button class="text-link" (click)="select('results')">
+              {{ 'Question explanations' | t }} ↗
+            </button>
+          </details>
+        }
+      </article>
+    } @empty {
+      <s2w-empty text="Start with a claimed skill."
+        ><label>{{ 'Skill name' | t }}<input [(ngModel)]="name" name="firstSkill" /></label
+        ><button class="secondary spaced" (click)="add()">
+          + {{ 'Add skill' | t }}
+        </button></s2w-empty
+      >
+    }
+  </section>
+}

@@ -1,0 +1,10 @@
+s2w-header {
+  display: block;
+  margin-top: 20px;
+}
+form .primary {
+  justify-self: start;
+}
+.detail-text {
+  line-height: 1.9;
+}

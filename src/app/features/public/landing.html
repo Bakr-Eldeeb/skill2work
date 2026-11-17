@@ -1,0 +1,131 @@
+<header class="public-top">
+  <a routerLink="/"><s2w-logo /></a>
+  <nav>
+    <button class="quiet" (click)="p.toggleLanguage()">
+      {{ p.language() === 'en' ? 'عربي' : 'English' }}</button><button
+      class="icon-button"
+      aria-label="Toggle theme"
+      (click)="p.toggleTheme()"
+    >
+      {{ p.dark() ? '☀' : '☾' }}</button
+    ><a class="secondary" routerLink="/sign-in">{{ 'Sign in' | t }}</a
+    ><a class="primary" routerLink="/sign-up">{{ 'Get started' | t }} ↗</a>
+  </nav>
+</header>
+<main>
+  <section class="hero">
+    <div>
+      <span class="badge mint">{{ brand.tagline | t }}</span>
+      <h1 class="spaced">
+        {{ 'Your skills deserve' | t }} <em>{{ 'a clearer path.' | t }}</em>
+      </h1>
+      <p>
+        {{
+          'Turn the skills you claim into evidence you can explain. Discover opportunities that fit what you know, and see what to work on next.'
+            | t
+        }}
+      </p>
+      <div class="actions">
+        <a class="primary" routerLink="/sign-up">{{ 'Build your next chapter.' | t }} ↗</a
+        ><a class="text-link" routerLink="/sign-in">{{ 'Explore the demo' | t }} →</a>
+      </div>
+      <p class="small">
+        {{ 'For candidates' | t }} · {{ 'For companies' | t }} · {{ 'For universities' | t }}
+      </p>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-passport">
+        <div class="row">
+          <div class="identity actions">
+            <span class="avatar">OH</span>
+            <div>
+              <h3>Omar Hassan</h3>
+              <span class="muted">Frontend Development · Cairo</span>
+            </div>
+          </div>
+          <span class="badge mint">{{ 'Demo Simulation' | t }}</span>
+        </div>
+        <hr class="divider" />
+        <div class="row">
+          <h3>{{ 'Skill Passport' | t }}</h3>
+          <strong>57.7<span class="muted"> / 100</span></strong>
+        </div>
+        @for (
+          item of [
+            { name: 'Angular', score: 50 },
+            { name: 'TypeScript', score: 61 },
+            { name: 'Communication', score: 83 },
+          ];
+          track item.name
+        ) {
+          <div class="row small">
+            <span>{{ item.name }}</span><strong>{{ item.score }}/100</strong>
+          </div>
+          <div class="progress"><i [style.width.%]="item.score"></i></div>
+        }
+        <p class="muted">{{ 'Simulated evidence only; no real AI verification.' | t }}</p>
+      </div>
+      <div class="card hero-match">
+        <div class="row">
+          <span class="company-monogram">N</span>
+          <div>
+            <h3>Frontend Developer</h3>
+            <span class="muted">Nile Pixel Studio · Cairo</span>
+          </div>
+          <span class="badge">59.9% {{ 'Match score' | t }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="landing-section">
+    <p class="eyebrow">{{ 'Keep your skills moving forward.' | t }}</p>
+    <h2>{{ 'A little clarity. A lot of possibility.' | t }}</h2>
+    <div class="grid four">
+      @for (step of steps; track step; let i = $index) {
+        <article class="card">
+          <span class="step-number">0{{ i + 1 }} /</span>
+          <h3>{{ step | t }}</h3>
+          <p class="muted">
+            {{
+              [
+                'Start with a manual profile and the skills you want to show.',
+                'Explore a text-based assessment. This frontend uses a labeled simulation.',
+                'See evaluated skills, feedback and your career-track score.',
+                'Understand matched skills, missing evidence and job requirements.',
+              ][i] | t
+            }}
+          </p>
+        </article>
+      }
+    </div>
+  </section>
+  <section class="landing-section">
+    <div class="grid three">
+      <article class="card aura">
+        <span class="step-number">01</span>
+        <h2>{{ 'For candidates' | t }}</h2>
+        <p>{{ 'Your next opportunity starts here.' | t }}</p>
+        <a class="text-link" routerLink="/sign-up">{{ 'Create account' | t }} ↗</a>
+      </article>
+      <article class="card">
+        <span class="step-number">02</span>
+        <h2>{{ 'For companies' | t }}</h2>
+        <p>{{ 'Recruit with clear evidence.' | t }}</p>
+        <a class="text-link" routerLink="/company-sign-up">{{ 'Create account' | t }} ↗</a>
+      </article>
+      <article class="card">
+        <span class="step-number">03</span>
+        <h2>{{ 'For universities' | t }}</h2>
+        <p>{{ 'Connect your campus to opportunity.' | t }}</p>
+        <a class="text-link" routerLink="/sign-in">{{ 'Sign in' | t }} ↗</a>
+      </article>
+    </div>
+  </section>
+  <section class="landing-section">
+    <div class="notice">
+      {{ 'Demo-only local authentication. Use fictional data.' | t }}
+      {{ 'Simulated evidence only; no real AI verification.' | t }}
+    </div>
+  </section>
+</main>
+<footer class="public-footer">{{ brand.name }} · {{ brand.tagline | t }}</footer>

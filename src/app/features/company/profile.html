@@ -1,0 +1,16 @@
+<s2w-header title="Company profile" />
+<form class="card" [formGroup]="form" (ngSubmit)="save()">
+  <div class="fields">
+    <label>{{ 'Company name' | t }}<input formControlName="name" required /></label
+    ><label>{{ 'Location' | t }}<input formControlName="location" required /></label
+    ><label class="full"
+      >{{ 'Website' | t }}<input formControlName="website" placeholder="https://" /></label
+    ><label class="full"
+      >{{ 'Description' | t }}<textarea formControlName="description" rows="6"></textarea>
+    </label>
+  </div>
+  @if (error) {
+    <p class="error">{{ error | t }}</p>
+  }
+  <button class="primary">{{ 'Save profile' | t }}</button>
+</form>
