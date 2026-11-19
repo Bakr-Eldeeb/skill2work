@@ -153,13 +153,33 @@ main {
   border-inline-start: 1px solid var(--line);
   padding-inline-start: 16px;
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  color: inherit;
+  transition: color 180ms ease;
+}
+.notification-button:hover,
+.notification-button:focus-visible {
+  color: var(--primary);
+}
+.notification-button svg {
+  display: block;
+  flex: none;
 }
 .notification-button span {
+  position: absolute;
+  inset-block-start: -4px;
+  inset-inline-end: -7px;
+  min-width: 16px;
+  text-align: center;
   background: var(--primary);
   color: white;
   border-radius: 20px;
   padding: 2px 5px;
   font-size: 10px;
+  line-height: 1.2;
 }
 .mobile-nav,
 .more-sheet {

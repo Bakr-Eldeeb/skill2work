@@ -33,12 +33,12 @@ export const NAV: Record<Role, NavigationItem[]> = {
 export const SECONDARY_NAV: Record<Role, NavigationItem[]> = {
   candidate: [
     item('profile', 'Profile', '○'),
-    item('notifications', 'Notifications', '♧'),
+    item('notifications', 'Notifications', '🔔'),
     item('settings', 'Settings', '⚙'),
   ],
   company: [
     item('profile', 'Company profile', '○'),
-    item('notifications', 'Notifications', '♧'),
+    item('notifications', 'Notifications', '🔔'),
     item('settings', 'Settings', '⚙'),
   ],
   university: [item('settings', 'Settings', '⚙')],
