@@ -1,0 +1,200 @@
+<section
+  #stage
+  class="atlas"
+  [class.single]="narrow()"
+  (keydown)="key($event)"
+  [attr.aria-label]="'Skill Passport' | t"
+>
+  @if (!open()) {
+    <div class="exhibit">
+      <div class="display-case">
+        <div class="physical-cover" aria-hidden="true"><s2w-passport-cover /></div>
+      </div>
+      <div class="catalog">
+        <span class="ref" dir="ltr">{{ data.reference() }}</span>
+        <h2>{{ 'Inside your passport' | t }}</h2>
+        <p>{{ 'Open your passport to explore the evidence behind your skills.' | t }}</p>
+        <div class="catalog-index">
+          <div>
+            <span>{{ 'Holder identity' | t }}</span><small>{{ 'Page' | t }} 1</small>
+          </div>
+          <div>
+            <span>{{ 'Assessed skills' | t }}</span><small>{{ data.assessed().length }}</small>
+          </div>
+          <div>
+            <span>{{ 'Claimed skills' | t }}</span><small>{{ data.claimed().length }}</small>
+          </div>
+        </div>
+        <button class="open-button" type="button" (click)="read()">
+          {{ 'Open Passport' | t }}<span class="arrow" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="reader" [attr.aria-busy]="!!motion()">
+      <div class="spread" tabindex="-1" [attr.aria-label]="'Passport pages' | t">
+        @for (pg of visible(); track $index) {
+          <article
+            class="leaf"
+            [class.holder-leaf]="pg.kind === 'holder'"
+            [attr.inert]="motion() ? '' : null"
+          >
+            <ng-container
+              *ngTemplateOutlet="page; context: { $implicit: pg, num: first() + $index + 1 }"
+            />
+          </article>
+        }
+        @if (!narrow() && visible().length === 1) {
+          <div class="leaf endpaper" aria-hidden="true">
+            <img src="assets/passport-medallion.svg" alt="" />
+          </div>
+        }
+        @if (motion(); as movement) {
+          <div class="moving" [attr.data-motion]="movement" aria-hidden="true" inert>
+            @if (movement === 'open' || movement === 'close') {
+              <div class="face cover-face"><s2w-passport-cover /></div>
+            } @else if (outgoing(); as pg) {
+              <div class="face old-face">
+                <ng-container
+                  *ngTemplateOutlet="page; context: { $implicit: pg, num: outgoingNumber() }"
+                />
+              </div>
+            }
+            <div class="reverse-face"></div>
+          </div>
+        }
+      </div>
+      <div class="reader-controls">
+        <button
+          class="close-book"
+          type="button"
+          (click)="close()"
+          [attr.aria-disabled]="!!motion()"
+        >
+          {{ 'Close passport' | t }}
+        </button>
+        <div class="page-controls">
+          <button
+            type="button"
+            class="previous"
+            [disabled]="first() === 0"
+            [attr.aria-disabled]="!!motion() || first() === 0"
+            (click)="turn(-1)"
+            [attr.aria-label]="'Previous page' | t"
+          >
+            <i class="arrow" aria-hidden="true"></i>
+          </button>
+          <span aria-live="polite" aria-atomic="true"
+            >{{ 'Page' | t }}
+            <bdi>{{ pageLabel() }}</bdi>
+            / {{ data.pages().length }}</span
+          >
+          <button
+            type="button"
+            class="next"
+            [disabled]="atEnd()"
+            [attr.aria-disabled]="!!motion() || atEnd()"
+            (click)="turn(1)"
+            [attr.aria-label]="'Next page' | t"
+          >
+            <i class="arrow" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</section>
+<ng-template #page let-pg let-num="num">
+  <div class="folio-head">
+    <span>SKILL2WORK</span><span dir="ltr">{{ data.reference() }}</span>
+  </div>
+  @switch (pg.kind) {
+    @case ('holder') {
+      <h2>{{ 'Holder identity' | t }}</h2>
+      <div class="id-person">
+        <s2w-profile-media
+          class="passport-portrait"
+          [value]="data.holder().photo || ''"
+          [alt]="data.holder().name"
+          [initials]="true"
+        />
+        <div>
+          <h3 dir="auto">{{ data.holder().name }}</h3>
+          <p>{{ data.holder().track | t }}</p>
+        </div>
+      </div>
+      <dl class="id-facts">
+        @if (data.university()) {
+          <div>
+            <dt>{{ 'University' | t }}</dt>
+            <dd>{{ data.university() | t }}</dd>
+          </div>
+        }
+        @if (data.holder().location) {
+          <div>
+            <dt>{{ 'Location' | t }}</dt>
+            <dd>{{ data.holder().location | t }}</dd>
+          </div>
+        }
+        <div>
+          <dt>{{ 'Passport reference' | t }}</dt>
+          <dd dir="ltr">{{ data.reference() }}</dd>
+        </div>
+        @if (data.earliest()) {
+          <div>
+            <dt>{{ 'Earliest retained assessment' | t }}</dt>
+            <dd>{{ data.earliest() | passportDate }}</dd>
+          </div>
+        }
+        <div>
+          <dt>{{ 'Assessed skills' | t }}</dt>
+          <dd>{{ data.assessed().length }}</dd>
+        </div>
+        @if (data.overall() !== null) {
+          <div>
+            <dt>{{ 'Overall score' | t }}</dt>
+            <dd>
+              <bdi>{{ data.overall() | number: '1.0-1' }} / 100</bdi>
+            </dd>
+          </div>
+        }
+      </dl>
+    }
+    @case ('index') {
+      <h2>{{ 'Evidence index' | t }}</h2>
+      <p class="index-help">{{ 'Choose a section to read its skill records.' | t }}</p>
+      @for (kind of ['assessed', 'claimed']; track kind) {
+        @let section = kind === 'assessed' ? data.assessed() : data.claimed();
+        <div class="index-row">
+          <div>
+            <h3>{{ (kind === 'assessed' ? 'Assessed skills' : 'Claimed skills') | t }}</h3>
+            <small
+              >{{ section.length }} {{ (section.length === 1 ? 'skill' : 'skills') | t }}</small
+            >
+          </div>
+          @if (section.length) {
+            <button
+              type="button"
+              (click)="read(target(kind === 'assessed' ? 'assessed' : 'claimed'))"
+              [attr.aria-label]="
+                (kind === 'assessed' ? 'Read assessed skills' : 'Read claimed skills') | t
+              "
+            >
+              {{ 'Read section' | t }} <span class="arrow" aria-hidden="true"></span>
+            </button>
+          }
+        </div>
+      }
+      <img class="index-medallion" src="assets/passport-medallion.svg" alt="" />
+    }
+    @default {
+      <h2>{{ (pg.kind === 'assessed' ? 'Assessed skills' : 'Claimed skills') | t }}</h2>
+      @for (e of pg.entries; track e.skill.name) {
+        <s2w-passport-entry [paper]="true" [entry]="e" />
+      }
+    }
+  }
+  <div class="folio-foot" aria-hidden="true">
+    <span>{{ 'Skill Passport' | t }}</span><b>{{ num }}</b>
+  </div>
+</ng-template>

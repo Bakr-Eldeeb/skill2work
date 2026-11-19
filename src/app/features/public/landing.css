@@ -1,29 +1,801 @@
-.four {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+:host {
+  display: block;
+  --ink: #100e36;
+  --quiet: #453f68;
+  --wash: #f8f7ff;
+  --lav: #eeeaff;
+  --green: #e8f8f4;
+  --peach: #fff0ed;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 72% 35% at 70% 0%, #ddd7ff 0%, transparent 85%),
+    linear-gradient(180deg, #efedff, var(--wash) 34%, var(--surface) 86%);
+  padding-block-start: 6px;
 }
-.four .card {
-  padding: 22px;
+:host-context([data-theme='dark']) {
+  --ink: #f4f2ff;
+  --quiet: #d2cce4;
+  --wash: #151629;
+  --lav: #322a52;
+  --green: #173b3b;
+  --peach: #412d37;
+  background: radial-gradient(ellipse at top right, #33294e, transparent 48%), var(--wash);
 }
-.four p {
+h1,
+h2,
+h3,
+p,
+figure {
   margin: 0;
 }
-.hero-passport .identity {
-  margin: 0;
+h1,
+h2,
+h3 {
+  color: inherit;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
 }
-.hero-passport .avatar {
-  background: var(--primary);
+p {
+  color: var(--quiet);
+}
+.ico {
+  display: inline-block;
+  width: 1.3em;
+  height: 1.3em;
+  flex: none;
+  vertical-align: middle;
+}
+.top,
+.landing-hero,
+.about,
+.finish,
+footer {
+  width: min(91%, 1450px);
+  margin-inline: auto;
+}
+.top {
+  position: relative;
+  z-index: 3;
+  min-height: 68px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px clamp(14px, 2vw, 34px);
+  border-radius: 32px;
+  background: color-mix(in srgb, var(--surface) 89%, transparent);
+  box-shadow: 0 6px 32px #4936870c;
+}
+.logo {
+  display: flex;
+  width: clamp(150px, 15vw, 228px);
+}
+s2w-logo {
+  display: block;
+  width: 100%;
+}
+:host ::ng-deep .brand-logo {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.top nav,
+.tools,
+.actions,
+.benefits,
+footer,
+.company-line {
+  display: flex;
+  align-items: center;
+}
+.top nav {
+  gap: clamp(14px, 2.8vw, 44px);
+  font-weight: 700;
+}
+.tools,
+.actions {
+  gap: 12px;
+}
+.tools button,
+.hamb {
+  border: 0;
+  background: var(--wash);
+  color: var(--ink);
+  border-radius: 15px;
+  min-width: 44px;
+  height: 44px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+.tools button:first-child {
+  font-size: 25px;
+}
+.hamb {
+  display: none;
+}
+.cta,
+.outline,
+.paper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 24px;
+  font-weight: 700;
+  border-radius: 17px;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.cta {
+  color: white;
+  background: linear-gradient(115deg, #6741ef, #5131d7);
+  box-shadow: 0 6px 15px #5e41cc24;
+}
+.outline,
+.paper {
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid #9887e9;
+}
+.cta:hover,
+.outline:hover,
+.step:hover {
+  transform: translateY(-2px);
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--primary-text);
+  outline-offset: 3px;
+}
+.landing-hero {
+  display: grid;
+  grid-template-columns: 44% 56%;
+  align-items: center;
+  min-height: clamp(420px, 30vw, 510px);
+  position: relative;
+}
+.intro {
+  padding: 28px 0 32px;
+  padding-inline-start: 2.4vw;
+  position: relative;
+  z-index: 1;
+}
+.egypt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--lav);
+  color: var(--primary-text);
+  font-weight: 700;
+  padding: 5px 13px;
+  border-radius: 30px;
+}
+.egypt i {
+  width: 24px;
+  height: 15px;
+  border-radius: 4px;
+  background: linear-gradient(#ce263a 33%, white 33% 66%, #191921 66%);
+  position: relative;
+}
+.egypt i:after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 4px;
+  background: #bd8c2b;
+  left: 10px;
+  top: 5px;
+}
+.landing-hero h1 {
+  font-size: clamp(44px, 4.05vw, 72px);
+  font-weight: 800;
+  line-height: 1.05;
+  margin: 18px 0 15px;
+}
+.landing-hero em,
+.journey em {
+  font-style: normal;
+  color: #6752df;
+}
+.landing-hero em {
+  position: relative;
+  background: linear-gradient(105deg, #8250dd, #317aba 77%, #258a9c);
+  background-clip: text;
+  color: transparent;
+}
+.landing-hero em:after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 0;
+  width: 72%;
+  height: 7px;
+  border-top: 4px solid #ffa67a;
+  border-radius: 55%;
+  transform: rotate(-2deg);
+}
+.intro > p {
+  font-size: clamp(16px, 1.35vw, 22px);
+}
+.actions {
+  margin: 24px 0;
+}
+.benefits {
+  gap: 14px;
+  margin-top: 32px;
+  max-width: 550px;
+}
+.benefits span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.3;
+  font-weight: 700;
+  font-size: 13px;
+  max-width: 158px;
+}
+.benefits span + span {
+  border-inline-start: 1px solid #a599ca66;
+  padding-inline-start: 17px;
+}
+.benefits .ico {
+  color: var(--primary-text);
+  width: 29px;
+  height: 29px;
+}
+.passport-scene {
+  position: relative;
+  align-self: stretch;
+  min-height: 0;
+  isolation: isolate;
+}
+.passport-scene > img {
+  width: 110%;
+  height: 100%;
+  inset-inline-start: -3%;
+  position: absolute;
+  object-fit: contain;
+  mask-image:
+    linear-gradient(to right, transparent, #000 9% 94%, transparent),
+    linear-gradient(to bottom, transparent, #000 5% 91%, transparent);
+  mask-composite: intersect;
+}
+.passport-scene figcaption {
+  position: absolute;
+  bottom: 9px;
+  inset-inline-end: 2%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 3px 12px;
+}
+.passport-scene button {
+  border: 0;
+  background: transparent;
+  color: var(--primary-text);
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 30px;
+}
+.passport-scene aside {
+  position: absolute;
+  bottom: 53px;
+  inset-inline-end: 2%;
+  display: grid;
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 16px 23px;
+  box-shadow: 0 6px 25px #21124325;
+}
+.journey {
+  text-align: center;
+  padding: 16px 4% 30px;
+  background: linear-gradient(100deg, transparent, var(--surface), transparent);
+}
+.journey h2,
+.about h2,
+.finish h2 {
+  font-size: clamp(27px, 2.3vw, 40px);
+}
+.journey h2:before,
+.journey h2:after {
+  content: '';
+  display: inline-block;
+  width: 55px;
+  height: 1px;
+  vertical-align: middle;
+  background: #a99de0;
+  margin-inline: 16px;
+}
+.journey > p {
+  margin: 8px 0 22px;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 3.4vw, 55px);
+  max-width: 1200px;
+  margin: auto;
+}
+.step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-align: start;
+  padding: 15px;
+  border-radius: 21px;
+  background: var(--lav);
+  transition: transform 0.22s;
+}
+.s2 {
+  background: var(--green);
+}
+.s3 {
+  background: var(--peach);
+}
+.step i {
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #9581ff29;
+  color: #6750d8;
+  min-width: 51px;
+  height: 55px;
+  font-size: 25px;
+}
+.s2 i {
+  color: #098a7b;
+  background: #52cab82c;
+}
+.s3 i {
+  color: #c45e35;
+  background: #ffa77c30;
+}
+.step b {
+  align-self: flex-start;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--quiet);
+  padding: 2px 5px;
+  font-size: 11px;
+}
+.step h3 {
+  font-size: 18px;
+}
+.step p {
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+.step + .step:before {
+  content: '»';
+  position: absolute;
+  inset-inline-start: calc(-1.7vw - 8px);
+  color: #837aa9;
+  font-size: 24px;
+}
+.showcase {
+  width: min(96%, 1490px);
+  margin: 13px auto 0;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap: clamp(16px, 2vw, 34px);
+  align-items: stretch;
+}
+.showcase article {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 8px 28px #31205408;
+  min-width: 0;
+}
+.showcase h2 {
+  font-size: clamp(19px, 1.6vw, 26px);
+  margin: 7px 0;
+}
+.fit h2 .ico {
+  color: var(--primary-text);
+}
+small {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.fit table {
+  width: 100%;
+  margin: 10px 0;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.fit th,
+.fit td {
+  padding: 4px;
+  text-align: start;
+  border-bottom: 1px solid var(--line);
+}
+.fit td:first-of-type {
+  color: var(--mint-text);
+  font-weight: 700;
+}
+.fit thead {
+  font-size: 11px;
+  color: var(--quiet);
+}
+.note {
+  font-size: 12px;
+}
+.showcase .ticket {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28%;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #382379, #653bce);
   color: white;
 }
-.hero-passport h3 {
+.ticket > div {
+  padding: 22px;
+}
+.ticket p {
+  color: #f1eaff;
+}
+.ticket aside {
+  background: var(--wash);
+  color: var(--ink);
+  border-inline-start: 2px dashed #aa96d0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+.ticket aside img {
+  max-width: 85%;
+  height: auto;
+}
+.paper {
+  font-size: 13px;
+  margin-top: 16px;
+  padding: 7px 15px;
+}
+.cover {
+  height: 88px;
+  border-radius: 13px;
+  background: var(--lav);
+  overflow: hidden;
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.company-line {
+  gap: 12px;
+  margin-top: -14px;
+  position: relative;
+  padding-inline: 8px;
+}
+.company-line b {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--surface);
+  border-radius: 15px;
+  background: var(--lav);
+  color: var(--primary-text);
+  font-size: 28px;
+}
+.company-line > div {
+  padding-top: 16px;
+}
+.company-line h2 {
   margin: 0;
 }
-@media (max-width: 950px) {
-  .four {
-    grid-template-columns: 1fr 1fr;
+.company p,
+.company .link {
+  margin: 12px 8px 0;
+}
+.link {
+  display: inline-flex;
+  color: var(--primary-text);
+  font-weight: 700;
+}
+.about {
+  padding: 80px 3%;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 8%;
+  align-items: start;
+}
+.about small {
+  color: var(--primary-text);
+}
+.about h2 {
+  margin-top: 10px;
+}
+.about p + p {
+  margin-top: 12px;
+}
+.finish {
+  text-align: center;
+  padding: 45px 20px;
+  background: linear-gradient(120deg, var(--lav), var(--wash));
+  border-radius: 30px;
+}
+.finish p {
+  margin-top: 12px;
+}
+.finish .actions {
+  margin-bottom: 0;
+  justify-content: center;
+}
+footer {
+  gap: 24px;
+  padding: 34px 0;
+}
+footer s2w-logo {
+  width: 148px;
+}
+footer span {
+  flex: 1;
+  color: var(--quiet);
+}
+:host-context([dir='rtl']) .step + .step:before {
+  content: '«';
+}
+:host-context([lang='ar']) h1,
+:host-context([lang='ar']) h2,
+:host-context([lang='ar']) h3 {
+  letter-spacing: normal;
+}
+@media (max-width: 1050px) {
+  .top nav {
+    gap: 13px;
+  }
+  .top {
+    gap: 10px;
+  }
+  .tools {
+    gap: 5px;
+  }
+  .signin {
+    padding-inline: 13px;
+  }
+  .landing-hero {
+    grid-template-columns: 48% 52%;
+  }
+  .benefits {
+    gap: 6px;
+  }
+  .benefits span + span {
+    padding-inline-start: 8px;
+  }
+  .steps {
+    gap: 22px;
+  }
+  .step {
+    gap: 6px;
+  }
+  .step + .step:before {
+    inset-inline-start: -17px;
+  }
+  .showcase {
+    gap: 12px;
+  }
+  .ticket > div {
+    padding: 17px;
   }
 }
-@media (max-width: 600px) {
-  .four {
+@media (max-width: 850px) {
+  .hamb {
+    display: block;
+  }
+  .top .logo {
+    margin-inline-end: auto;
+  }
+  .top nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    inset-inline: 0;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+    padding: 12px;
+    box-shadow: var(--shadow);
+  }
+  .top nav.open {
+    display: grid;
+  }
+  .top nav a {
+    padding: 7px 12px;
+  }
+  .landing-hero {
+    grid-template-columns: 1fr 1fr;
+  }
+  .landing-hero h1 {
+    font-size: 39px;
+  }
+  .actions {
+    gap: 8px;
+  }
+  .cta,
+  .outline {
+    padding: 11px 15px;
+  }
+  .steps {
+    gap: 12px;
+  }
+  .step b,
+  .step + .step:before {
+    display: none;
+  }
+  .showcase {
+    grid-template-columns: 1fr 1fr;
+  }
+  .company {
+    grid-column: 1/-1;
+  }
+  .intro {
+    padding-inline-start: 0;
+  }
+  .benefits {
+    flex-wrap: wrap;
+  }
+  .benefits span {
+    font-size: 11px;
+    max-width: 92px;
+  }
+  .benefits .ico {
+    width: 20px;
+  }
+  .step i {
+    min-width: 36px;
+  }
+  .ticket aside img {
+    width: 58px;
+  }
+}
+@media (max-width: 650px) {
+  .top {
+    width: 95%;
+    min-height: 56px;
+    padding: 5px 9px;
+    gap: 4px;
+  }
+  .top .logo {
+    width: clamp(89px, 26vw, 155px);
+  }
+  .tools button,
+  .hamb {
+    min-width: 32px;
+    height: 40px;
+    font-size: 14px;
+  }
+  .tools .signin {
+    font-size: 12px;
+    padding: 9px;
+  }
+  .signin .ico {
+    display: none;
+  }
+  .landing-hero {
+    width: 92%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .intro {
+    padding: 27px 2% 0;
+  }
+  .landing-hero h1 {
+    font-size: clamp(39px, 9.8vw, 54px);
+  }
+  .intro > p {
+    font-size: 16px;
+  }
+  .benefits {
+    margin: 20px 0 0;
+    flex-wrap: nowrap;
+  }
+  .benefits span {
+    max-width: none;
+    flex: 1;
+    gap: 5px;
+  }
+  .actions {
+    margin: 20px 0;
+  }
+  .passport-scene {
+    height: clamp(235px, 65vw, 356px);
+  }
+  .passport-scene > img {
+    width: 100%;
+    inset: 0;
+  }
+  .passport-scene figcaption {
+    bottom: 0;
+  }
+  .journey {
+    padding-block: 25px;
+  }
+  .journey h2:before,
+  .journey h2:after {
+    display: none;
+  }
+  .steps,
+  .showcase,
+  .about {
     grid-template-columns: 1fr;
+  }
+  .steps {
+    gap: 14px;
+  }
+  .step {
+    gap: 15px;
+    padding: 14px;
+  }
+  .step b {
+    display: block;
+  }
+  .step i {
+    min-width: 46px;
+  }
+  .step + .step:before {
+    display: block;
+    content: '↓';
+    inset-inline-start: 28px;
+    top: -18px;
+    font-size: 17px;
+  }
+  .showcase {
+    width: 92%;
+    gap: 17px;
+  }
+  .about {
+    gap: 20px;
+    padding: 42px 2%;
+  }
+  .finish {
+    padding: 30px 14px;
+  }
+  footer {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  footer span {
+    flex-basis: 100%;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .intro,
+  .passport-scene,
+  .revealed .step {
+    animation: arrive 0.5s both;
+  }
+  .passport-scene,
+  .revealed .s2 {
+    animation-delay: 0.08s;
+  }
+  .revealed .s3 {
+    animation-delay: 0.16s;
+  }
+  @keyframes arrive {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 }

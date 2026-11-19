@@ -1,6 +1,8 @@
-# Skill2Work — final polished Angular frontend
+# Skill2Work — Interactive Skill Passport preview
 
-An incremental repair of the supplied UX/Motion project. All four roles and the approved 31 feature groups remain accessible through simpler workspaces and backward-compatible URLs. See [CHANGELOG_FINAL.md](CHANGELOG_FINAL.md), [SCREEN_MAP.md](SCREEN_MAP.md) and the current [TEST_REPORT_FINAL.md](TEST_REPORT_FINAL.md). Older TEST_REPORT/UX_TEST_REPORT files describe prior versions.
+This review copy extends V4 with an interactive candidate Skill Passport. See [the preview guide](PASSPORT_PREVIEW.md), [changelog](PASSPORT_CHANGELOG.md) and [test report](PASSPORT_TEST_REPORT.md). The visual captures and animated walkthrough are in `review/`. The V4 and earlier reports below describe the baseline.
+
+Incremental upgrade of the latest V3 source. See V4_CHANGELOG.md, V4_SCREEN_MAP.md and V4_TEST_REPORT.md. Previous V3/final reports describe historical versions. No public repository has been changed or deployed.
 
 ## Windows: extract and start
 
@@ -64,9 +66,19 @@ Local authentication is deliberately demo-only: passwords are stored locally as 
 
 Assessments are text-only **Demo Simulation**, not LLM grading. Fixed scores do not evaluate answer quality. Full initial assessment targets all unassessed claims; eligible full reassessment targets evaluated skills beyond the 24-hour cooldown. Easy/Medium/Hard use 4/6/8 questions per targeted skill with `Math.round(count * 0.3)` MCQs and the remainder open-ended. Demo timer duration is `DEMO_QUESTION_SECONDS` in `src/app/core/assessment.ts`. Server-controlled timing is future API work.
 
-Typed drafts recover in the same tab. Timeouts preserve partial text and store a separate timeout status, never an invented response. Recoverable errors retain the attempt; deliberate cancellation asks before discarding it. Newest successfully saved results replace previous visible skill results. Demo labels remain present in evidence displays.
+Typed drafts recover in the same tab. Timeouts preserve partial text and store a separate timeout status, never an invented response. Recoverable errors retain the attempt; deliberate cancellation asks before discarding it. Newest successfully saved results replace previous visible skill results. Practice/preview disclosures are concentrated in assessment/result details and the dedicated Technology page. No genuine AI verification is claimed.
 
-Job weights accept two decimal places and total exactly 100%; incomplete drafts are allowed. Recommendations require every Must-Have evaluated and meeting its own threshold, then sort by match, evaluated Nice-to-Have count, track score and stable ID. Claims/missing evidence do not become fake zero proficiency. Overall and match scores are distinct.
+Jobs use per-Must-Have minimum assessed scores (0–100), with optional Nice-to-Haves and no employer-entered weights. Required Skill Evidence Score is the arithmetic mean across all Must-Haves; missing/unassessed adds no evidence contribution. With none assessed the score is absent. Coverage and eligibility are separate. Eligible recommendations sort by required evidence score, assessed optional count, optional average, career-track overall, then candidate ID. Overall still uses separate career-track importance weights. Applying never requires assessment.
+
+## Profiles, media and fair tickets
+
+Candidate Profile is view-first with structured education/experience and multiple projects (code, design, video or live site). Approved signed-in recruiters see the same complete read-only profile and contact details; public visitors cannot. Company and University profiles use one shared organization presentation, with authorized editing only. University analytics is aggregate-only; registration tickets contain identities only within that university's fair management.
+
+Image uploads accept JPG/PNG/WebP up to 5 MB, resize to at most 1400px, encode WebP and cap the stored blob at 400 KB. IndexedDB stores media; snapshots store references. A bounded small-image data URL fallback is used when IndexedDB is unavailable. Quota/decode failures preserve the saved profile and show an error. Media remains on the same browser origin and is not a server upload. Source ZIPs do not contain users' uploaded browser media.
+
+Version 2 snapshots retain the existing localStorage key and accounts. Migration removes employer skill weights, preserves required minimums, strips optional minimums, adds profile collections and stable opaque ticket tokens, and preserves applications/interviews. Invalid legacy requirement lists become repairable drafts. Do not clear browser storage to upgrade.
+
+Fair registration creates a correct QR using the bundled `qrcode` encoder. It encodes only an opaque random token, not Student ID or contacts. The candidate can download a complete ticket PNG or print; university fair Registration Tickets supports search, individual view/export and a bulk print sheet. Print all clears the search filter. No scanning, check-in, attendance or secure admission feature is provided. Tickets are client-side prototype presentation artifacts, not secure credentials. They are consistent across roles in ONE browser only: another device/browser cannot see these registrations without a future shared backend. University changes cancel previous registrations.
 
 ## Build and verification commands
 
@@ -88,7 +100,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The Playwright runner starts the app if needed. Browser binaries and screenshots are not shipped. This delivery environment could not launch Chromium; visual quality, mobile clipping, focus rendering and animation appearance are explicitly **unverified**. See TEST_REPORT_FINAL.md for executed results and audit findings, including remaining development-only advisories.
+The Playwright runner starts the app if needed. Browser binaries and screenshots are not shipped. This delivery environment could not launch Chromium; visual quality, mobile clipping, focus rendering and animation appearance are explicitly **unverified**. See V4_TEST_REPORT.md for current results and limitations.
 
 ## Architecture and future backend
 
@@ -99,4 +111,3 @@ The Playwright runner starts the app if needed. Browser binaries and screenshots
 ## Optional GitHub Pages
 
 The previously requested Pages configuration is included. See [GITHUB_PAGES_AR.md](GITHUB_PAGES_AR.md). `npm run build:pages -- /YOUR_REPOSITORY/` and `npm run test:pages` verify the hash-routing variant; the workflow reads the repository base path automatically. Remote publication requires your GitHub connection and a successful deployment; no published URL is claimed.
-"# skill2work" 

@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { DemoRepository } from '../../core/store';
 import { TranslatePipe } from '../../core/preferences';
 import { PageHeader, EmptyState } from '../../shared/ui';
-import { evidence } from '../../core/matching';
+import { universitySkillGaps } from '../../core/skill-gaps';
 @Component({
   selector: 's2w-university',
   imports: [FormsModule, RouterLink, DatePipe, TranslatePipe, PageHeader, EmptyState],
@@ -42,19 +42,15 @@ export class University {
   fairName(id: string) {
     return this.fairs.find((f) => f.id === id)?.name;
   }
+  gapMax(g: { total: number; companies: number }) {
+    return Math.max(1, g.total, g.companies);
+  }
+  skillSearch = '';
+  gapSort = 'unmet';
   get gaps() {
-    const students = this.s
-      .state()
-      .candidates.filter((c) => c.universityId === this.s.user()?.entityId);
-    const names = [
-      ...new Set(this.jobs.flatMap((id) => this.s.job(id)?.skills.map((s) => s.name) ?? [])),
-    ];
-    return names
-      .map((name) => ({
-        name,
-        count: students.filter((c) => evidence(c, name)?.score === undefined).length,
-        total: students.length,
-      }))
-      .sort((a, b) => b.count - a.count);
+    const rows = universitySkillGaps(this.s.state(), this.s.user()!.entityId, this.filter).filter(
+      (g) => g.name.toLowerCase().includes(this.skillSearch.toLowerCase()),
+    );
+    return this.gapSort === 'companies' ? rows.sort((a, b) => b.companies - a.companies) : rows;
   }
 }

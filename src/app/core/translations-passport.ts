@@ -1,0 +1,46 @@
+export const PASSPORT_AR: Record<string, string> = {
+  'Your Skill Passport': 'جواز مهاراتك',
+  'Every assessed skill tells part of your professional story.':
+    'كل مهارة خضعت للتقييم تحكي جزءًا من مسيرتك المهنية.',
+  'Inside your passport': 'داخل جواز مهاراتك',
+  'Open your passport to explore the evidence behind your skills.':
+    'افتح جوازك لتطّلع على مهاراتك ونتائج تقييمها.',
+  'Assessed skills': 'المهارات المُقيَّمة',
+  'Claimed skills': 'المهارات المُضافة',
+  Assessed: 'تم التقييم',
+  Claimed: 'مُضافة',
+  'Passport display': 'طريقة عرض الجواز',
+  'Passport View': 'عرض الجواز',
+  'List View': 'عرض القائمة',
+  'Open Passport': 'افتح الجواز',
+  'Close passport': 'أغلق الجواز',
+  'Holder identity': 'بيانات صاحب الجواز',
+  Page: 'صفحة',
+  'Passport pages': 'صفحات الجواز',
+  'Previous page': 'الصفحة السابقة',
+  'Next page': 'الصفحة التالية',
+  'Passport reference': 'رقم الجواز',
+  'Earliest retained assessment': 'أقدم تقييم محفوظ',
+  'Evidence index': 'فهرس المهارات',
+  'Choose a section to read its skill records.': 'اختر قسمًا للاطلاع على سجلات المهارات الخاصة به.',
+  'Read assessed skills': 'تصفّح المهارات المُقيَّمة',
+  'Read claimed skills': 'تصفّح المهارات المُضافة',
+  'Read section': 'تصفّح القسم',
+  skills: 'مهارات',
+  skill: 'مهارة',
+  'View details': 'عرض التفاصيل',
+  'About verification': 'ماذا يعني الختم؟',
+  'A stamp records a completed assessment and its score, including low scores. Employers apply their own minimums. A stamp does not confer accreditation.':
+    'يعني الختم أن المهارة خضعت لتقييم وسُجّلت درجتها، بما في ذلك الدرجات المنخفضة. لكل جهة توظيف حدّها الأدنى، والختم لا يمنح اعتمادًا رسميًا.',
+  'The current record contains a score and any summary shown above.':
+    'يتضمن السجل الحالي الدرجة وأي ملخص ظاهر أعلاه.',
+  'An assessment adds a score and a dated stamp to this skill.':
+    'أكمل تقييم هذه المهارة لإضافة درجتها وختم بتاريخ التقييم.',
+  'Assess skill': 'قيّم المهارة',
+  'Reassessment available': 'يمكن إعادة التقييم في',
+  'Remove this skill and its visible assessment result?':
+    'هل تريد إزالة هذه المهارة ونتيجة تقييمها المعروضة؟',
+  'Egyptian Chinese University': 'الجامعة المصرية الصينية',
+  'Aswan University': 'جامعة أسوان',
+  'Helwan University': 'جامعة حلوان',
+};

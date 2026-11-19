@@ -15,7 +15,7 @@ test('match, missing evidence, zero result, overall and track change', () => {
   const d = seed(),
     c = d.candidates[0],
     j = d.jobs[0];
-  assert.equal(match(c, j), 59.9);
+  assert.equal(match(c, j), 55.5);
   assert.equal(overall(c, d.trackWeights), 57.7);
   assert.equal(match({ ...c, skills: [] }, j), null);
   assert.equal(match({ ...c, skills: [{ name: 'Angular', score: 0 }] }, j), 0);
@@ -59,8 +59,8 @@ test('recommendations sort match, nice-to-have count, overall, stable ID', () =>
     j = {
       ...d.jobs[0],
       skills: [
-        { name: 'Angular', weight: 100, must: true, minimum: 60 },
-        { name: 'Communication', weight: 0, must: false, minimum: 0 },
+        { name: 'Angular', must: true, minimum: 60 },
+        { name: 'Communication', must: false, minimum: 0 },
       ],
     };
   const make = (id: string, nice: boolean, score = 70, sql = 50) => ({
@@ -87,13 +87,10 @@ test('publish validation under/over, duplicates, blank skills, thresholds and mu
   const s = seed().jobs[0].skills;
   assert.equal(jobErrors(s).length, 0);
   for (const invalid of [
-    s.map((x) => ({ ...x, weight: 1 })),
-    s.map((x) => ({ ...x, weight: 100 })),
     s.map((x) => ({ ...x, must: false })),
     s.map((x) => ({ ...x, name: 'Angular' })),
     s.map((x) => ({ ...x, name: '' })),
     s.map((x) => ({ ...x, minimum: 101 })),
-    s.map((x) => ({ ...x, weight: -1 })),
     [],
   ])
     assert.ok(jobErrors(invalid).length);
@@ -116,16 +113,19 @@ test('question counts, full coverage and deterministic MCQ rounding', () => {
   assert.equal(fixtureScore('Angular'), fixtureScore('Angular'));
 });
 
-test('decimal weights are validated in hundredths, not binary floating point', () => {
-  const skill = (name: string, weight: number) => ({ name, weight, must: true, minimum: 50 });
+test('minimums are independent, optional skills have no thresholds and zero is valid evidence', () => {
   assert.deepEqual(
-    jobErrors([skill('Angular', 33.33), skill('SQL', 33.33), skill('TypeScript', 33.34)]),
+    jobErrors([
+      { name: 'A', must: true, minimum: 33.333 },
+      { name: 'B', must: true, minimum: 99.5 },
+      { name: 'C', must: false },
+    ]),
     [],
   );
-  assert.ok(
-    jobErrors([skill('Angular', 33.333), skill('SQL', 33.333), skill('TypeScript', 33.334)]).length,
-  );
-  assert.ok(
-    jobErrors([skill('Angular', 33.33), skill('SQL', 33.33), skill('TypeScript', 33.33)]).length,
-  );
+  assert.deepEqual(jobErrors([{ name: 'A', must: true, minimum: 0 }]), []);
+  for (const minimum of [-1, 101, NaN, undefined])
+    assert.ok(jobErrors([{ name: 'A', must: true, minimum }]).length);
+  const d = seed();
+  const c = { ...d.candidates[0], skills: [{ name: 'Communication', score: 100 }] };
+  assert.equal(match(c, d.jobs[0]), null);
 });

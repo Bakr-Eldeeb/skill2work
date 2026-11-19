@@ -4,13 +4,13 @@
 
 ## طريقة الرفع
 
-١. أنشئ Repository باسم `skill2work-angular` على GitHub، أو استخدم مستودعًا موجودًا. لحساب GitHub Free اختر Public لاستخدام Pages. الكود والبيانات هنا تجريبية فقط.
+١. أنشئ Repository باسم `skill2work` على GitHub، أو استخدم مستودعًا موجودًا. لحساب GitHub Free اختر Public لاستخدام Pages. الكود والبيانات هنا تجريبية فقط.
 ٢. ارفع **محتويات** مجلد `skill2work-angular` إلى جذر المستودع، بحيث يظهر `package.json` بجوار `.github` و`src`، وليس داخل مجلد إضافي. لا ترفع ملف ZIP نفسه أو `node_modules`.
 ٣. من المستودع افتح **Settings → Pages → Build and deployment → Source → GitHub Actions**.
 ٤. افتح **Actions → Deploy Skill2Work to GitHub Pages → Run workflow**، أو ادفع Commit إلى `main`/`master`.
 ٥. بعد نجاح build وdeploy، افتح الرابط الظاهر في عملية النشر أو في Settings → Pages.
 
-الاسم `skill2work-angular` مقترح فقط. ملف النشر يأخذ مسار المستودع تلقائيًا من GitHub، ولا تحتاج تعديل الكود إذا غيّرت اسم المستودع. يدعم أيضًا مسار الموقع الجذري الذي تعيده إعدادات Pages.
+اسم المستودع المعتمد لهذه النسخة هو `skill2work`. ملف النشر يأخذ مسار المستودع تلقائيًا من GitHub، ولا تحتاج تعديل الكود إذا غيّرت اسم المستودع. يدعم أيضًا مسار الموقع الجذري الذي تعيده إعدادات Pages.
 
 ## باستخدام Git على جهازك
 
@@ -21,7 +21,7 @@ git init
 git add .
 git commit -m "Add Skill2Work Angular frontend and Pages deployment"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/skill2work-angular.git
+git remote add origin https://github.com/YOUR_USERNAME/skill2work.git
 git push -u origin main
 ```
 
@@ -30,7 +30,7 @@ git push -u origin main
 ## ما الذي تم تعديله؟
 
 - Workflow في `.github/workflows/deploy-pages.yml` يثبت الاعتماديات، يختبر المنطق، يبني Angular، يختبر نسخة Pages عبر DOM، ثم ينشر الناتج.
-- الأمر `npm run build:pages` يضبط `base href` ويفعّل Hash Routing في **نسخة Pages فقط**. الرابط سيكون مثل `https://YOUR_USERNAME.github.io/skill2work-angular/#/candidate/assessments`؛ تحديث الصفحة لا يطلب مسار Angular من خادم Pages.
+- الأمر `npm run build:pages` يضبط `base href` ويفعّل Hash Routing في **نسخة Pages فقط**. الرابط سيكون مثل `https://YOUR_USERNAME.github.io/skill2work/#/candidate/assessments`؛ تحديث الصفحة لا يطلب مسار Angular من خادم Pages.
 - مسارات اللوجو والأيقونات أصبحت نسبية وتعمل تحت اسم المستودع.
 - التشغيل المحلي المعتاد `npm start` ما زال يستخدم الروابط النظيفة مثل `/candidate/assessments`.
 

@@ -160,7 +160,8 @@ test('candidate signup, validation, manual profile, claimed skills and apply wit
   await expect(page).toHaveURL(/candidate\/dashboard/);
   await expect(page.locator('main')).toContainText('Not Assessed Yet');
   await page.goto('/candidate/profile');
-  await page.getByLabel('Bio', { exact: true }).fill('I build useful interfaces.');
+  await page.getByRole('button', { name: 'Edit profile', exact: true }).click();
+  await page.getByLabel('About', { exact: true }).fill('I build useful interfaces.');
   await page.getByRole('button', { name: 'Save profile' }).click();
   await page.goto('/candidate/skills');
   await page.getByLabel('Skill name').fill('Angular');
@@ -215,14 +216,14 @@ test('company signup, pending/rejected guards, approval, invalid publish, draft 
     .getByLabel('Description', { exact: true })
     .fill('Build accessible Angular experiences.');
   await page.locator('.skill-row').getByLabel('Skill name').fill('Angular');
-  await page.locator('.skill-row').getByLabel('Weight').fill('70');
+  await page.locator('.skill-row').getByLabel('Minimum').fill('101');
   await page.getByRole('button', { name: 'Publish job', exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText('100%');
+  await expect(page.getByRole('alert')).toContainText('between 0 and 100');
   await expect(page).toHaveURL(/jobs\/new/);
   await page.getByRole('button', { name: 'Save draft' }).click();
   await expect(page.locator('main')).toContainText('Draft');
   await page.getByRole('link', { name: 'Edit job' }).click();
-  await page.locator('.skill-row').getByLabel('Weight').fill('100');
+  await page.locator('.skill-row').getByLabel('Minimum').fill('60');
   await page.getByRole('button', { name: 'Publish job', exact: true }).click();
   await expect(page.locator('main')).toContainText('Published');
   await login(page, 'candidate');
@@ -257,7 +258,7 @@ test('assessment visible, one question, timer, MCQ/open answers, result, cooldow
   await expect(page).toHaveURL(/candidate\/results/);
   await expect(page.locator('main h2').first()).toContainText('Assessment results');
   await expect(page.locator('main')).toContainText('Strengths');
-  await expect(page.locator('main')).toContainText('Demo Simulation');
+  await expect(page.locator('main')).toContainText('Practice assessment');
   await page.goto('/candidate/assessments?skill=Figma');
   await page.getByRole('button', { name: 'Start assessment', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('24 hours');
@@ -357,6 +358,7 @@ test('university fair, company join, candidate registration, attributed applicat
   await expect(page.locator('main')).toContainText('ECU-DEMO-123');
   await login(page, 'candidate');
   await page.goto('/candidate/profile');
+  await page.getByRole('button', { name: 'Edit profile', exact: true }).click();
   await page.locator('select[formcontrolname=universityId]').selectOption('u2');
   await page.getByRole('button', { name: 'Save profile' }).click();
   d = await state(page);
@@ -385,7 +387,7 @@ test('Arabic RTL, dark mode persistence, mobile More, filters, empty states and 
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: 'test-results/arabic-dark-mobile.png', fullPage: true });
-  await page.getByRole('button', { name: 'المزيد' }).click();
+  await page.getByRole('button', { name: 'الحساب' }).click();
   await expect(page.locator('.more-sheet')).toBeVisible();
   await page.locator('.more-sheet').getByRole('link', { name: 'الإعدادات' }).click();
   await expect(page.locator('main h1')).toHaveText('الإعدادات');
@@ -419,6 +421,7 @@ test('storage event sync between tabs and explicit demo reset', async ({ page, c
   await login(page, 'candidate');
   const other = await context.newPage();
   await other.goto('/candidate/skills');
+  await other.getByRole('button', { name: 'List View' }).click();
   await page.goto('/candidate/skills');
   await page.getByLabel('Skill name').fill('Cross-tab Skill');
   await page.getByRole('button', { name: 'Add skill', exact: false }).click();

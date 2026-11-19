@@ -24,25 +24,23 @@
         <span aria-hidden="true">{{ item.icon }}</span>{{ item.label | t }}
       </a>
     }
-    <details class="nav-more">
-      <summary><span aria-hidden="true">•••</span>{{ 'More' | t }}</summary>
-      @for (item of secondaryNav; track item.path) {
-        <a
-          class="secondary-link"
-          [routerLink]="base + '/' + item.path"
-          [class.active]="isActive(item.path)"
-          [attr.aria-current]="isActive(item.path) ? 'page' : null"
-        >
-          <span aria-hidden="true">{{ item.icon }}</span>{{ item.label | t }}
-        </a>
-      }
-    </details>
+    @if (secondaryNav.length) {
+      <details class="nav-more">
+        <summary><span aria-hidden="true">•••</span>{{ 'Profile & account' | t }}</summary>
+        @for (item of secondaryNav; track item.path) {
+          <a
+            class="secondary-link"
+            [routerLink]="base + '/' + item.path"
+            [class.active]="isActive(item.path)"
+            [attr.aria-current]="isActive(item.path) ? 'page' : null"
+          >
+            <span aria-hidden="true">{{ item.icon }}</span>{{ item.label | t }}
+          </a>
+        }
+      </details>
+    }
   </nav>
   <div class="sidebar-bottom">
-    <div class="mini-callout">
-      <strong>{{ 'Demo Mode' | t }}</strong>
-      <p>{{ 'Simulated evidence only; no real AI verification.' | t }}</p>
-    </div>
     <div class="identity">
       <span class="avatar">{{ s.user()?.name?.slice(0, 1) }}</span>
       <div>
@@ -52,14 +50,19 @@
     <button class="quiet" (click)="logout()">{{ 'Sign out' | t }} ↗</button>
   </div>
 </aside>
-<div class="workspace">
+<div
+  class="workspace"
+  [class.jobs-directory]="jobsDirectory()"
+  [attr.tabindex]="jobsDirectory() ? 0 : null"
+  [attr.role]="jobsDirectory() ? 'region' : null"
+  [attr.aria-label]="jobsDirectory() ? ('Find jobs' | t) : null"
+>
   <header class="topbar">
     <div class="topbar-location">
       <span class="breadcrumb">{{ currentLabel | t }}</span>
       <img class="mobile-mark" src="assets/skill2work-mark.svg" alt="Skill2Work" />
     </div>
     <div class="top-actions">
-      <span class="demo-tag">{{ 'Demo Mode' | t }}</span>
       <button class="quiet" aria-label="Change language" (click)="p.toggleLanguage()">
         {{ p.language() === 'en' ? 'عربي' : 'English' }}
       </button>
@@ -87,7 +90,7 @@
   </main>
   <footer class="workspace-footer">
     {{ brand.name }} · {{ brand.tagline | t
-    }}<span>{{ 'Demo-only local authentication. Use fictional data.' | t }}</span>
+    }}<a routerLink="/technology">{{ 'About the technology' | t }}</a>
   </footer>
 </div>
 <nav class="mobile-nav" aria-label="Mobile navigation">
@@ -96,14 +99,16 @@
       <span aria-hidden="true">{{ item.icon }}</span><small>{{ item.label | t }}</small>
     </a>
   }
-  <button
-    type="button"
-    (click)="more = !more"
-    [attr.aria-expanded]="more"
-    aria-controls="mobile-more"
-  >
-    <span aria-hidden="true">•••</span><small>{{ 'More' | t }}</small>
-  </button>
+  @if (moreNav.length) {
+    <button
+      type="button"
+      (click)="more = !more"
+      [attr.aria-expanded]="more"
+      aria-controls="mobile-more"
+    >
+      <span aria-hidden="true">•••</span><small>{{ 'Account' | t }}</small>
+    </button>
+  }
 </nav>
 @if (more) {
   <div id="mobile-more" class="more-sheet" (keydown.escape)="more = false">

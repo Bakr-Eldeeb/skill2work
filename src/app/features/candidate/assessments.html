@@ -1,4 +1,4 @@
-<s2w-header title="Assessments" subtitle="Demo Simulation" />
+<s2w-header title="Assessments" subtitle="Practice assessment" />
 <div class="notice">
   {{ 'Simulated evidence only; no real AI verification.' | t }}
   {{ 'Questions, scores and feedback are deterministic UI fixtures, not AI grading.' | t }}
@@ -109,7 +109,7 @@
       @for (skill of c.skills; track skill.name) {
         <div class="list-row">
           <span class="grow">{{ skill.name }}</span><span class="badge">{{
-            (skill.score === undefined ? 'Claimed' : 'Verified · Demo') | t
+            (skill.score === undefined ? 'Claimed' : 'Assessed') | t
           }}</span>
         </div>
       } @empty {

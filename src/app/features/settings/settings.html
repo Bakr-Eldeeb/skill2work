@@ -9,7 +9,13 @@
         <p class="muted">{{ n.date | date: 'medium' }}</p>
       </article>
     } @empty {
-      <s2w-empty text="No notifications yet." />
+      <s2w-empty
+        text="No notifications yet."
+        description="Your application, interview and fair updates will arrive here."
+        ><a class="secondary" [routerLink]="'/' + s.user()!.role + '/dashboard'">{{
+          'Return to your workspace' | t
+        }}</a></s2w-empty
+      >
     }
   </div>
 } @else {
@@ -63,16 +69,14 @@
       </section>
     </div>
     <aside class="card aura">
-      <h2>{{ 'Demo accounts' | t }}</h2>
-      <p class="muted">{{ 'Demo-only local authentication. Use fictional data.' | t }}</p>
-      @for (u of demoAccounts; track u.email) {
-        <div class="list-row">
-          <div class="grow">
-            <strong>{{ u.role | t }}</strong>
-            <p class="muted account-email">{{ u.email }}</p>
-          </div>
-        </div>
-      }
+      <h2>{{ 'Your information' | t }}</h2>
+      <p>
+        {{
+          'Signed-in recruiters can view candidate profile contact details. Use only test contact information in this prototype.'
+            | t
+        }}
+      </p>
+      <a class="text-link" routerLink="/technology">{{ 'About the technology' | t }} ↗</a>
     </aside>
   </div>
 }

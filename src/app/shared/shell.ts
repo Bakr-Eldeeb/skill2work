@@ -1,6 +1,6 @@
 import { BRAND } from '../core/brand';
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { isActive, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { DemoRepository } from '../core/store';
 import { Preferences, TranslatePipe } from '../core/preferences';
 import { Logo } from './ui';
@@ -16,6 +16,12 @@ export class AppShell {
   s = inject(DemoRepository);
   p = inject(Preferences);
   r = inject(Router);
+  readonly jobsDirectory = isActive('/candidate/jobs', this.r, {
+    paths: 'exact',
+    queryParams: 'ignored',
+    fragment: 'ignored',
+    matrixParams: 'ignored',
+  });
   more = false;
   readonly role = this.s.user()?.role ?? 'candidate';
   get allowed() {

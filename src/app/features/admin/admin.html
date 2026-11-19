@@ -84,7 +84,17 @@
         </div>
       </article>
     } @empty {
-      <s2w-empty />
+      <s2w-empty
+        [text]="filter === 'Pending' ? 'All caught up.' : 'No matching companies.'"
+        [description]="
+          filter === 'Pending'
+            ? 'There are no company approvals waiting for you.'
+            : 'Try another approval status to find the company you need.'
+        "
+        ><button class="secondary" (click)="filter = filter === 'Pending' ? 'Approved' : ''">
+          {{ (filter === 'Pending' ? 'View approved companies' : 'Show all companies') | t }}
+        </button></s2w-empty
+      >
     }
   </div>
 }

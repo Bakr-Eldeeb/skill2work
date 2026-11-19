@@ -8,7 +8,12 @@ import { DemoRepository } from '../../core/store';
 import { TranslatePipe } from '../../core/preferences';
 import { PageHeader } from '../../shared/ui';
 import { AssessmentAttempt } from '../../core/models';
-import { questions, QUESTION_COUNT, DEMO_QUESTION_SECONDS } from '../../core/assessment';
+import {
+  nextAssessmentTime,
+  questions,
+  QUESTION_COUNT,
+  DEMO_QUESTION_SECONDS,
+} from '../../core/assessment';
 @Component({
   selector: 's2w-assessments',
   imports: [FormsModule, RouterLink, TranslatePipe, PageHeader, LoadingState],
@@ -42,9 +47,7 @@ export class Assessments implements OnDestroy {
     if (this.target) return this.c.skills.filter((skill) => skill.name === this.target);
     return this.fullMode === 'all'
       ? this.c.skills.filter(
-          (skill) =>
-            skill.score !== undefined &&
-            (!skill.date || Date.now() - new Date(skill.date).getTime() >= 86400000),
+          (skill) => skill.score !== undefined && Date.now() >= nextAssessmentTime(skill),
         )
       : this.c.skills.filter((skill) => skill.score === undefined);
   }
@@ -85,9 +88,7 @@ export class Assessments implements OnDestroy {
             : 'Add a claimed skill before starting an assessment.';
       return;
     }
-    const cooling = skills.find(
-      (s) => s.date && Date.now() - new Date(s.date).getTime() < 86400000,
-    );
+    const cooling = skills.find((s) => nextAssessmentTime(s) > Date.now());
     if (cooling) {
       this.error = 'Reassessment is available 24 hours after the latest result: ' + cooling.name;
       return;

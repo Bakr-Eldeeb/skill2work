@@ -1,19 +1,17 @@
 <s2w-header title="Recruit with clear evidence." [eyebrow]="company.name" subtitle="Company"
   ><a class="primary" routerLink="/company/jobs/new">+ {{ 'Create job' | t }}</a></s2w-header
 >
-<div class="stats">
-  <div class="card">
-    <p class="eyebrow">{{ 'Active jobs' | t }}</p>
-    <strong class="stat">{{ published.length }}</strong>
-  </div>
-  <div class="card">
-    <p class="eyebrow">{{ 'Applicants' | t }}</p>
-    <strong class="stat">{{ applications.length }}</strong>
-  </div>
-  <div class="card">
-    <p class="eyebrow">{{ 'Upcoming interviews' | t }}</p>
-    <strong class="stat">{{ interviews.length }}</strong>
-  </div>
+<div class="summary-ribbon">
+  <span
+    ><strong>{{ published.length }}</strong
+    >{{ 'Active jobs' | t }}</span
+  ><span
+    ><strong>{{ applications.length }}</strong
+    >{{ 'Applicants' | t }}</span
+  ><span
+    ><strong>{{ interviews.length }}</strong
+    >{{ 'Upcoming interviews' | t }}</span
+  >
 </div>
 <div class="two-column">
   <section class="card">

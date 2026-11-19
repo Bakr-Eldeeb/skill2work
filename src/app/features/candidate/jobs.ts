@@ -1,7 +1,9 @@
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ExperienceStateStore } from '../../core/experience-state';
+import { MatchExplanation } from '../../shared/match-explanation';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { DecimalPipe } from '@angular/common';
 import { DemoRepository } from '../../core/store';
 import { TranslatePipe } from '../../core/preferences';
 import { EmptyState, PageHeader, JobCard, ScoreCard } from '../../shared/ui';
@@ -11,19 +13,24 @@ import { evidence, key } from '../../core/matching';
   imports: [
     FormsModule,
     RouterLink,
-    DecimalPipe,
     TranslatePipe,
     EmptyState,
     PageHeader,
     JobCard,
     ScoreCard,
+    MatchExplanation,
   ],
   templateUrl: './jobs.html',
   styleUrl: './jobs.css',
 })
 export class CandidateJobs {
   s = inject(DemoRepository);
+  experience = inject(ExperienceStateStore);
+  constructor() {
+    if (!this.id) this.experience.explore(this.s.user()!.id);
+  }
   route = inject(ActivatedRoute);
+  params = toSignal(this.route.paramMap);
   search = '';
   location = '';
   mode = '';
@@ -36,7 +43,7 @@ export class CandidateJobs {
     return this.s.candidate();
   }
   get id() {
-    return this.route.snapshot.paramMap.get('id');
+    return this.params()?.get('id') ?? null;
   }
   get job() {
     return this.id ? this.s.job(this.id) : undefined;
@@ -64,6 +71,9 @@ export class CandidateJobs {
   }
   get allSkills() {
     return [...new Set(this.s.state().jobs.flatMap((j) => j.skills.map((s) => s.name)))];
+  }
+  get hasFilters() {
+    return !!(this.search || this.location || this.mode || this.type || this.skill);
   }
   get jobs() {
     return this.s

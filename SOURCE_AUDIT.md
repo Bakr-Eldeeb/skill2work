@@ -1,3 +1,5 @@
+Historical source audit of the original Stitch inputs. V4_CHANGELOG.md and V4_SCREEN_MAP.md supersede scope notes below: QR registration tickets (without check-in) are now explicitly approved and implemented.
+
 # Source inspection and implementation decisions
 
 All three supplied archives opened and extracted successfully. The Work Prompt archive contains `Skill2Work_Work_Prompt.md`; this is the uploaded counterpart of the all-in-one Work Mode instruction file. The starter pack's AGENTS.md and CODEX_SKILL2WORK_MASTER_PROMPT.md are byte-identical (SHA-256 e5429404a4f967f0caa45680e61bfd49be190daf60444e8dff05254ce4accb39) and were read in full, as was the Work Prompt. Brand tokens and exact supplied assets were inspected. The app was implemented as a new project.

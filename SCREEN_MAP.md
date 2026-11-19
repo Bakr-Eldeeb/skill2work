@@ -1,3 +1,5 @@
+Current V4 changes and profile/ticket routes are documented in V4_SCREEN_MAP.md. The inventory below retains the original 31 feature groups.
+
 # Final consolidated navigation
 
 All 31 feature groups below remain implemented. Candidate `/skills`, `/passport` and `/results` use the same Skills workspace with the appropriate active tab. `/assessments` remains the focused assessment flow. Company `/talent` and `/recommendations` use the same discovery workspace; `/applicants` and `/pipeline` use Applicants & hiring. University fair details have Overview / Participating Companies / Registrations / Jobs sections, with `?tab=...` deep links. Existing routes are backward-compatible even when their sidebar entries have been consolidated. Settings is a primary University destination; Candidate Profile/Settings are secondary. The shared Back control uses role-scoped history and appropriate parent fallbacks, hidden on dashboards.
@@ -21,7 +23,7 @@ The 31 approved groups map to the routes below. Essential list/detail/editor sub
 | 9   | Assessment results                 | `/candidate/results` — newest per-skill fixture result, feedback and post-attempt explanations                                                        |
 | 10  | Skill Passport                     | `/candidate/passport` — track score, evaluated count, evaluated/claimed skills                                                                        |
 | 11  | Job discovery                      | `/candidate/jobs` — search, location, mode, type, skill filters; match ordering after evidence                                                        |
-| 12  | Job details and explanation        | `/candidate/jobs/:id` — weighted contribution breakdown, minima, claimed/missing/assessed indicators                                                  |
+| 12  | Job details and explanation        | `/candidate/jobs/:id` — required-skill evidence mean, coverage and minimum-score breakdown, minima, claimed/missing/assessed indicators               |
 | 13  | Apply                              | `/candidate/jobs/:id/apply?fair=:fairId` — same path for everyone, profile + optional letter, success, duplicate protection                           |
 | 14  | Applications and interviews        | `/candidate/applications` — statuses; Accept / Decline / Request reschedule                                                                           |
 | 15  | Candidate fairs                    | `/candidate/fairs`, `/candidate/fairs/:id` — selected institution only; self-reported Student ID, companies/jobs and fair-attributed application      |

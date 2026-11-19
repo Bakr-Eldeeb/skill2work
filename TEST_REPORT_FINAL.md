@@ -1,62 +1,59 @@
-# Final validation — 17 November 2026
+# V4 test report — 18 November 2026 (Cairo)
 
-This is the current acceptance record for `Skill2Work_Final_UX_Polished_Frontend.zip`. Older TEST_REPORT/UX_TEST_REPORT documents are historical. The latest uploaded UX/Motion source was repaired in place in an isolated work folder. It was not rebuilt from another prototype.
+Current acceptance record for Skill2Work_Real_Platform_Experience.zip. Foundation: latest complete V3 source. Previous V3/final reports are historical. No public repository was pushed or deployed.
 
-## Build gate and reported errors
+## Find Jobs footer correction
 
-- `npm ci` succeeded with the supplied compatible lockfile.
-- Removed duplicate translation property `Assessment results`, preserving the complete Arabic dictionary including identifier-style keys.
-- Fixed Settings `@for` tracking to `u.email` on the `{role,email}` projection. Passwords were not added back.
-- `npm run build` passed before further UX implementation (Gate 1). Subsequent AOT builds passed with no remaining TypeScript/template errors.
-- Port 4200 stays unchanged; alternative-port/old-server instructions are in both READMEs.
+A trailing widget with a broken greeting image and the text “iAmYourCareerCopilot” reproduced the reported appearance in Chrome against the previous release. The inspected Angular source contains no such widget. Its origin on the reporting device is unknown.
 
-## Executed automated checks
+Both production builds passed. The compiled application DOM and V4/media suites passed all 24 cases, the Pages suite passed all 15 cases, and the source and domain suites passed 3 and 7 cases respectively.
 
-The actual compiled Angular application is evaluated in Happy DOM for behavioral tests. This is not a screenshot renderer or a real Chromium browser.
+The updated normal and Pages builds were also exercised in managed Chrome at 1440 × 900 (English, light) and 390 × 844 (Arabic, RTL, dark). All four combinations passed with a populated list and an empty search result. A late document insert containing a frame left the list height unchanged. At maximum scroll the footer aligned with the pane edge, its technology link remained exposed, the illustration loaded, the CSS chevrons rendered and the pane had no horizontal overflow. The profile action navigated out of the directory in all four combinations. Desktop and mobile screenshots were inspected at the bottom of the page. This exercises a simulated trailing widget; it does not identify the source of the user's local markup.
 
-| Command                                      | Result                                                                                                                                   |
-| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm ci`                                     | Dependencies installed from the synchronized lockfile                                                                                    |
-| `npm run build`                              | Production AOT compilation passed                                                                                                        |
-| `npm run test:source`                        | 3 passed: every TS object checked for duplicate keys/syntax, Settings projection/persistence isolation, reduced-motion override          |
-| `npm run test:domain`                        | 7 passed: coherent seed, match/overall/null evidence, thresholds, ranking, publish validation, question counts/rounding, decimal weights |
-| `npm run test:dom`                           | 11 passed: real AOT routes and cross-role workflows                                                                                      |
-| `npm run test:ux`                            | 10 passed: behavioral consolidation/Back/password/assessment regressions                                                                 |
-| `npm run build:pages` + `npm run test:pages` | Production Pages build and 5 role/base-path/asset/hash-navigation DOM tests passed                                                       |
-| `npm run test:server`                        | Real `npm start` readiness, 6 deep-link/title/root responses and 6 brand/favicon assets: 12 HTTP checks                                  |
-| `npm run format:check`                       | Formatting verification before packaging                                                                                                 |
+The repeatable layout assertions are in `tests/jobs-footer-layout.mjs`. Run `npx playwright test tests/jobs-footer.e2e.ts` for the desktop and mobile scenarios in an environment with a working Playwright Chromium launcher. Here the managed Chrome run executed the shared layout assertions. The system Chromium binary failed its separate launch probe before opening a page.
 
-Fresh-extraction verification uses a clean source-only archive in a separate directory, a new `node_modules` installed with `npm ci`, and repeats build/domain/DOM/UX/source/server/Pages checks. No generated build or dependency folder from the development source is needed. Final ZIP integrity and required source/config/docs/assets are checked before handoff.
+## Original V4 verification
 
-## Functional coverage
+| Command / check                        | Result                                                                                                                                                      |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm ci`                               | Successful install from the updated lockfile, including QR encoder                                                                                          |
+| `npm run build`                        | Production Angular AOT build successful; no remaining TS/template compilation errors                                                                        |
+| `npm run test:domain`                  | 7 passed: evidence mean/null/zero, minimums, optional ranking, separate overall, validation and assessment invariants                                       |
+| `npm run test:source`                  | 3 passed: syntax/unique keys, persistence/credential boundary and reduced-motion source checks                                                              |
+| `npm run test:dom`                     | 11 passed: compiled Angular routes and complete cross-role workflows, including visible `/candidate/assessments`                                            |
+| `npm run test:ux`                      | 10 passed: Back, consolidated workspaces, fair sections, account privacy, assessment recovery/cooldown                                                      |
+| `npm run test:v3`                      | 10 passed: retained Career Home/evidence/application/onboarding/fair/empty-state and Arabic/dark behavior, updated for V4 rules                             |
+| `npm run test:v4`                      | 13 passed: migration, threshold/ranking, independent QR decoding, scoped aggregates, safe URLs/media and new profile/ticket workflows                       |
+| `npm run test:server`                  | Real `npm start` readiness and 12 HTTP title/route/brand-asset checks passed                                                                                |
+| `npm run build:pages`                  | Production Pages build succeeded with `/skill2work/`, hash routing and relative assets                                                                      |
+| `npm run test:pages` after Pages build | 15 passed: four roles, old/new profile/application/company/fair/assessment/analytics/job deep links, branding, skip focus/navigation and artifact structure |
 
-The 11 AOT DOM journeys cover 39 protected routes/subviews, primary pages for all four roles, and specifically a direct bootstrap of **`/candidate/assessments`**, whose main contains Assessment overview, skill/difficulty controls and Start assessment. This is real compiled page content, not a sidebar-only/static mock check.
+Total: **69 distinct automated tests passed, plus 12 HTTP checks**. Repeated runs are not additional distinct cases. Compiled UI tests run the emitted production Angular JavaScript in Happy DOM, which is not a visual browser. HTTP checks alone do not verify rendering.
 
-Other executed journeys: signup/password validation and required-university data; manual profile/claimed skill; applying without assessment and duplicate prevention; visibility to the relevant recruiter; company Pending/Rejected/Approved gates; invalid publish/draft/valid publish/discovery; recommendations versus all-candidate search/applicants; assessment results/cooldown/recovery/cancellation; status and interview Accept/Decline/Reschedule synchronization; job requirement notices; fair creation/company participation/job linking/self-reported registration/fair-origin applications; aggregate analytics; changed-university cancellation; admin university account creation/edit; notifications; locale/theme state; storage events/session revocation; reassessment below threshold removes a recommendation and preserves applications.
+An early `test:pages` invocation against the ordinary clean-routing production build failed because that artifact was not the Pages variant. Rebuilt using `build:pages` and reran the Pages suite successfully. Run this suite only after its Pages artifact is built. During implementation, compiler/selector/translation defects found by checks were repaired before packaging; no failing application test is being reported as passed.
 
-Ten added UX regressions test:
+## New-rule and workflow evidence
 
-1. Parent-route rules stay within role and preserve fair/application context.
-2. Shared Back returns through meaningful history, keeps query context, uses parents on direct access, hides on dashboards and never returns to another role/auth page.
-3. Skills/Passport/Results consolidate while legacy URLs and mobile priorities remain intact.
-4. Candidate discovery tabs retain threshold gating and canonical active navigation; pipeline alias uses Applicants & hiring.
-5. Fair sections include registrations and jobs while avoiding individual passport/results access.
-6. Settings and university editing do not reveal/prefill passwords; blank password updates retain credentials.
-7. Initial full assessment includes only unassessed claims; full reassessment includes eligible evaluated skills and skips cooling results.
-8. Expiry preserves actual partial text, records timed-out status, and saves open-answer drafts across rebootstrap.
-9. A recoverable profile/result conflict retains the completed attempt, shows Retry, and saves only the latest per-skill results after recovery.
+- Required skill scores are averaged over all Must-Haves; missing evidence has no contribution, not a fabricated individual zero. No required evidence yields null. Coverage and all-minimum eligibility remain separate. Optional assessed count/average, track overall and stable ID tie breakers are covered.
+- Version 1 migration retains application IDs/interviews, removes weights/optional minima, preserves required minima, recovers malformed requirement lists as drafts and is idempotent. Actual compiled bootstrap saves v2 and maintains stable unique tokens after reload.
+- The generated SVG QR is rasterized from its actual module path and decoded using independent `jsqr`. Decoded content exactly matches the opaque token payload and excludes Student ID/contact data. This proves encoding/scannability structurally, not phone-camera performance on a physical print.
+- Own profile editing stores structured work/contact/project data. Company sees the full shared read-only profile and safe contact/design links. Candidate role routes remain unavailable to company users; public visits remain guarded. New accounts initialize empty project collections.
+- Media tests reject SVG/oversized files before decode, reject external/unbounded references and exercise an invalid upload without changing saved data. HTTPS-only URL tests reject executable/data/http/credential URLs.
+- Tickets retain their token across revisits and role switches; university filtering/ownership and cancellation on university change work. University aggregates independently count distinct companies, postings, claimed students and assessed students within the selected university.
+- Find Jobs contains the local illustration and three working contextual links, with no alien embeds. Technology explicitly states local-only authentication/data and practice grading/ticket boundaries.
+- Existing sign-up/approval, publishing and job edits, apply-without-assessment, applicant visibility, scheduling/responses/statuses, fair attribution and localization/theme workflows pass.
 
-Scoring fixtures remain explicitly simulated; none of these tests proves real LLM generation/grading, production authentication or anti-cheating detection.
+## Clean-source delivery verification
 
-10. Skip-to-content focuses the main region without changing local or Pages routes.
+A source-only checkpoint was extracted into a separate directory. `npm ci`, production build, domain/source/DOM/UX/V3/V4 suites, real server HTTP checks, Pages build/tests and formatting all passed there. Final source changes were synchronized and the affected compiled UI suites rerun before packaging. The final ZIP is checked for CRC integrity, complete source/configuration/docs/workflow/assets and absence of dependency/build/cache folders. The workflow and five supplied SVG/favicon assets were byte-compared with V3.
 
-## Browser/visual limitation — NOT passed
+## Original full-suite Chromium launch limitation
 
-`npx playwright install chromium` was executed; the environment returned corrupt/truncated download archives. The installed system Chromium was then attempted with `CHROMIUM_PATH=/usr/bin/chromium npm run test:e2e -- --grep 'all screen groups'`. It aborted before any page assertions, with `socket() failed: Operation not permitted` in Chromium's process-singleton setup. The remaining browser cases were not run. No browser screenshots or visual passes are fabricated.
+Executed `CHROMIUM_PATH=/usr/bin/chromium npm run test:e2e`. System Chromium aborted at launch with `process_singleton_posix.cc: socket() failed: Operation not permitted`, before page assertions. All 13 selected browser cases were blocked at launch, not passed. Updated authored browser suites include V4 desktop/mobile captures, successful media upload/IndexedDB reload, PNG download, profiles, fair tickets/roster, analytics, landing and RTL/dark checks.
 
-Therefore desktop/mobile layout, actual no-overflow behavior, font/logo painting, keyboard-focus appearance, dark-mode contrast, RTL layout mirroring, animation quality and reduced-motion appearance remain **visually unverified**. Source rules and DOM state are tested, but do not establish CSS geometry. The authored Playwright suite includes four-role routes, representative captures, 1440×900 and 390×844 checks, direct reload, Back, Arabic/dark mode, blank password fields, fair sections, and reduced-motion assertions for local rerun.
+The original full-suite run produced no browser screenshots. The later Find Jobs checks above cover the directory and its footer. Therefore CSS geometry/overflow, painted colors/fonts/contrast, animation appearance, touch comfort, successful canvas PNG download, real image compression/IndexedDB success, and print dialog/physical sheet output remain browser-unverified. PNG/print/upload actions are implemented, but their successful browser path is not claimed as tested by Happy DOM. The two supplied reference screenshots were inspected as design inputs.
 
-Run on Windows:
+To run browser verification on Windows:
 
 ```powershell
 npm ci
@@ -64,10 +61,21 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-## Dependency audit
+## Reproduce build and behavioral tests
 
-`npm audit` reports **11 high-severity entries in the development dependency graph**, rooted in the picomatch advisory. `npm audit --omit=dev` reports **0 runtime dependency vulnerabilities**. No compatible patched picomatch version was available from the registry; unsafe Angular downgrade/TypeScript major changes and `audit fix --force` were not applied. The remaining entries, locked versions, source advisory and scope are documented in DEPENDENCY_AUDIT_FINAL.md. This is not a claim that all dependency warnings are resolved.
+```powershell
+npm ci
+npm run build
+npm run test:domain
+npm run test:source
+npm run test:dom
+npm run test:ux
+npm run test:v3
+npm run test:v4
+npm run test:server
+npm run build:pages
+npm run test:pages
+npm run format:check
+```
 
-## Environment and package boundary
-
-Node 24.22.1, npm 11.9.0, Angular 22.2.6. Supported Node ranges are declared in package.json and READMEs. The ZIP excludes node_modules, dist, .angular, caches, browser binaries/results, logs and secrets. It contains the `skill2work-angular` root, complete source, exact supplied logos/favicons, lockfile, tests, docs and optional GitHub Pages workflow. No remote repository or Pages deployment was performed for this refinement task.
+Authentication, assessment scores, profiles, media and QR issuance remain browser-local prototype functions. These tests do not establish production authentication, real AI grading, shared cross-device registrations or secure admission. Future backend/security/privacy contracts are in API_INTEGRATION.md.

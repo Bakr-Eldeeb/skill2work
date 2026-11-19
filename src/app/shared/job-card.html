@@ -2,7 +2,9 @@
   <div class="job-top">
     <span class="company-monogram">{{ s.company(job.companyId).name.slice(0, 1) }}</span>
     <div>
-      <p class="muted">{{ s.company(job.companyId).name }}</p>
+      <a class="job-company-name" [routerLink]="['/candidate/companies', job.companyId]">{{
+        s.company(job.companyId).name
+      }}</a>
       <h3>
         <a
           [routerLink]="['/candidate/jobs', job.id]"
@@ -12,7 +14,9 @@
       </h3>
     </div>
     @if (candidate) {
-      <div class="job-score"><s2w-score [value]="s.score(candidate, job)" /></div>
+      <div class="job-score">
+        <s2w-score [value]="s.score(candidate, job)" [coverage]="s.coverage(candidate, job)" />
+      </div>
     }
   </div>
   <div class="chips">

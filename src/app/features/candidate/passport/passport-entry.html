@@ -1,0 +1,62 @@
+@let e = entry(); @let skill = e.skill;
+<article
+  [class.paper-entry]="paper()"
+  [class.evidence-card]="!paper()"
+  [class.scored]="skill.score !== undefined"
+>
+  <div class="entry-main">
+    <div class="entry-title">
+      <span class="status">{{ (skill.score !== undefined ? 'Assessed' : 'Claimed') | t }}</span>
+      <h3 dir="auto">{{ skill.name }}</h3>
+      @if (skill.score !== undefined) {
+        <strong class="number"
+          ><bdi>{{ skill.score }}<small>/100</small></bdi></strong
+        >
+      } @else {
+        <span class="reserved">{{ 'Not Assessed Yet' | t }}</span>
+      }
+    </div>
+    @if (paper() && skill.score !== undefined) {
+      <s2w-passport-stamp [date]="e.date" [name]="skill.name" />
+    }
+  </div>
+  @if (skill.score !== undefined) {
+    @if (e.date) {
+      <p class="entry-date">{{ 'Assessment date' | t }} · {{ e.date | passportDate }}</p>
+    }
+    @if (skill.summary || e.result?.strengths) {
+      <p class="summary" dir="auto">{{ skill.summary || e.result?.strengths | t }}</p>
+    }
+    <details>
+      <summary>{{ 'View details' | t }}</summary>
+      @if (e.result; as r) {
+        <strong>{{ 'Strengths' | t }}</strong>
+        <p dir="auto">{{ r.strengths | t }}</p>
+        <strong>{{ 'Areas to practice' | t }}</strong>
+        <p dir="auto">{{ r.weaknesses | t }}</p>
+        @for (line of r.explanations; track $index) {
+          <p dir="auto">{{ line | t }}</p>
+        }
+      } @else {
+        <p>{{ 'The current record contains a score and any summary shown above.' | t }}</p>
+      }
+      @if (skill.simulated || e.result?.simulated) {
+        <small>{{ 'Practice result — not AI grading or certification.' | t }}</small>
+      }
+    </details>
+  } @else {
+    <p class="summary">{{ 'An assessment adds a score and a dated stamp to this skill.' | t }}</p>
+  }
+  <div class="entry-actions">
+    @if (e.coolingUntil) {
+      <small>{{ 'Reassessment available' | t }} · {{ e.coolingUntil | passportDate: true }}</small>
+    } @else {
+      <a routerLink="/candidate/assessments" [queryParams]="{ skill: skill.name }">{{
+        (skill.score !== undefined ? 'Reassess' : 'Assess skill') | t
+      }}</a>
+    }
+    @if (!paper()) {
+      <button type="button" (click)="remove.emit(skill.name)">{{ 'Remove' | t }}</button>
+    }
+  </div>
+</article>

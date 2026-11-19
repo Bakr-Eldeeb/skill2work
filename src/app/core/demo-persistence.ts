@@ -1,6 +1,7 @@
 import { Injectable, InjectionToken, inject } from '@angular/core';
 import { DemoState } from './models';
 import { seed } from './seed';
+import { migrateState } from './state-migration';
 export const STORE_KEY = 'skill2work.demo.v1';
 export interface DemoPersistence {
   load(): DemoState;
@@ -13,7 +14,15 @@ export class LocalDemoPersistence implements DemoPersistence {
   load() {
     try {
       const d = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-      if (d?.version === 1 && Array.isArray(d.users)) return d;
+      if ((d?.version === 1 || d?.version === 2) && Array.isArray(d.users)) {
+        const migrated = migrateState(d);
+        try {
+          this.save(migrated);
+        } catch {
+          /* Keep migrated data in memory if storage is full; never replace it with seed. */
+        }
+        return migrated;
+      }
     } catch {}
     return seed();
   }

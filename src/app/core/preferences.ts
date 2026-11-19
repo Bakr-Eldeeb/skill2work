@@ -1,5 +1,36 @@
 import { Injectable, Pipe, PipeTransform, inject, signal } from '@angular/core';
-import { AR } from './translations';
+import { AR as LEGACY_AR } from './translations';
+import { V4_AR } from './translations-v4';
+import { PASSPORT_AR } from './translations-passport';
+const AR: Record<string, string> = {
+  'Skill comparison': 'مقارنة المهارات',
+  ...{
+    'From skills to opportunities': 'من المهارات إلى فرص العمل',
+    'Your skills deserve': 'مهاراتك تستحق',
+    'to be seen.': 'أن يراها أصحاب العمل.',
+    'Explore opportunities': 'اكتشف فرص العمل',
+    'Fictional profile preview': 'معاينة لملف افتراضي',
+    'Nour Adel': 'نور عادل',
+    'Close evidence': 'إغلاق الدليل',
+    'Explore skill evidence': 'استعرض دليل المهارة',
+    'Related opportunity': 'فرصة ذات صلة',
+    'Move forward in your career': 'تقدّم في مسيرتك المهنية',
+    'Follow your application and respond to interview invitations.':
+      'تابع طلب التوظيف وردّ على دعوات المقابلات.',
+    'Fictional preview': 'مثال توضيحي',
+    'Campus career fair': 'ملتقى التوظيف الجامعي',
+    'Skill X-Ray': 'تحليل توافق المهارات',
+    'Skill Demand Pulse': 'مؤشرات الطلب على المهارات',
+    'Career story': 'مسيرتي المهنية',
+    'Build your profile': 'أنشئ ملفك المهني',
+    'Registration ticket': 'تذكرة التسجيل',
+    'Practice assessment': 'تقييم تدريبي',
+    'Frontend Developer': 'مطوّر واجهات أمامية',
+  },
+  ...LEGACY_AR,
+  ...V4_AR,
+  ...PASSPORT_AR,
+};
 @Injectable({ providedIn: 'root' })
 export class Preferences {
   readonly language = signal(localStorage.getItem('s2w.language') === 'ar' ? 'ar' : 'en');

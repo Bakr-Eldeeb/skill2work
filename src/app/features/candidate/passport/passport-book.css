@@ -1,0 +1,555 @@
+:host {
+  display: block;
+}
+[hidden],
+:host([hidden]) {
+  display: none !important;
+}
+.atlas {
+  --folio-paper: #faf6eb;
+  --folio-text: #352f40;
+  --folio-muted: #625b64;
+  --folio-rule: #d9cfc0;
+  --folio-ink: #196252;
+  --folio-link: #513b81;
+  --mat: #eee9f5;
+  --mat-text: #342941;
+  --mat-muted: #655b70;
+  --mat-rule: #cabfd3;
+  --turn: -174deg;
+  color: var(--mat-text);
+  min-width: 0;
+}
+.atlas:dir(rtl) {
+  --turn: 174deg;
+}
+:host-context([data-theme='dark']) .atlas {
+  --mat: #252239;
+  --mat-text: #f8f2ff;
+  --mat-muted: #c5bcd5;
+  --mat-rule: #555065;
+  --folio-paper: #e9e0cf;
+  --folio-text: #302c35;
+  --folio-muted: #524d51;
+  --folio-rule: #c6bdaa;
+  --folio-ink: #165d4b;
+}
+.exhibit,
+.reader {
+  border: 1px solid var(--mat-rule);
+  border-radius: 22px;
+  background: var(--mat);
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+}
+.exhibit {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  overflow: hidden;
+}
+.display-case {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 398px;
+  perspective: 1100px;
+  padding: 33px 20px 41px;
+  background:
+    radial-gradient(ellipse at 24% 18%, #fff8, transparent 64%),
+    linear-gradient(140deg, #e5daeb, #dfd5ea 40%, #cad8d5 100%);
+  isolation: isolate;
+}
+.display-case:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../../../../../public/assets/passport-lines.svg') center/cover;
+  opacity: 0.64;
+  z-index: -1;
+}
+.display-case:after {
+  content: '';
+  position: absolute;
+  inset: auto 12% 7% 17%;
+  height: 9%;
+  border-radius: 55%;
+  background: #35293f32;
+  filter: blur(11px);
+  transform: rotate(-6deg);
+  z-index: -1;
+}
+:host-context([data-theme='dark']) .display-case {
+  background:
+    radial-gradient(ellipse at 28% 10%, #54415d, transparent 60%),
+    linear-gradient(140deg, #2f2942, #39374a 65%, #354a47);
+}
+.physical-cover {
+  height: 324px;
+  aspect-ratio: 0.715;
+  position: relative;
+  isolation: isolate;
+  transform: rotateZ(-8deg) rotateY(-13deg) rotateX(6deg);
+  transition: transform 0.45s ease;
+  box-shadow:
+    7px 14px 12px #281a3645,
+    16px 25px 30px #281a3638;
+  border-radius: 8px 18px 17px 8px;
+}
+.physical-cover:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 6px -6px -5px 6px;
+  border-radius: 7px 16px 15px 6px;
+  border-bottom: 3px solid #382640;
+  border-inline-end: 2px solid #382640;
+  background: repeating-linear-gradient(0deg, #cfbd9f 0 1px, #eee2c8 1px 3px);
+}
+@media (hover: hover) {
+  .display-case:hover .physical-cover {
+    transform: rotateZ(-5deg) rotateY(-7deg) rotateX(2deg);
+  }
+}
+.catalog {
+  align-self: center;
+  padding: 32px clamp(20px, 4vw, 55px);
+  min-width: 0;
+}
+.ref,
+.folio-head {
+  font:
+    650 10px/1.4 'Plus Jakarta Sans',
+    sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.ref {
+  display: inline-block;
+  border: 1px solid var(--mat-rule);
+  border-radius: 20px;
+  padding: 4px 12px;
+  color: var(--mat-muted);
+}
+.catalog h2,
+.leaf h2,
+.old-face h2 {
+  color: inherit;
+  font-size: clamp(24px, 2.4vw, 35px);
+  letter-spacing: -0.045em;
+  line-height: 1.2;
+  margin: 14px 0 8px;
+}
+.catalog p,
+.index-help {
+  color: var(--mat-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.catalog-index {
+  margin: 22px 0;
+  display: grid;
+}
+.catalog-index div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--mat-rule);
+  padding: 8px 0;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.catalog-index small {
+  font-size: 11px;
+  color: var(--mat-muted);
+}
+.open-button {
+  background: #443158;
+  color: #fff;
+  border: 1px solid #584068;
+  border-radius: 999px;
+  padding: 12px 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 700;
+}
+:host-context([data-theme='dark']) .open-button {
+  background: #d1c3ea;
+  color: #27213c;
+}
+.arrow {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-top: 1.7px solid currentColor;
+  border-inline-end: 1.7px solid currentColor;
+  transform: rotate(45deg);
+  flex: none;
+}
+.arrow:dir(rtl) {
+  transform: rotate(-45deg);
+}
+.reader {
+  padding: clamp(10px, 2vw, 24px);
+  background: radial-gradient(at 12% 0%, #b7a8ba36, transparent 60%), var(--mat);
+}
+.spread {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  perspective: 1500px;
+  isolation: isolate;
+  align-items: stretch;
+  border-radius: 6px 12px 12px 6px;
+  box-shadow:
+    0 2px #d6c9b9,
+    0 4px #9c8c85,
+    0 6px #d8cfc1,
+    0 9px #45364f,
+    0 17px 23px -13px #29203070;
+}
+.spread:after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  width: 32px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #56402b18 40%,
+    #4c362649 50%,
+    #725c461c 60%,
+    transparent
+  );
+}
+.spread:dir(rtl):after {
+  transform: translateX(50%);
+}
+.leaf,
+.old-face,
+.reverse-face {
+  position: relative;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  color: var(--folio-text);
+  background: linear-gradient(125deg, transparent 60%, #bd9f6320), var(--folio-paper);
+}
+.leaf,
+.old-face {
+  display: flex;
+  flex-direction: column;
+  padding: 22px clamp(17px, 2.3vw, 36px) 14px;
+  min-height: 385px;
+  isolation: isolate;
+}
+.leaf:first-child {
+  border-start-start-radius: 8px;
+  border-end-start-radius: 8px;
+}
+.leaf:nth-child(2) {
+  border-start-end-radius: 10px;
+  border-end-end-radius: 10px;
+}
+.leaf:before,
+.old-face:before,
+.reverse-face:before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid #ae926234;
+  pointer-events: none;
+  background: url('../../../../../public/assets/passport-lines.svg') center bottom/cover;
+  opacity: 0.36;
+  z-index: -1;
+  border-radius: inherit;
+}
+.folio-head,
+.folio-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--folio-muted);
+  font-size: 9px;
+}
+.folio-head span:last-child {
+  letter-spacing: 0.06em;
+  overflow-wrap: anywhere;
+  text-align: end;
+}
+.folio-head {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--folio-rule);
+}
+.folio-foot {
+  margin-top: auto;
+  padding-top: 15px;
+  font-weight: 600;
+}
+.folio-foot b {
+  font-variant-numeric: tabular-nums;
+}
+.id-person {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--folio-rule);
+}
+.id-person h3,
+.index-row h3 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--folio-text);
+}
+.id-person p,
+.index-row small {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--folio-muted);
+}
+.id-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 10px;
+  margin: 18px 0 8px;
+}
+.id-facts dt {
+  font-size: 10px;
+  font-weight: 650;
+  color: var(--folio-muted);
+}
+.id-facts dd {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--folio-text);
+  overflow-wrap: anywhere;
+}
+.index-help {
+  color: var(--folio-muted);
+  font-size: 13px;
+  margin: 5px 0 14px;
+}
+.index-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 14px 0;
+  border-top: 1px solid var(--folio-rule);
+}
+.index-row button {
+  min-height: 40px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--folio-link);
+}
+.index-row .arrow {
+  margin-inline-start: 4px;
+}
+.index-medallion {
+  width: 90px;
+  align-self: flex-end;
+  filter: brightness(0.58) sepia(0.3);
+  opacity: 0.45;
+  margin: 12px 0;
+}
+.endpaper {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #584260, #3c3045);
+}
+.endpaper img {
+  width: 50%;
+  opacity: 0.55;
+}
+.reader-controls,
+.page-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reader-controls {
+  justify-content: space-between;
+  margin-top: 19px;
+  flex-wrap: wrap;
+}
+.reader-controls button {
+  min-height: 44px;
+  border: 1px solid var(--mat-rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mat-text);
+  font-weight: 650;
+  font-size: 12px;
+  padding: 6px 15px;
+}
+.page-controls button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  padding: 0;
+}
+.previous .arrow {
+  rotate: 180deg;
+}
+.reader-controls button:disabled {
+  opacity: 0.36;
+}
+.page-controls span {
+  font-size: 12px;
+  color: var(--mat-muted);
+  font-variant-numeric: tabular-nums;
+}
+.moving {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: 50%;
+  z-index: 4;
+  pointer-events: none;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  animation: flip 510ms cubic-bezier(0.45, 0.06, 0.28, 0.98) both;
+}
+.moving:dir(rtl) {
+  transform-origin: right center;
+}
+.moving[data-motion='back'] {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  transform-origin: right center;
+  animation-name: flip-back;
+}
+.moving[data-motion='back']:dir(rtl) {
+  transform-origin: left center;
+}
+.moving[data-motion='close'] {
+  animation-direction: reverse;
+}
+.face,
+.reverse-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 5px 14px #21162c33;
+}
+.old-face {
+  padding-block-start: 22px;
+  min-height: 0;
+}
+.reverse-face {
+  transform: rotateY(180deg);
+  background: linear-gradient(100deg, #bfae9680, transparent 40%), var(--folio-paper);
+  isolation: isolate;
+}
+@keyframes flip {
+  from {
+    transform: rotateY(0);
+  }
+  to {
+    transform: rotateY(var(--turn));
+  }
+}
+@keyframes flip-back {
+  from {
+    transform: rotateY(0);
+  }
+  to {
+    transform: rotateY(calc(-1 * var(--turn)));
+  }
+}
+.single .spread {
+  grid-template-columns: minmax(0, 1fr);
+}
+.single .spread:after {
+  display: none;
+}
+.single .leaf {
+  border-radius: 8px;
+}
+.single .moving {
+  width: 100%;
+}
+.single .exhibit {
+  grid-template-columns: 1fr;
+}
+.single .display-case {
+  min-height: 288px;
+  padding: 22px 16px 30px;
+}
+.single .physical-cover {
+  height: 235px;
+}
+.single .catalog {
+  padding: 18px 22px 22px;
+}
+.single .catalog h2 {
+  font-size: 25px;
+}
+.single .catalog-index {
+  margin: 12px 0 16px;
+}
+.single .catalog p {
+  margin-bottom: 0;
+}
+.single .reader-controls {
+  gap: 5px;
+}
+.single .page-controls {
+  gap: 6px;
+}
+.single .leaf h2 {
+  font-size: 26px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .physical-cover,
+  .moving {
+    transition: none;
+    animation: none;
+  }
+  .display-case:hover .physical-cover {
+    transform: rotateZ(-8deg) rotateY(-13deg) rotateX(6deg);
+  }
+}
+
+.holder-leaf:after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 5%;
+  inset-block-end: 12%;
+  width: 38%;
+  aspect-ratio: 1;
+  background: url('../../../../../public/assets/passport-medallion.svg') center/contain no-repeat;
+  filter: brightness(0.47) saturate(0.6);
+  opacity: 0.12;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.single .spread,
+.single .open-button {
+  scroll-margin-block-start: 76px;
+}
+.ref,
+.folio-head span:last-child {
+  text-transform: none;
+}

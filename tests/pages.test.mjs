@@ -14,11 +14,21 @@ const script = fs.readFileSync(
 const delay = () => new Promise((r) => setTimeout(r, 100));
 for (const [role, route] of [
   ['candidate', 'assessments'],
+  ['candidate', 'passport'],
+  ['candidate', 'companies/co1'],
+  ['candidate', 'applications/a1'],
+  ['candidate', 'profile'],
+  ['company', 'candidates/c1'],
+  ['company', 'profile'],
+  ['university', 'profile'],
+  ['university', 'analytics'],
+  ['university', 'fairs/f1?tab=registrations'],
   ['company', 'dashboard'],
+  ['candidate', 'jobs'],
   ['university', 'dashboard'],
   ['admin', 'companies'],
 ]) {
-  test(`Pages ${role}: hash deep-link boot, repository-relative assets and navigation`, async () => {
+  test(`Pages ${role}/${route}: hash deep-link boot, repository-relative assets and navigation`, async () => {
     const w = new Window({
       url: 'https://example.github.io' + base + '#/' + role + '/' + route,
       settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true },
@@ -43,7 +53,7 @@ for (const [role, route] of [
     try {
       assert.ok(w.document.querySelector('main h1'));
       assert.ok(w.document.querySelector('main').textContent.length > 60);
-      if (role === 'candidate')
+      if (role === 'candidate' && route === 'assessments')
         assert.match(w.document.querySelector('main').textContent, /Assessment overview/);
       const logo = w.document.querySelector('s2w-logo img');
       assert.equal(
@@ -78,4 +88,32 @@ test('Pages output has valid base, favicon files, compiled app and .nojekyll mar
     'skill2work-logo-dark.svg',
   ])
     assert.ok(fs.statSync(folder + '/assets/' + asset).size > 0);
+});
+test('Pages landing section links retain the public route instead of entering a missing route', async () => {
+  const w = new Window({
+    url: 'https://example.github.io' + base + '#/',
+    settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true },
+  });
+  w.structuredClone = globalThis.structuredClone;
+  w.document.write(
+    html
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+      .replace(/<link\b[^>]*>/gi, (tag) => (/\.css/.test(tag) ? '' : tag)),
+  );
+  w.eval(script);
+  await delay();
+  await delay();
+  try {
+    const link = [...w.document.querySelectorAll('a')].find((a) =>
+      a.textContent.includes('How It Works'),
+    );
+    assert.ok(link);
+    link.click();
+    await delay();
+    assert.ok(w.location.hash.startsWith('#/'));
+    assert.ok(w.location.hash.includes('how-it-works'));
+    assert.match(w.document.querySelector('main h1').textContent, /Your skills deserve/);
+  } finally {
+    await w.happyDOM.close();
+  }
 });

@@ -1,4 +1,4 @@
-import { AssessmentQuestion } from './models';
+import { AssessmentQuestion, Skill } from './models';
 export const DEMO_QUESTION_SECONDS = 120;
 export const QUESTION_COUNT: Record<string, number> = { Easy: 4, Medium: 6, Hard: 8 };
 /** Per skill: round(30% * count) MCQs, remaining questions open-ended. UI fixtures, not AI. */
@@ -37,4 +37,9 @@ export function questions(skills: string[], difficulty: string): AssessmentQuest
 }
 export function fixtureScore(skill: string) {
   return 65 + ([...skill].reduce((n, c) => n + c.charCodeAt(0), 0) % 26);
+}
+
+/** Earliest permitted retry of the latest recorded assessment. */
+export function nextAssessmentTime(skill: Skill): number {
+  return skill.date ? Date.parse(skill.date) + 86400000 : 0;
 }

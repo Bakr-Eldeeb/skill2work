@@ -56,9 +56,9 @@ test('Back works with meaningful history, direct deep links and no auth/cross-ro
 test('consolidated Skills tabs preserve passport/results deep links and mobile navigation priorities', async () => {
   const a = await app('/candidate/passport', 'candidate');
   try {
-    assert.match(main(a), /My skills/);
-    assert.ok(find(a, 'button', 'Skill Passport').getAttribute('aria-pressed') === 'true');
-    await click(a, 'My skills', a.w.document.querySelector('.view-switch'));
+    assert.match(main(a), /Your Skill Passport/);
+    assert.ok(find(a, 'button', 'Passport View').getAttribute('aria-pressed') === 'true');
+    await click(a, 'Passport View', a.w.document.querySelector('.view-switch'));
     await fill(a, 'Skill name', 'Accessible UX');
     await click(a, '+ Add skill');
     assert.match(main(a), /Accessible UX/);
@@ -108,9 +108,9 @@ test('fair sections keep registrations inside the fair and expose no individual 
   const a = await app('/university/fairs/f1', 'university', { state: d });
   try {
     assert.ok(find(a, 'button', 'Overview'));
-    await click(a, 'Registrations', a.w.document.querySelector('.view-switch'));
+    await click(a, 'Registration Tickets', a.w.document.querySelector('.view-switch'));
     assert.match(main(a), /ECU-TEST/);
-    assert.match(main(a), /self-reported and unverified/);
+    assert.match(main(a), /Registration ticket/);
     assert.doesNotMatch(main(a), /Skill Passport|Strengths|Assessment results/);
     await click(a, 'Jobs', a.w.document.querySelector('.view-switch'));
     assert.match(main(a), /Frontend Developer/);

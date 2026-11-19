@@ -1,60 +1,181 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+.passport-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 18px 0;
+}
+.passport-heading h1 {
+  font-size: clamp(29px, 3.1vw, 46px);
+  line-height: 1.12;
+  margin: 0;
+  letter-spacing: -0.055em;
+}
+.passport-heading p {
+  font-size: 14px;
+  margin: 7px 0 0;
+  color: var(--muted);
+}
+.assessment-action {
+  flex: none;
+}
+.holder-strip,
+.holder-name,
+.evidence-totals,
+.passport-toolbar,
+.view-switch {
+  display: flex;
+  align-items: center;
+}
+.holder-strip {
+  gap: 11px;
+  padding: 0 0 18px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.holder-strip .passport-portrait {
+  --portrait-w: 39px;
+  --portrait-h: 39px;
+  --portrait-radius: 50%;
+  --portrait-font: 14px;
+}
+.holder-name {
+  align-items: start;
+  flex-direction: column;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.holder-name small,
+.evidence-totals {
+  color: var(--muted);
+  font-size: 12px;
+}
+.evidence-totals {
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-inline-start: auto;
+}
+.evidence-totals b {
+  color: var(--text);
+  font-size: 15px;
+}
+.passport-overall {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.passport-toolbar {
+  justify-content: space-between;
+  gap: 12px;
+  margin: 19px 0 15px;
+  flex-wrap: wrap;
+}
+.view-switch {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  gap: 2px;
+  background: var(--surface);
+  padding: 3px;
+}
+.view-switch button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  padding: 6px 12px;
+  color: var(--muted);
+}
+.view-switch button.selected {
+  background: var(--soft);
+  color: var(--primary-text);
+}
+.view-switch svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.results-link {
+  border: 0;
+  background: transparent;
+  color: var(--primary-text);
+  font-weight: 650;
+  font-size: 12px;
+  min-height: 40px;
+  padding: 4px;
+}
+.evidence-list {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+}
+.verification-note {
+  margin: 16px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.verification-note summary {
+  font-weight: 650;
+  cursor: pointer;
+  min-height: 36px;
+}
+.verification-note p {
+  max-width: 70ch;
+}
 .skill-add {
   display: flex;
-  gap: 16px;
   align-items: end;
-  margin-top: 24px;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
 }
 .skill-add label {
   flex: 1;
+  max-width: 440px;
 }
-.skill-add .secondary {
-  height: 42px;
+.skill-add button {
+  min-height: 43px;
 }
-@media (max-width: 500px) {
-  .skill-add {
-    align-items: stretch;
-    flex-direction: column;
+@media (max-width: 650px) {
+  .passport-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
-}
-.skill-item {
-  padding-block: 20px;
-  border-bottom: 1px solid var(--line);
-}
-.skill-item:first-child {
-  padding-top: 0;
-}
-.skill-item:last-child {
-  border: 0;
-  padding-bottom: 0;
-}
-.skill-item h3 {
-  margin-bottom: 7px;
-}
-.skill-value {
-  text-align: end;
-}
-.skill-value strong {
-  font-size: 25px;
-  color: var(--primary-text);
-}
-.skill-value small {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 400;
-}
-.skill-value p {
-  margin: 0;
-}
-.skill-summary {
-  margin-bottom: 0;
-  max-width: 65%;
-}
-.skill-item details {
-  margin-top: 8px;
-  padding-top: 8px;
-}
-@media (max-width: 700px) {
-  .skill-summary {
-    max-width: 100%;
+  .passport-heading h1 {
+    font-size: 31px;
+  }
+  .holder-strip {
+    row-gap: 7px;
+  }
+  .evidence-totals {
+    margin-inline-start: 0;
+    width: 100%;
+  }
+  .view-switch button {
+    min-height: 44px;
+  }
+  .passport-toolbar {
+    gap: 5px;
+    margin-block: 12px;
+  }
+  .results-link {
+    min-height: 44px;
+  }
+  .skill-add {
+    flex-wrap: wrap;
+  }
+  .skill-add label {
+    min-width: min(100%, 170px);
   }
 }

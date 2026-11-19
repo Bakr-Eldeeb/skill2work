@@ -1,18 +1,20 @@
+import { ExperienceStateStore } from '../../core/experience-state';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DemoRepository } from '../../core/store';
 import { Preferences, TranslatePipe } from '../../core/preferences';
 import { PageHeader, EmptyState } from '../../shared/ui';
 @Component({
   selector: 's2w-settings',
-  imports: [FormsModule, DatePipe, TranslatePipe, PageHeader, EmptyState],
+  imports: [FormsModule, DatePipe, TranslatePipe, PageHeader, EmptyState, RouterLink],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
 export class Settings {
   s = inject(DemoRepository);
+  experience = inject(ExperienceStateStore);
   p = inject(Preferences);
   r = inject(Router);
   route = inject(ActivatedRoute);
@@ -23,18 +25,13 @@ export class Settings {
   get notices() {
     return this.s.state().notifications.filter((n) => n.userId === this.s.user()?.id);
   }
-  get demoAccounts() {
-    return this.s
-      .state()
-      .users.filter((u) => ['uc1', 'uco1', 'uu1', 'admin'].includes(u.id))
-      .map(({ role, email }) => ({ role, email }));
-  }
   readAll() {
     this.s.markNotificationsRead();
   }
   reset() {
     if (confirm('Reset all demo data and sign out? This removes changes in this browser.')) {
       this.s.reset();
+      this.experience.reset();
       this.r.navigateByUrl('/sign-in');
     }
   }

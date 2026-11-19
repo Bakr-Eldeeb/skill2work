@@ -1,0 +1,141 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+article {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+.evidence-card {
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 22px 24px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+}
+.entry-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.entry-title {
+  min-width: 0;
+}
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--folio-muted, var(--muted));
+  letter-spacing: 0.045em;
+}
+.status:before {
+  content: '';
+  height: 7px;
+  width: 7px;
+  flex: none;
+  border-radius: 100%;
+  border: 1px solid currentColor;
+}
+.scored .status {
+  color: var(--folio-ink, var(--mint-text));
+}
+.scored .status:before {
+  background: currentColor;
+}
+h3 {
+  font-size: clamp(18px, 2vw, 23px);
+  line-height: 1.25;
+  margin: 4px 0 6px;
+  color: inherit;
+  letter-spacing: -0.025em;
+}
+.number {
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.number small {
+  font-size: 12px;
+  font-weight: 600;
+  margin-inline-start: 2px;
+  color: var(--folio-muted, var(--muted));
+}
+.reserved {
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px dashed currentColor;
+  border-radius: 6px;
+  display: inline-block;
+  padding: 4px 9px;
+  color: var(--folio-muted, var(--muted));
+}
+.summary,
+.entry-date,
+details p {
+  font-size: 13px;
+  margin: 7px 0;
+  color: var(--folio-muted, var(--muted));
+}
+.entry-date {
+  font-size: 11px;
+}
+.entry-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+.entry-actions a,
+button,
+summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--folio-link, var(--primary-text));
+}
+button {
+  border: 0;
+  background: none;
+  color: var(--folio-muted, var(--muted));
+  padding: 4px;
+}
+details {
+  font-size: 12px;
+}
+summary {
+  display: list-item;
+  cursor: pointer;
+  min-height: 32px;
+  padding: 8px 0 3px;
+}
+details[open] {
+  padding-bottom: 8px;
+}
+.paper-entry {
+  padding-block: 13px 10px;
+  border-top: 1px solid var(--folio-rule);
+}
+.paper-entry .entry-actions a {
+  color: var(--folio-link);
+}
+.paper-entry .entry-date {
+  margin-top: 9px;
+}
+@media (max-width: 600px) {
+  .entry-actions a,
+  button,
+  summary {
+    min-height: 44px;
+  }
+}

@@ -1,3 +1,5 @@
+import { FairTickets } from '../../shared/fair-tickets';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -17,6 +19,7 @@ import { PageHeader, EmptyState, JobCard } from '../../shared/ui';
     PageHeader,
     EmptyState,
     JobCard,
+    FairTickets,
   ],
   templateUrl: './fairs.html',
   styleUrl: './fairs.css',
@@ -24,6 +27,7 @@ import { PageHeader, EmptyState, JobCard } from '../../shared/ui';
 export class Fairs {
   s = inject(DemoRepository);
   route = inject(ActivatedRoute);
+  params = toSignal(this.route.paramMap);
   router = inject(Router);
   fb = inject(FormBuilder);
   role = this.s.user()!.role;
@@ -31,13 +35,17 @@ export class Fairs {
   studentIds: Record<string, string> = {};
   selected: Record<string, boolean> = {};
   error = '';
-  tab = 'overview';
+  query = toSignal(this.route.queryParamMap);
+  get tab() {
+    const value = this.query()?.get('tab') ?? 'overview';
+    return this.detailTabs.includes(value) ? value : 'overview';
+  }
   readonly tabs = ['overview', 'companies', 'registrations', 'jobs'];
   get fairRegistrations() {
     return this.s.state().registrations.filter((r) => r.fairId === this.id);
   }
   setTab(tab: string) {
-    this.tab = tab;
+    if (!this.detailTabs.includes(tab)) return;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { tab: tab === 'overview' ? null : tab },
@@ -45,8 +53,14 @@ export class Fairs {
       replaceUrl: true,
     });
   }
+  universityName(id: string) {
+    return this.s.state().universities.find((u) => u.id === id)?.name ?? '';
+  }
+  get detailTabs() {
+    return this.role === 'university' ? this.tabs : ['overview', 'companies', 'jobs'];
+  }
   get id() {
-    return this.route.snapshot.paramMap.get('id');
+    return this.params()?.get('id') ?? null;
   }
   get fairs() {
     return this.s
@@ -76,8 +90,6 @@ export class Fairs {
     description: ['', Validators.required],
   });
   constructor() {
-    const tab = this.route.snapshot.queryParamMap.get('tab');
-    if (tab && this.tabs.includes(tab)) this.tab = tab;
     if (this.fair) this.form.patchValue(this.fair);
     for (const f of this.fairs) {
       for (const id of f.companies.find((c) => c.companyId === this.s.user()?.entityId)?.jobIds ??
@@ -100,10 +112,17 @@ export class Fairs {
       this.error = (e as Error).message;
     }
   }
+  participating(f: Fair) {
+    return f.companies.some((c) => c.companyId === this.s.user()?.entityId);
+  }
   registered(id: string) {
     return this.s
       .state()
       .registrations.some((r) => r.fairId === id && r.candidateId === this.s.user()?.entityId);
+  }
+  showTicket() {
+    document.getElementById('tickets-title')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('tickets-title')?.focus();
   }
   register(id: string) {
     try {

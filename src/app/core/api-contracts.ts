@@ -35,9 +35,21 @@ export interface AssessmentAnswerRequest {
 export interface MatchResponse {
   jobId: string;
   candidateId: string;
+  /** Arithmetic mean of required evidence, null when none assessed. No employer weights. */
   score: number | null;
+  requiredAssessed: number;
+  requiredTotal: number;
+  assessedNiceCount: number;
+  assessedNiceAverage: number | null;
   eligible: boolean;
-  contributions: { skill: string; points: number; evaluated: boolean }[];
+  contributions: {
+    skill: string;
+    must: boolean;
+    minimum?: number;
+    actualScore: number | null;
+    points: number;
+    evaluated: boolean;
+  }[];
 }
 export interface CandidateRepository {
   get(id: string): Observable<Candidate>;
@@ -84,4 +96,25 @@ export class AspNetApiClient {
   fairs() {
     return this.http.get<Fair[]>(this.base + '/fairs');
   }
+}
+
+/** Production boundary: only an authenticated authorized recruiter can receive contacts. */
+export type RecruiterCandidateProfile = Candidate;
+export interface MediaUploadResponse {
+  mediaId: string;
+  url: string;
+  width: number;
+  height: number;
+}
+export interface TicketResponse {
+  registrationId: string;
+  opaqueToken: string;
+  issuedAt: string;
+}
+export interface SkillDemandAggregate {
+  skill: string;
+  requestingCompanies: number;
+  jobPostings: number;
+  claimedStudents: number;
+  assessedStudents: number;
 }

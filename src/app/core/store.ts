@@ -12,7 +12,7 @@ import {
   User,
 } from './models';
 import { seed } from './seed';
-import { jobErrors, key, match, overall, recommended } from './matching';
+import { jobErrors, key, match, overall, recommended, requiredCoverage } from './matching';
 import { DEMO_PERSISTENCE, STORE_KEY } from './demo-persistence';
 export { STORE_KEY } from './demo-persistence';
 @Injectable({ providedIn: 'root' })
@@ -77,13 +77,13 @@ export class DemoRepository {
           score: result.score,
           date: result.date,
           summary:
-            'Deterministic demo fixture. Practice explaining decisions with concrete examples.',
+            'Practice result from local rules. Explain your decisions with concrete examples.',
           simulated: true,
         });
         d.results = d.results.filter((r) => r.candidateId !== c.id || r.skill !== result.skill);
         d.results.push(result);
       }
-      this.addNotice(d, c.id, 'Demo assessment completed. View your latest simulated results.');
+      this.addNotice(d, c.id, 'Practice assessment completed. View your latest results.');
     });
   }
   notify(message: string) {
@@ -120,6 +120,7 @@ export class DemoRepository {
   job(id: string) {
     return this.state().jobs.find((j) => j.id === id);
   }
+  coverage = requiredCoverage;
   score(c: Candidate, j: Job) {
     return match(c, j);
   }
@@ -171,6 +172,12 @@ export class DemoRepository {
           experience: '',
           projects: '',
           skills: [],
+          headline: data.track,
+          contactEmail: data.email.replace(/@skill2work\.demo$/, '@example.test'),
+          phone: '',
+          portfolio: [],
+          educationEntries: [],
+          experienceEntries: [],
         });
       else
         d.companies.push({
@@ -186,6 +193,18 @@ export class DemoRepository {
     return u;
   }
   saveCandidate(candidate: Candidate) {
+    if (this.user()?.role !== 'candidate' || candidate.id !== this.user()?.entityId)
+      throw Error('Only the candidate can edit this profile.');
+    candidate = {
+      ...candidate,
+      education:
+        candidate.educationEntries?.map((e) => e.title + ' · ' + e.organization).join('; ') ??
+        candidate.education,
+      experience:
+        candidate.experienceEntries?.map((e) => e.title + ' · ' + e.organization).join('; ') ??
+        candidate.experience,
+      projects: candidate.portfolio?.map((p) => p.title).join('; ') ?? candidate.projects,
+    };
     this.commit((d) => {
       const old = d.candidates.find((c) => c.id === candidate.id)!;
       if (old.universityId !== candidate.universityId) {
@@ -205,6 +224,8 @@ export class DemoRepository {
   saveCompany(c: Company) {
     this.commit((d) => {
       d.companies[d.companies.findIndex((x) => x.id === c.id)] = c;
+      const u = d.users.find((u) => u.entityId === c.id);
+      if (u) u.name = c.name;
     });
     this.notify('Company profile saved.');
   }
@@ -343,6 +364,7 @@ export class DemoRepository {
         candidateId: c.id,
         fairId: id,
         studentId: studentId.trim(),
+        ticketToken: crypto.randomUUID(),
       });
       this.addNotice(d, c.id, 'Fair registration confirmed (student ID self-reported).');
     });

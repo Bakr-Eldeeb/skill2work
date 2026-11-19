@@ -91,7 +91,8 @@ test('public signup, password validation, mandatory university, manual profile, 
     assert.equal(a.w.location.pathname, '/candidate/dashboard');
     assert.match(main(a), /Not Assessed Yet/);
     await go(a, '/candidate/profile');
-    await fill(a, 'Bio', 'I build useful interfaces.');
+    await click(a, 'Edit profile');
+    await fill(a, 'About', 'I build useful interfaces.');
     await click(a, 'Save profile');
     await go(a, '/candidate/skills');
     await fill(a, 'Skill name', 'Angular');
@@ -148,15 +149,15 @@ test('company pending/rejected/approved states, draft, publish validation and cr
     await fill(a, 'Job title', 'Test Angular Engineer');
     await fill(a, 'Description', 'Build accessible experiences.');
     await fill(a, 'Skill name', 'Angular');
-    await fill(a, 'Weight', '70');
+    await fill(a, 'Minimum', '101');
     await click(a, 'Publish job');
-    assert.match(text(a.w.document.querySelector('[role=alert]')), /100%/);
+    assert.match(text(a.w.document.querySelector('[role=alert]')), /between 0 and 100/);
     await click(a, 'Save draft');
     assert.match(main(a), /Draft/);
     find(a, 'a', 'Edit job').click();
     await pause();
     await pause();
-    await fill(a, 'Weight', '100');
+    await fill(a, 'Minimum', '60');
     await click(a, 'Publish job');
     assert.match(main(a), /Published/);
     await login(a, 'candidate');
@@ -287,6 +288,7 @@ test('career fair chain preserves fair attribution, updates aggregates, enforces
     assert.match(main(a), /ECU-DEMO-123/);
     await login(a, 'candidate');
     await go(a, '/candidate/profile');
+    await click(a, 'Edit profile');
     await fill(a, 'University', 'u2');
     await click(a, 'Save profile');
     assert.equal(data(a).registrations.length, 0);
@@ -312,7 +314,7 @@ test('Arabic copy and RTL, themes, empty search, account edits and More navigati
     assert.equal(a.w.document.documentElement.dataset.theme, 'dark');
     assert.equal(a.w.localStorage.getItem('s2w.theme'), 'dark');
     assert.ok(a.w.document.querySelector('.mobile-nav'));
-    await click(a, 'المزيد');
+    await click(a, 'الحساب');
     assert.ok(a.w.document.querySelector('.more-sheet'));
     await go(a, '/candidate/settings');
     await click(a, 'English');
@@ -356,6 +358,7 @@ test('storage-event synchronization and account revocation redirect use the real
   const a = await app('/candidate/skills', 'candidate');
   try {
     const d = data(a);
+    await click(a, 'List View');
     d.candidates[0].skills.push({ name: 'Synced Skill' });
     a.w.localStorage.setItem('skill2work.demo.v1', JSON.stringify(d));
     a.w.dispatchEvent(

@@ -3,9 +3,17 @@ export const key = (s: string) => s.trim().toLocaleLowerCase('en');
 export function evidence(c: Candidate, name: string) {
   return c.skills.find((s) => key(s.name) === key(name));
 }
+export function requiredCoverage(c: Candidate, j: Job) {
+  const must = j.skills.filter((r) => r.must);
+  return {
+    assessed: must.filter((r) => evidence(c, r.name)?.score !== undefined).length,
+    total: must.length,
+  };
+}
 export function match(c: Candidate, j: Job): number | null {
-  if (!j.skills.some((r) => evidence(c, r.name)?.score !== undefined)) return null;
-  return j.skills.reduce((n, r) => n + (r.weight * (evidence(c, r.name)?.score ?? 0)) / 100, 0);
+  const must = j.skills.filter((r) => r.must);
+  if (!must.length || !requiredCoverage(c, j).assessed) return null;
+  return must.reduce((n, r) => n + (evidence(c, r.name)?.score ?? 0), 0) / must.length;
 }
 export function overall(
   c: Candidate,
@@ -23,52 +31,48 @@ export function eligible(c: Candidate, j: Job) {
     must.length > 0 &&
     must.every((r) => {
       const s = evidence(c, r.name);
-      return s?.score !== undefined && s.score >= r.minimum;
+      return s?.score !== undefined && s.score >= (r.minimum ?? 0);
     })
   );
 }
 export function recommended(cs: Candidate[], j: Job, w: Record<string, Record<string, number>>) {
   const nice = (c: Candidate) =>
-    j.skills.filter((r) => !r.must && evidence(c, r.name)?.score !== undefined).length;
+    j.skills
+      .filter((r) => !r.must)
+      .map((r) => evidence(c, r.name)?.score)
+      .filter((n): n is number => n !== undefined);
+  const avg = (c: Candidate) => {
+    const a = nice(c);
+    return a.length ? a.reduce((n, v) => n + v, 0) / a.length : 0;
+  };
   return cs
     .filter((c) => eligible(c, j))
     .sort(
       (a, b) =>
-        (match(b, j) ?? 0) - (match(a, j) ?? 0) ||
-        nice(b) - nice(a) ||
-        (overall(b, w) ?? 0) - (overall(a, w) ?? 0) ||
-        a.id.localeCompare(b.id),
+        (match(b, j) ?? -1) - (match(a, j) ?? -1) ||
+        nice(b).length - nice(a).length ||
+        avg(b) - avg(a) ||
+        (overall(b, w) ?? -1) - (overall(a, w) ?? -1) ||
+        a.id.localeCompare(b.id, 'en'),
     );
-}
-/** Stable total in hundredths of a percentage point. */
-export function weightTotal(skills: JobSkill[]): number {
-  return skills.reduce((n, s) => n + Math.round(Number(s.weight) * 100), 0) / 100;
 }
 export function jobErrors(skills: JobSkill[]): string[] {
   const errors: string[] = [];
-  // Percentages may use at most 2 decimal places. Convert to basis points
-  // to avoid JS floating-point errors (e.g. 33.33 + 33.33 + 33.34).
-  const values = skills.map((s) => Number(s.weight));
-  const exactCents = values.every(
-    (v) => Number.isFinite(v) && Math.abs(v * 100 - Math.round(v * 100)) < 1e-7,
-  );
-  const totalCents = values.reduce((sum, v) => sum + Math.round(v * 100), 0);
-  if (!exactCents || totalCents !== 10000) errors.push('Skill weights must total exactly 100%.');
-  if (!skills.some((s) => s.must)) errors.push('At least one Must-Have skill is required.');
-  if (skills.some((s) => !s.name.trim())) errors.push('Every skill needs a name.');
-  if (new Set(skills.map((s) => key(s.name))).size !== skills.length)
+  if (!skills.length || !skills.some((r) => r.must))
+    errors.push('At least one Must-Have skill is required.');
+  if (skills.some((r) => !r.name.trim())) errors.push('Every skill needs a name.');
+  if (new Set(skills.map((r) => key(r.name))).size !== skills.length)
     errors.push('Duplicate skills are not allowed.');
   if (
     skills.some(
-      (s) =>
-        !Number.isFinite(s.weight) ||
-        s.weight < 0 ||
-        s.weight > 100 ||
-        !Number.isFinite(s.minimum) ||
-        s.minimum < 0 ||
-        s.minimum > 100,
+      (r) =>
+        r.must &&
+        (typeof r.minimum !== 'number' ||
+          !Number.isFinite(r.minimum) ||
+          r.minimum < 0 ||
+          r.minimum > 100),
     )
   )
-    errors.push('Weights and minimum scores must be between 0 and 100.');
+    errors.push('Must-Have minimum scores must be between 0 and 100.');
   return errors;
 }

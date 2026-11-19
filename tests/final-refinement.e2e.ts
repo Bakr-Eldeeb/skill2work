@@ -22,10 +22,10 @@ test('final Back parent/history, skill sections and empty password field', async
   await expect(page).toHaveURL(/candidate\/jobs\/j2$/);
   await page.goto('/candidate/passport');
   await expect(
-    page.locator('.view-switch').getByRole('button', { name: 'Skill Passport', exact: true }),
+    page.locator('.view-switch').getByRole('button', { name: 'Passport View', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true');
   await page
-    .locator('.view-switch')
+    .locator('.passport-toolbar')
     .getByRole('button', { name: 'Assessment results', exact: true })
     .click();
   await expect(page.locator('main')).toContainText('No results yet.');
@@ -38,7 +38,7 @@ test('fair sections and Arabic mobile reduced-motion review', async ({ page }) =
   await page.goto('/university/fairs/f1');
   await page
     .locator('.view-switch')
-    .getByRole('button', { name: 'Registrations', exact: true })
+    .getByRole('button', { name: 'Registration Tickets', exact: true })
     .click();
   await expect(page.locator('main')).toContainText('No fair registrations yet.');
   await page.locator('.view-switch').getByRole('button', { name: 'Jobs', exact: true }).click();

@@ -11,6 +11,9 @@ export function parentRoute(url: string, role: Role): string {
   if (segments[1] === 'fairs' && segments.length > 2) {
     return segments[3] === 'edit' ? base + '/fairs/' + segments[2] : base + '/fairs';
   }
+  if (role === 'candidate' && segments[1] === 'companies') return '/candidate/jobs';
+  if (role === 'candidate' && segments[1] === 'applications' && segments.length > 2)
+    return '/candidate/applications';
   if (segments[1] === 'candidates') return '/company/talent';
   if (['assessments', 'results', 'passport'].includes(segments[1])) return '/candidate/skills';
   return role === 'admin' ? '/admin/companies' : base + '/dashboard';

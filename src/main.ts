@@ -13,7 +13,7 @@ bootstrapApplication(App, {
   providers: [
     provideRouter(
       routes,
-      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
       withComponentInputBinding(),
       ...(environment.githubPages ? [withHashLocation()] : []),
     ),

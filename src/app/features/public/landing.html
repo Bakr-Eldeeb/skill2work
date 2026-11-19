@@ -1,131 +1,296 @@
-<header class="public-top">
-  <a routerLink="/"><s2w-logo /></a>
-  <nav>
-    <button class="quiet" (click)="p.toggleLanguage()">
-      {{ p.language() === 'en' ? 'عربي' : 'English' }}</button><button
-      class="icon-button"
-      aria-label="Toggle theme"
-      (click)="p.toggleTheme()"
-    >
-      {{ p.dark() ? '☀' : '☾' }}</button
-    ><a class="secondary" routerLink="/sign-in">{{ 'Sign in' | t }}</a
-    ><a class="primary" routerLink="/sign-up">{{ 'Get started' | t }} ↗</a>
+<header class="top">
+  <a routerLink="/" class="logo"><s2w-logo /></a>
+  <button
+    class="hamb"
+    (click)="menu = !menu"
+    [attr.aria-expanded]="menu"
+    aria-controls="landing-nav"
+    [attr.aria-label]="l('Navigation menu', 'قائمة التنقل')"
+  >
+    <svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#menu" /></svg>
+  </button>
+  <nav id="landing-nav" [class.open]="menu" (click)="menu = false">
+    <a routerLink="/candidate/jobs">{{ l('Explore Jobs', 'اكتشف الوظائف') }}</a><a
+      routerLink="/"
+      fragment="how-it-works"
+      >{{ l('How It Works', 'إزاي المنصة بتشتغل؟') }}</a
+    ><a routerLink="/" fragment="companies">{{ l('For Companies', 'للشركات') }}</a
+    ><a routerLink="/" fragment="universities">{{ l('For Universities', 'للجامعات') }}</a>
   </nav>
+  <div class="tools">
+    <button [attr.aria-label]="l('Toggle theme', 'تبديل المظهر')" (click)="p.toggleTheme()">
+      {{ p.dark() ? '☀' : '☾' }}</button
+    ><button [attr.aria-label]="l('Change language', 'تغيير اللغة')" (click)="p.toggleLanguage()">
+      {{ p.language() === 'en' ? 'EN' : 'ع' }}</button
+    ><a class="cta signin" routerLink="/sign-in"
+      ><svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#user" /></svg>
+      {{ l('Sign In', 'تسجيل الدخول') }}</a
+    >
+  </div>
 </header>
 <main>
-  <section class="hero">
-    <div>
-      <span class="badge mint">{{ brand.tagline | t }}</span>
-      <h1 class="spaced">
-        {{ 'Your skills deserve' | t }} <em>{{ 'a clearer path.' | t }}</em>
+  <section class="landing-hero">
+    <div class="intro">
+      <span class="egypt"
+        ><i></i
+        >{{
+          l('Egypt’s Skills-Based Hiring Platform', 'منصة مصرية للتوظيف على أساس المهارات')
+        }}</span
+      >
+      <h1>
+        {{ l('Your skills deserve', 'مهاراتك تستحق') }}<br />{{ l('to', 'إنها') }}
+        <em>{{ l('be seen.', 'تتشاف.') }}</em>
       </h1>
       <p>
         {{
-          'Turn the skills you claim into evidence you can explain. Discover opportunities that fit what you know, and see what to work on next.'
-            | t
+          l(
+            'Prove what you know. Discover where you belong.',
+            'أظهر قدراتك واكتشف المكان المناسب ليك.'
+          )
         }}
       </p>
       <div class="actions">
-        <a class="primary" routerLink="/sign-up">{{ 'Build your next chapter.' | t }} ↗</a
-        ><a class="text-link" routerLink="/sign-in">{{ 'Explore the demo' | t }} →</a>
+        <a class="cta" routerLink="/candidate/jobs"
+          ><svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#search" /></svg>
+          {{ l('Explore Opportunities', 'اكتشف الفرص') }}</a
+        ><a class="outline" routerLink="/" fragment="how-it-works"
+          ><svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#play" /></svg>
+          {{ l('How It Works', 'إزاي المنصة بتشتغل؟') }}</a
+        >
       </div>
-      <p class="small">
-        {{ 'For candidates' | t }} · {{ 'For companies' | t }} · {{ 'For universities' | t }}
-      </p>
-    </div>
-    <div class="hero-visual">
-      <div class="hero-passport">
-        <div class="row">
-          <div class="identity actions">
-            <span class="avatar">OH</span>
-            <div>
-              <h3>Omar Hassan</h3>
-              <span class="muted">Frontend Development · Cairo</span>
-            </div>
-          </div>
-          <span class="badge mint">{{ 'Demo Simulation' | t }}</span>
-        </div>
-        <hr class="divider" />
-        <div class="row">
-          <h3>{{ 'Skill Passport' | t }}</h3>
-          <strong>57.7<span class="muted"> / 100</span></strong>
-        </div>
-        @for (
-          item of [
-            { name: 'Angular', score: 50 },
-            { name: 'TypeScript', score: 61 },
-            { name: 'Communication', score: 83 },
-          ];
-          track item.name
-        ) {
-          <div class="row small">
-            <span>{{ item.name }}</span><strong>{{ item.score }}/100</strong>
-          </div>
-          <div class="progress"><i [style.width.%]="item.score"></i></div>
-        }
-        <p class="muted">{{ 'Simulated evidence only; no real AI verification.' | t }}</p>
-      </div>
-      <div class="card hero-match">
-        <div class="row">
-          <span class="company-monogram">N</span>
-          <div>
-            <h3>Frontend Developer</h3>
-            <span class="muted">Nile Pixel Studio · Cairo</span>
-          </div>
-          <span class="badge">59.9% {{ 'Match score' | t }}</span>
-        </div>
+      <div class="benefits">
+        <span
+          ><svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#shield" /></svg>
+          {{ l('Assessed Skills', 'مهارات تم تقييمها') }}</span
+        ><span
+          ><svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#target" /></svg>
+          {{ l('Smarter Job Matching', 'مطابقة أذكى للوظائف') }}</span
+        ><span
+          ><svg class="ico" aria-hidden="true">
+            <use href="assets/landing/icons.svg#calendar" />
+          </svg>
+          {{ l('University Career Fairs', 'ملتقيات توظيف جامعية') }}</span
+        >
       </div>
     </div>
+    <figure class="passport-scene">
+      <img
+        src="assets/landing/skill-passport.webp"
+        fetchpriority="high"
+        width="1536"
+        height="1024"
+        [alt]="
+          l(
+            'Purple Skill2Work passport beside a page of assessed skills',
+            'جواز مهارات بنفسجي بجوار صفحة نتائج التقييم'
+          )
+        "
+      />
+      <figcaption>
+        <button
+          (click)="previewOpen = !previewOpen"
+          [attr.aria-expanded]="previewOpen"
+          aria-controls="sample-evidence"
+        >
+          {{ (previewOpen ? 'Close evidence' : 'Explore skill evidence') | t }} ↗</button
+        ><small>{{ l('Illustrative scores', 'درجات توضيحية') }}</small>
+      </figcaption>
+      @if (previewOpen) {
+        <aside id="sample-evidence">
+          <strong>{{ l('Example assessment record', 'مثال لسجل تقييم') }}</strong
+          ><span>Angular · 88/100</span><span>Python · 82/100</span>
+        </aside>
+      }
+    </figure>
   </section>
-  <section class="landing-section">
-    <p class="eyebrow">{{ 'Keep your skills moving forward.' | t }}</p>
-    <h2>{{ 'A little clarity. A lot of possibility.' | t }}</h2>
-    <div class="grid four">
-      @for (step of steps; track step; let i = $index) {
-        <article class="card">
-          <span class="step-number">0{{ i + 1 }} /</span>
-          <h3>{{ step | t }}</h3>
-          <p class="muted">
+  <section id="how-it-works" class="journey" s2wReveal>
+    <h2>
+      {{ l('From potential to', 'من الإمكانات إلى') }} <em>{{ l('opportunity', 'الفرص') }}</em>
+    </h2>
+    <p>
+      {{
+        l(
+          'A simple journey that turns your skills into real career opportunities.',
+          'رحلة بسيطة تربط مهاراتك بفرص العمل المناسبة.'
+        )
+      }}
+    </p>
+    <div class="steps">
+      <a class="step s1" routerLink="/candidate/profile"
+        ><b>01</b
+        ><i
+          ><svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#layers" /></svg
+        ></i>
+        <div>
+          <h3>{{ l('Add Your Skills', 'أضف مهاراتك') }}</h3>
+          <p>
             {{
-              [
-                'Start with a manual profile and the skills you want to show.',
-                'Explore a text-based assessment. This frontend uses a labeled simulation.',
-                'See evaluated skills, feedback and your career-track score.',
-                'Understand matched skills, missing evidence and job requirements.',
-              ][i] | t
+              l(
+                'Build your professional profile with your skills and projects.',
+                'ابنِ ملفك المهني بمهاراتك ومشاريعك.'
+              )
             }}
           </p>
-        </article>
-      }
+        </div></a
+      ><a class="step s2" routerLink="/candidate/assessments"
+        ><b>02</b
+        ><i
+          ><svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#shield" /></svg
+        ></i>
+        <div>
+          <h3>{{ l('Assess & Showcase', 'قيّم مهاراتك واعرضها') }}</h3>
+          <p>
+            {{
+              l(
+                'Show evidence of your abilities through skill assessments.',
+                'بيّن قدراتك من خلال نتائج تقييم مهاراتك.'
+              )
+            }}
+          </p>
+        </div></a
+      ><a class="step s3" routerLink="/candidate/jobs"
+        ><b>03</b
+        ><i
+          ><svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#case" /></svg
+        ></i>
+        <div>
+          <h3>{{ l('Find Opportunities', 'اكتشف الفرص') }}</h3>
+          <p>
+            {{
+              l(
+                'Discover jobs and career fairs relevant to your profile.',
+                'اكتشف وظائف وملتقيات توظيف مناسبة لملفك.'
+              )
+            }}
+          </p>
+        </div></a
+      >
     </div>
   </section>
-  <section class="landing-section">
-    <div class="grid three">
-      <article class="card aura">
-        <span class="step-number">01</span>
-        <h2>{{ 'For candidates' | t }}</h2>
-        <p>{{ 'Your next opportunity starts here.' | t }}</p>
-        <a class="text-link" routerLink="/sign-up">{{ 'Create account' | t }} ↗</a>
-      </article>
-      <article class="card">
-        <span class="step-number">02</span>
-        <h2>{{ 'For companies' | t }}</h2>
-        <p>{{ 'Recruit with clear evidence.' | t }}</p>
-        <a class="text-link" routerLink="/company-sign-up">{{ 'Create account' | t }} ↗</a>
-      </article>
-      <article class="card">
-        <span class="step-number">03</span>
-        <h2>{{ 'For universities' | t }}</h2>
-        <p>{{ 'Connect your campus to opportunity.' | t }}</p>
-        <a class="text-link" routerLink="/sign-in">{{ 'Sign in' | t }} ↗</a>
-      </article>
+  <section class="showcase" [attr.aria-label]="l('Product previews', 'معاينات المنصة')">
+    <article class="fit">
+      <small>{{ l('Sample job comparison', 'مثال لمقارنة مهارات وظيفة') }}</small>
+      <h2>
+        <svg class="ico" aria-hidden="true"><use href="assets/landing/icons.svg#target" /></svg>
+        {{ l('Why this job fits you', 'ليه الوظيفة دي مناسبة ليك؟') }}
+      </h2>
+      <p>{{ l('Frontend Developer', 'مطوّر واجهات أمامية') }} · Nile Pixel Studio</p>
+      <table>
+        <thead>
+          <tr>
+            <th>{{ l('Skill', 'المهارة') }}</th>
+            <th>{{ l('Assessed', 'التقييم') }}</th>
+            <th>{{ l('Minimum', 'الحد الأدنى') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Angular</th>
+            <td>88/100</td>
+            <td>65/100</td>
+          </tr>
+          <tr>
+            <th>TypeScript</th>
+            <td>85/100</td>
+            <td>60/100</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">
+        {{
+          l(
+            'Both assessed scores meet the employer’s minimum.',
+            'الدرجتان تستوفيان الحد الأدنى المطلوب من الشركة.'
+          )
+        }}
+      </p>
+    </article>
+    <article id="universities" class="ticket">
+      <div>
+        <small
+          ><svg class="ico" aria-hidden="true">
+            <use href="assets/landing/icons.svg#calendar" />
+          </svg>
+          {{ l('Sample career fair', 'نموذج ملتقى توظيف') }}</small
+        >
+        <h2>
+          {{ l('ECU Skills to Careers Fair', 'ملتقى المهارات والتوظيف بالجامعة المصرية الصينية') }}
+        </h2>
+        <p>
+          {{ l('10 December 2026', '١٠ ديسمبر ٢٠٢٦') }}<br />{{
+            l('ECU · Cairo campus', 'الجامعة المصرية الصينية · القاهرة')
+          }}
+        </p>
+        <a class="paper" routerLink="/candidate/fairs/f1"
+          >{{ l('Explore fair', 'استكشف الملتقى') }} ↗</a
+        >
+      </div>
+      <aside>
+        <small>{{ l('Event ticket', 'تذكرة دخول') }}</small
+        ><img width="70" height="70" src="assets/landing/sample-ticket.svg" alt="" /><small>{{
+          l('Sample', 'نموذج')
+        }}</small>
+      </aside>
+    </article>
+    <article id="companies" class="company">
+      <div class="cover"><img src="assets/landing/company-cover.webp" loading="lazy" alt="" /></div>
+      <div class="company-line">
+        <b>C</b>
+        <div>
+          <small>{{ l('Company preview', 'معاينة شركة') }}</small>
+          <h2>Cedar Tech Studio</h2>
+        </div>
+      </div>
+      <p>{{ l('Software development · Cairo, Egypt', 'تطوير البرمجيات · القاهرة، مصر') }}</p>
+      <a class="link" routerLink="/candidate/companies/co9"
+        >{{ l('View Company', 'عرض الشركة') }} ↗</a
+      >
+    </article>
+  </section>
+  <section id="about" class="about">
+    <div>
+      <small>{{ l('About Skill2Work', 'عن المنصة') }}</small>
+      <h2>{{ l('Built to make skills matter.', 'لأن المهارات تستحق أن تصنع فرقًا.') }}</h2>
+    </div>
+    <div>
+      <p>
+        {{
+          l(
+            'Candidates bring their work and assessed skills together in one profile. Employers can see how that evidence compares with the skills a role needs.',
+            'يجمع المرشح مشاريعه ونتائج تقييماته في ملف واحد، وتقدر الشركات تقارن الأدلة دي بمتطلبات كل وظيفة.'
+          )
+        }}
+      </p>
+      <p>
+        {{
+          l(
+            'Universities connect the two through career fairs, helping students take their next step into work.',
+            'وتربط الجامعات بينهم من خلال ملتقيات التوظيف، علشان تساعد الطلاب ياخدوا أول خطوة في حياتهم المهنية.'
+          )
+        }}
+      </p>
     </div>
   </section>
-  <section class="landing-section">
-    <div class="notice">
-      {{ 'Demo-only local authentication. Use fictional data.' | t }}
-      {{ 'Simulated evidence only; no real AI verification.' | t }}
+  <section class="finish">
+    <h2>{{ l('Your next opportunity starts here.', 'فرصتك الجاية بتبدأ هنا.') }}</h2>
+    <p>
+      {{
+        l(
+          'Build your profile, showcase your skills, and explore what’s next.',
+          'ابنِ ملفك، اعرض مهاراتك، واكتشف خطوتك الجاية.'
+        )
+      }}
+    </p>
+    <div class="actions">
+      <a class="cta" routerLink="/sign-up">{{ l('Get Started', 'ابدأ الآن') }}</a
+      ><a class="outline" routerLink="/candidate/jobs">{{ l('Explore Jobs', 'اكتشف الوظائف') }}</a>
     </div>
   </section>
 </main>
-<footer class="public-footer">{{ brand.name }} · {{ brand.tagline | t }}</footer>
+<footer>
+  <s2w-logo /><span>{{
+    l('Skills-based hiring in Egypt.', 'التوظيف على أساس المهارات في مصر.')
+  }}</span
+  ><a routerLink="/" fragment="about">{{ l('About us', 'عن المنصة') }}</a
+  ><a routerLink="/technology">{{ l('Technology', 'التكنولوجيا') }}</a>
+</footer>

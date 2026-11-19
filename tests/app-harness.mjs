@@ -17,6 +17,7 @@ async function app(path = '/', role, restore) {
   );
   w.structuredClone = globalThis.structuredClone;
   const d = restore?.state ?? seed();
+  if (restore?.experience) w.localStorage.setItem('s2w.experience.v3', restore.experience);
   if (restore?.attempt) w.sessionStorage.setItem('s2w.attempt', restore.attempt);
   w.localStorage.setItem('skill2work.demo.v1', JSON.stringify(d));
   if (role)

@@ -3,9 +3,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DemoRepository } from '../../core/store';
 import { TranslatePipe } from '../../core/preferences';
-import { Job } from '../../core/models';
+import { Job, JobSkill } from '../../core/models';
 import { PageHeader, EmptyState } from '../../shared/ui';
-import { jobErrors, weightTotal } from '../../core/matching';
+import { jobErrors } from '../../core/matching';
 @Component({
   selector: 's2w-company-jobs',
   imports: [ReactiveFormsModule, RouterLink, TranslatePipe, PageHeader, EmptyState],
@@ -31,7 +31,7 @@ export class CompanyJobs {
     experience: [this.existing?.experience ?? '0–2 years'],
     salary: [this.existing?.salary ?? ''],
     skills: this.fb.array(
-      (this.existing?.skills ?? [{ name: '', must: true, weight: 100, minimum: 60 }]).map((s) =>
+      (this.existing?.skills ?? [{ name: '', must: true, minimum: 60 }]).map((s) =>
         this.skillGroup(s),
       ),
     ),
@@ -39,18 +39,14 @@ export class CompanyJobs {
   get skills() {
     return this.form.controls.skills;
   }
-  get total() {
-    return weightTotal(this.skills.getRawValue());
-  }
   get validation() {
     return jobErrors(this.skills.getRawValue());
   }
-  skillGroup(s = { name: '', must: true, weight: 0, minimum: 60 }) {
+  skillGroup(s: JobSkill = { name: '', must: true, minimum: 60 }) {
     return this.fb.nonNullable.group({
       name: [s.name],
       must: [s.must],
-      weight: [s.weight],
-      minimum: [s.minimum],
+      minimum: [s.minimum ?? 60],
     });
   }
   get jobs() {
@@ -63,6 +59,11 @@ export class CompanyJobs {
       const raw = this.form.getRawValue();
       const job: Job = {
         ...raw,
+        skills: raw.skills.map((r) => ({
+          name: r.name,
+          must: r.must,
+          ...(r.must ? { minimum: r.minimum } : {}),
+        })),
         id: this.existing?.id ?? this.s.id('j'),
         companyId: this.s.user()!.entityId,
         published: publish,

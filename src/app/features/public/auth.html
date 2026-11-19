@@ -13,7 +13,6 @@
       <div class="card">
         <span class="step-number">01 → 02 → 03</span>
         <h3>{{ 'Claim your skills' | t }} · {{ 'Build your passport' | t }}</h3>
-        <p class="muted">{{ 'Simulated evidence only; no real AI verification.' | t }}</p>
       </div>
     </div>
   </section>
@@ -24,7 +23,6 @@
         <a routerLink="/"><s2w-logo /></a>
       </div>
       <div class="row">
-        <p class="eyebrow">{{ 'Demo Mode' | t }}</p>
         <div>
           <button class="quiet" (click)="p.toggleLanguage()">
             {{ p.language() === 'en' ? 'عربي' : 'English' }}</button><button
@@ -37,7 +35,7 @@
         </div>
       </div>
       <h1>{{ (signing ? 'Create account' : 'Welcome back') | t }}</h1>
-      <p class="muted">{{ 'Demo-only local authentication. Use fictional data.' | t }}</p>
+      <a class="small text-link" routerLink="/technology">{{ 'About the technology' | t }}</a>
       <form [formGroup]="form" (ngSubmit)="submit()">
         @if (signing) {
           <label
@@ -108,15 +106,6 @@
           ><a routerLink="/company-sign-up">{{ 'For companies' | t }} · {{ 'Sign up' | t }}</a>
         }
       </div>
-      <details>
-        <summary>{{ 'Demo accounts' | t }}</summary>
-        <p class="small spaced">
-          candidate&#64;skill2work.demo<br />company&#64;skill2work.demo<br />university&#64;skill2work.demo<br />admin&#64;skill2work.demo<br />{{
-            'Password' | t
-          }}:
-          <strong>Demo123!</strong>
-        </p>
-      </details>
     </div>
   </section>
 </main>

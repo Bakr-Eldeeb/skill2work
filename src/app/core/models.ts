@@ -15,6 +15,28 @@ export interface Skill {
   summary?: string;
   simulated?: boolean;
 }
+export interface PortfolioProject {
+  id: string;
+  title: string;
+  description: string;
+  skills: string;
+  category?: string;
+  github?: string;
+  website?: string;
+  caseStudy?: string;
+  video?: string;
+  thumbnail?: string;
+  team: 'Solo' | 'Team';
+  role?: string;
+}
+export interface CareerEntry {
+  id: string;
+  title: string;
+  organization: string;
+  start: string;
+  end: string;
+  description: string;
+}
 export interface Candidate {
   id: string;
   name: string;
@@ -26,6 +48,16 @@ export interface Candidate {
   experience: string;
   projects: string;
   skills: Skill[];
+  headline?: string;
+  contactEmail?: string;
+  phone?: string;
+  github?: string;
+  website?: string;
+  photo?: string;
+  cover?: string;
+  portfolio?: PortfolioProject[];
+  experienceEntries?: CareerEntry[];
+  educationEntries?: CareerEntry[];
 }
 export interface Company {
   id: string;
@@ -33,10 +65,21 @@ export interface Company {
   location: string;
   description: string;
   website: string;
+  industry?: string;
+  logo?: string;
+  cover?: string;
+  contactEmail?: string;
+  socialLinks?: string[];
   status: 'Pending' | 'Approved' | 'Rejected';
   reason?: string;
 }
 export interface Institution {
+  logo?: string;
+  cover?: string;
+  website?: string;
+  description?: string;
+  campuses?: string;
+  contactEmail?: string;
   id: string;
   name: string;
   location: string;
@@ -44,8 +87,7 @@ export interface Institution {
 export interface JobSkill {
   name: string;
   must: boolean;
-  weight: number;
-  minimum: number;
+  minimum?: number;
 }
 export interface Job {
   id: string;
@@ -89,6 +131,7 @@ export interface FairRegistration {
   candidateId: string;
   fairId: string;
   studentId: string;
+  ticketToken?: string;
 }
 export interface Notification {
   id: string;

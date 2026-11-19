@@ -85,6 +85,12 @@
       </div>
     </article>
   } @empty {
-    <s2w-empty text="No applications yet." />
+    <s2w-empty
+      text="No applications yet."
+      description="Applications will appear here when candidates respond to your published roles. Make sure your listings are ready to meet them."
+      ><a class="secondary" routerLink="/company/jobs">{{
+        'Review published jobs' | t
+      }}</a></s2w-empty
+    >
   }
 </div>

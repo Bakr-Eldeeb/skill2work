@@ -9,9 +9,9 @@ const item = (path: string, label: string, icon: string): NavigationItem => ({ p
 /** Only distinct destinations appear in primary navigation. Old deep links remain supported. */
 export const NAV: Record<Role, NavigationItem[]> = {
   candidate: [
-    item('dashboard', 'Dashboard', '◫'),
+    item('dashboard', 'Career Home', '◫'),
     item('jobs', 'Find jobs', '⌕'),
-    item('skills', 'Skills & Passport', '◇'),
+    item('skills', 'Skill Passport', '◇'),
     item('applications', 'Applications', '▧'),
     item('fairs', 'Career fairs', '⌂'),
   ],
@@ -26,7 +26,7 @@ export const NAV: Record<Role, NavigationItem[]> = {
     item('dashboard', 'Dashboard', '◫'),
     item('fairs', 'Manage fairs', '⌂'),
     item('analytics', 'Analytics', '▥'),
-    item('settings', 'Settings', '⚙'),
+    item('profile', 'University profile', '○'),
   ],
   admin: [item('companies', 'Company approvals', '▤'), item('universities', 'Universities', '⌂')],
 };
@@ -41,12 +41,17 @@ export const SECONDARY_NAV: Record<Role, NavigationItem[]> = {
     item('notifications', 'Notifications', '♧'),
     item('settings', 'Settings', '⚙'),
   ],
-  university: [],
+  university: [item('settings', 'Settings', '⚙')],
   admin: [item('settings', 'Settings', '⚙')],
 };
 /** Explicit, task-oriented mobile destinations (never derived from desktop order by slice). */
 export const MOBILE_NAV: Record<Role, NavigationItem[]> = {
-  candidate: NAV.candidate.slice(0, 4),
+  candidate: [
+    item('dashboard', 'Home', '◫'),
+    item('jobs', 'Jobs', '⌕'),
+    item('skills', 'Skills', '◇'),
+    item('applications', 'Applications', '▧'),
+  ],
   company: NAV.company.slice(0, 4),
   university: NAV.university,
   admin: NAV.admin,

@@ -1,4 +1,4 @@
-/** Complete Arabic UI dictionary; every property is declared once. */
+/** Arabic UI dictionary. Keep each property unique. */
 export const AR: Record<string, string> = {
   'Prove Skills. Find Work.': 'أثبت مهاراتك. اعثر على عمل.',
   Dashboard: 'الرئيسية',
@@ -385,4 +385,205 @@ export const AR: Record<string, string> = {
     'تعذر حفظ البيانات التجريبية. وفّر مساحة في المتصفح ثم أعد المحاولة.',
   'Reassess eligible skills': 'أعد تقييم المهارات المتاحة',
   'No skills are eligible for reassessment yet.': 'لا توجد مهارات متاحة لإعادة التقييم بعد.',
+  'Career Home': 'مساحتك المهنية',
+  'Your next chapter': 'فصلك المهني القادم',
+  'Good to see you,': 'سعداء بوجودك،',
+  'There is more than one way to move forward.': 'أمامك أكثر من طريق للتقدم.',
+  'Give a team a better picture of you.': 'عرّف الفريق بك بصورة أوضح.',
+  'Start with what you know and what you enjoy building.': 'ابدأ بما تعرفه وما تستمتع بإنجازه.',
+  'Add evaluated evidence when you feel ready. Applying stays open.':
+    'أضف نتائج تقييم عندما تكون مستعداً. التقديم متاح دائماً.',
+  'Find a role that gives your skills somewhere to grow.': 'اكتشف وظيفة تمنح مهاراتك مساحة للنمو.',
+  'Verify your skills': 'قيّم مهاراتك',
+  'Skills added': 'مهارات مضافة',
+  'Your skills': 'مهاراتك',
+  'A world of possibility.': 'عالم من الفرص.',
+  'Make your next move.': 'ابدأ خطوتك القادمة.',
+  'Made for your next step': 'لخطوتك القادمة',
+  'Relevant opportunities': 'فرص ذات صلة بمهاراتك',
+  'Start exploring': 'ابدأ الاستكشاف',
+  'Ordered by your evaluated evidence. Every match is explained.':
+    'مرتبة حسب نتائج مهاراتك المقيمة، مع شرح كل تطابق.',
+  'No assessment needed. Meet teams and see what interests you.':
+    'لا تحتاج تقييماً. تعرّف على الفرق واكتشف ما يثير اهتمامك.',
+  'All jobs': 'كل الوظائف',
+  'Your next opportunity is still ahead.': 'فرصتك القادمة تنتظرك.',
+  'No roles are published right now. Keep your profile ready for the next opening.':
+    'لا توجد وظائف منشورة الآن. جهّز ملفك للفرصة القادمة.',
+  'Review your profile': 'راجع ملفك الشخصي',
+  'Keep the conversation going': 'واصل رحلتك',
+  'Recent application activity': 'أحدث طلبات التوظيف',
+  'View all': 'عرض الكل',
+  'Your first conversation starts with an application.': 'طلبك الأول قد يكون بداية حوار.',
+  'When you find a role you like, apply using your existing profile.':
+    'عندما تعجبك وظيفة، تقدم بملفك الحالي.',
+  'Beyond the job board': 'ما وراء قائمة الوظائف',
+  'Meet your next team.': 'تعرّف على فريقك القادم.',
+  'Explore the fair': 'استكشف المعرض',
+  'No upcoming fair from your selected university yet. You can still connect through open roles.':
+    'لا يوجد معرض قادم لجامعتك المختارة بعد. يمكنك استكشاف الوظائف المتاحة.',
+  'Meet teams through jobs': 'تعرّف على الفرق من خلال الوظائف',
+  'Your pace. Your path.': 'وتيرتك. طريقك.',
+  'Assessment is optional. You can browse and apply at any time.':
+    'التقييم اختياري. يمكنك تصفح الوظائف والتقديم في أي وقت.',
+  'A little direction': 'بداية أوضح',
+  'Make yourself at home': 'ابدأ على راحتك',
+  'Dismiss getting started': 'إخفاء خطوات البداية',
+  'A few small steps. Take them in your own order.':
+    'خطوات بسيطة يمكنك تنفيذها بالترتيب المناسب لك.',
+  'Add your skills': 'أضف مهاراتك',
+  'Optionally verify skills': 'قيّم مهاراتك اختيارياً',
+  Optional: 'اختياري',
+  Completed: 'مكتمل',
+  'Not completed': 'لم يكتمل',
+  'Show getting started': 'إظهار خطوات البداية',
+  'Checklist progress could not be saved in this browser.':
+    'تعذر حفظ تقدم خطوات البداية في هذا المتصفح.',
+  'Meet the company': 'تعرّف على الشركة',
+  'Fictional demo company': 'شركة تجريبية وهمية',
+  'company mark': 'علامة الشركة',
+  'People behind the work': 'الأشخاص وراء العمل',
+  'A little about this team': 'نبذة عن الفريق',
+  'How this team works': 'أسلوب عمل الفريق',
+  'Work arrangements are listed on each role. Explore the details before applying.':
+    'نمط العمل موضح في كل وظيفة. راجع التفاصيل قبل التقديم.',
+  'At a glance': 'لمحة سريعة',
+  Industry: 'المجال',
+  Environment: 'بيئة العمل',
+  'Skills in their published roles': 'مهارات الوظائف المنشورة',
+  'Company stories are fictional demo content. Skill requirements come from the published jobs.':
+    'قصص الشركات محتوى تجريبي وهمي. متطلبات المهارات مأخوذة من الوظائف المنشورة.',
+  'Find your place here': 'اكتشف دورك هنا',
+  'Published opportunities': 'الفرص المنشورة',
+  'open roles': 'وظائف متاحة',
+  'This team has no published roles right now.': 'لا توجد وظائف منشورة لهذا الفريق الآن.',
+  'Keep exploring other teams. You do not need an assessment to apply.':
+    'واصل استكشاف الفرق الأخرى. لا تحتاج تقييماً للتقديم.',
+  'Explore other jobs': 'استكشف وظائف أخرى',
+  'Company unavailable': 'الشركة غير متاحة',
+  'This company page is not available.': 'صفحة الشركة غير متاحة.',
+  'You can still explore the opportunities currently published on Skill2Work.':
+    'يمكنك متابعة استكشاف الوظائف المنشورة على Skill2Work.',
+  'Digital product studio': 'استوديو منتجات رقمية',
+  'Software engineering': 'هندسة البرمجيات',
+  'Web applications': 'تطبيقات الويب',
+  'Digital products & services': 'منتجات وخدمات رقمية',
+  'Small, cross-functional teams': 'فرق صغيرة متعددة التخصصات',
+  'Collaborative delivery teams': 'فرق تنفيذ تعاونية',
+  'Hands-on project collaboration': 'تعاون عملي في المشروعات',
+  'Project-based collaboration': 'تعاون قائم على المشروعات',
+  'Thoughtful products. Made together.': 'منتجات مدروسة. نبنيها معاً.',
+  'Build useful things, one clear idea at a time.': 'نبني حلولاً مفيدة، فكرة واضحة في كل خطوة.',
+  'Local roots. Useful digital work.': 'جذور محلية. حلول رقمية مفيدة.',
+  'Meet the team behind the opportunity.': 'تعرّف على الفريق وراء الفرصة.',
+  'Explore the company’s own description and its currently published roles. This is a fictional employer in the Skill2Work demo.':
+    'استكشف وصف الشركة ووظائفها المنشورة. هذا صاحب عمل وهمي ضمن النسخة التجريبية من Skill2Work.',
+  'In this fictional studio, design and engineering sit at the same table. The team focuses on making everyday digital services easier to use, with room for clear questions and careful craft.':
+    'في هذا الاستوديو الوهمي، يعمل التصميم والهندسة جنباً إلى جنب لتبسيط الخدمات الرقمية اليومية، مع مساحة للأسئلة الواضحة والعمل المتقن.',
+  'Lotus Digital Labs is a fictional Egyptian software team exploring practical tools for growing businesses. Its demo roles bring together frontend craft, communication and a habit of testing assumptions.':
+    'Lotus Digital Labs فريق برمجيات مصري وهمي يستكشف أدوات عملية للأعمال المتنامية. وظائفه التجريبية تجمع بين تطوير الواجهات والتواصل واختبار الافتراضات.',
+  'This fictional Aswan team turns everyday service ideas into approachable web experiences. The demo company values explaining decisions, sharing context and learning through project work.':
+    'يحوّل هذا الفريق الوهمي في أسوان أفكار الخدمات اليومية إلى تجارب ويب سهلة. وتركز الشركة التجريبية على شرح القرارات ومشاركة السياق والتعلم بالممارسة.',
+  'Meet the team at': 'تعرّف على فريق',
+  'You can start a conversation.': 'يمكنك أن تبدأ حواراً.',
+  'Your profile and an optional cover letter are enough to apply. Assessment is always optional.':
+    'ملفك الشخصي وخطاب تقديم اختياري يكفيان للتقديم. التقييم اختياري دائماً.',
+  'Your skills can grow. The job details help you decide where to begin.':
+    'مهاراتك قابلة للنمو. تفاصيل الوظيفة تساعدك على تحديد نقطة البداية.',
+  'Evidence, made understandable': 'نتائج يسهل فهمها',
+  'Explain my match': 'اشرح نسبة التطابق',
+  'A match score describes the evidence you have for this role. It is not a hiring decision.':
+    'نسبة التطابق تصف الأدلة المتاحة عن مهاراتك لهذه الوظيفة، وليست قرار توظيف.',
+  'You meet the evaluated Must-Have minimums.':
+    'نتائج مهاراتك الأساسية تستوفي الحدود الدنيا المطلوبة.',
+  'Some Must-Have evidence is still needed.': 'بعض متطلبات المهارات الأساسية لم تستوفَ بعد.',
+  'Recommendation eligibility is separate from the match score. You can apply either way.':
+    'أهلية الظهور في التوصيات منفصلة عن نسبة التطابق. يمكنك التقديم في الحالتين.',
+  'Below minimum': 'أقل من الحد الأدنى',
+  'Assessed · Demo': 'تم تقييمها · تجريبي',
+  'Claimed, not assessed': 'معلنة ولم تُقيّم',
+  'Missing from profile': 'غير مضافة للملف',
+  'Actual assessed score · Demo': 'النتيجة المقيمة الفعلية · تجريبي',
+  'Employer minimum': 'الحد الأدنى للشركة',
+  'Optional evidence. Not required for recommendation eligibility.':
+    'مهارة إضافية لا تُشترط لأهلية الظهور في التوصيات.',
+  'You added this skill, but there is no evaluated evidence yet.':
+    'أضفت هذه المهارة، لكن لا توجد نتيجة تقييم لها بعد.',
+  'This skill is not in your profile. Missing evidence is not proof of missing ability.':
+    'هذه المهارة غير مضافة لملفك. غياب التقييم لا يثبت غياب القدرة.',
+  'Explore assessment': 'استكشف التقييم',
+  'Review your skills': 'راجع مهاراتك',
+  'How this skill contributes': 'كيف تساهم هذه المهارة؟',
+  'evidence points': 'نقاط تطابق مدعومة بالتقييم',
+  'No evaluated evidence contributes no points. This is not a zero proficiency score.':
+    'غياب التقييم لا يضيف نقاطاً، لكنه لا يعني أن مستوى المهارة صفر.',
+  'A clearer picture of what you can do.': 'صورة أوضح لما تستطيع إنجازه.',
+  'Start with the skills you claim. Add evaluated evidence when you are ready.':
+    'ابدأ بمهاراتك المعلنة، وأضف نتائج تقييم عندما تكون مستعداً.',
+  'Your skills are a starting point.': 'مهاراتك هي نقطة البداية.',
+  'A demo assessment adds scores and feedback to the skills you claim. It is optional, and you can apply for jobs now.':
+    'التقييم التجريبي يضيف نتائج وملاحظات لمهاراتك المعلنة. وهو اختياري، ويمكنك التقديم الآن.',
+  'Assessment date': 'تاريخ التقييم',
+  'You added this skill. It has not been assessed yet.': 'أضفت هذه المهارة ولم تُقيّم بعد.',
+  'A claim introduces your skill. Assessment adds evaluated evidence.':
+    'الإعلان عن المهارة يعرّف الآخرين بها، والتقييم يضيف نتيجة مدعومة بالملاحظات.',
+  'What do you enjoy doing? Add your first skill and build your profile one step at a time.':
+    'ما الذي تستمتع بإنجازه؟ أضف مهارتك الأولى وابنِ ملفك خطوة بخطوة.',
+  'Add your first skill': 'أضف مهارتك الأولى',
+  'Application journey': 'رحلة طلب التوظيف',
+  'Every conversation has a next step.': 'لكل حوار خطوة تالية.',
+  'Applied on': 'تاريخ التقديم',
+  'Revisit the role': 'راجع الوظيفة',
+  'This application is not available.': 'طلب التوظيف غير متاح.',
+  'Your own applications and their latest updates are listed in your workspace.':
+    'طلباتك وآخر تحديثاتها متاحة في مساحتك الشخصية.',
+  'My applications': 'طلبات توظيفي',
+  'A simple place to follow your applications, respond to interviews, and decide what comes next.':
+    'مكان بسيط لمتابعة طلباتك والرد على المقابلات وتحديد الخطوة التالية.',
+  'Follow this application': 'تابع هذا الطلب',
+  'Your first application can be the start of a conversation. Explore roles and apply with the profile you already have.':
+    'طلبك الأول قد يبدأ حواراً. استكشف الوظائف وتقدم بملفك الحالي.',
+  'A chance to meet': 'فرصة للتعارف',
+  'Your application journey': 'رحلة طلبك',
+  'Only recorded events are shown as reached. Other stages are possible next steps.':
+    'تظهر الأحداث المسجلة فقط كمراحل موثقة. بقية المراحل خطوات محتملة.',
+  'Current stage': 'المرحلة الحالية',
+  'Interview scheduled': 'تم تحديد مقابلة',
+  'Not recorded': 'غير مسجلة',
+  'Career fair': 'معرض توظيف',
+  'Good conversations can open new doors.': 'الحوارات الجيدة قد تفتح أبواباً جديدة.',
+  'Participating in this fair': 'مشارك في هذا المعرض',
+  'Participating teams will appear here when they join.': 'ستظهر الفرق المشاركة هنا بعد انضمامها.',
+  'No linked jobs yet.': 'لا توجد وظائف مرتبطة بعد.',
+  'Published roles will appear here when participating companies link them to this fair.':
+    'ستظهر الوظائف المنشورة هنا عندما تربطها الشركات المشاركة بالمعرض.',
+  'There is no upcoming event to explore here yet. Opportunities are still waiting beyond the fair.':
+    'لا يوجد حدث متاح للاستكشاف هنا بعد. يمكنك متابعة الفرص خارج المعرض.',
+  'Review published jobs': 'راجع الوظائف المنشورة',
+  'No open roles yet.': 'لا توجد وظائف متاحة بعد.',
+  'Clear filters': 'مسح التصفية',
+  'Try fewer filters or a broader search. We will never invent a match.':
+    'جرّب تقليل عوامل التصفية أو توسيع البحث. لن نعرض تطابقاً مختلقاً.',
+  'Applications will appear here when candidates respond to your published roles. Make sure your listings are ready to meet them.':
+    'ستظهر الطلبات هنا عند تقديم المرشحين لوظائفك المنشورة. تأكد أن وظائفك جاهزة لاستقبالهم.',
+  'Recommendations need every Must-Have assessed and above its minimum. You can still discover all candidates.':
+    'تتطلب التوصيات تقييم كل المهارات الأساسية واستيفاء حدودها الدنيا. يمكنك استكشاف جميع المرشحين.',
+  'Try a broader search. Your next teammate may describe their skills differently.':
+    'جرّب بحثاً أوسع. قد يصف زميلك القادم مهاراته بكلمات مختلفة.',
+  'All caught up.': 'كل المهام منجزة.',
+  'No matching companies.': 'لا توجد شركات مطابقة.',
+  'There are no company approvals waiting for you.': 'لا توجد طلبات اعتماد شركات بانتظارك.',
+  'Try another approval status to find the company you need.':
+    'جرّب حالة اعتماد أخرى للعثور على الشركة المطلوبة.',
+  'View approved companies': 'عرض الشركات المعتمدة',
+  'Show all companies': 'عرض كل الشركات',
+  'Create a place for students and employers to begin a conversation.':
+    'أنشئ مساحة يبدأ فيها الطلاب وأصحاب العمل حواراً.',
+  'Students from your university will appear here after they register with a self-reported ID.':
+    'سيظهر طلاب جامعتك هنا بعد تسجيلهم برقم جامعي مدخل ذاتياً.',
+  'Your application, interview and fair updates will arrive here.':
+    'ستصلك هنا تحديثات طلباتك ومقابلاتك ومعارضك.',
+  'Return to your workspace': 'العودة إلى مساحتك',
+  Home: 'الرئيسية',
+  Skills: 'المهارات',
 };

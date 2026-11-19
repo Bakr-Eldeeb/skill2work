@@ -91,6 +91,18 @@
 .workspace {
   margin-inline-start: 246px;
 }
+/* Keep the directory header, jobs and footer in one keyboard-scrollable pane.
+   In-flow content added outside the shell cannot extend the job list. */
+@media screen {
+  .workspace.jobs-directory {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+    background: var(--bg);
+  }
+}
 .topbar {
   height: 78px;
   padding: 0 40px;

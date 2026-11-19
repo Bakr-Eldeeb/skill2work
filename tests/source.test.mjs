@@ -39,7 +39,7 @@ test('all TypeScript sources parse and object properties are unique, including i
 test('no shared secret is printed by Settings and local demo persistence is isolated', () => {
   const template = fs.readFileSync('src/app/features/settings/settings.html', 'utf8');
   assert.doesNotMatch(template, /u\.password|track u\.id/);
-  assert.match(template, /track u\.email/);
+  assert.doesNotMatch(template, /Demo123!|demoAccounts/);
   const store = fs.readFileSync('src/app/core/store.ts', 'utf8');
   assert.doesNotMatch(store, /localStorage\./);
   assert.match(store, /DEMO_PERSISTENCE/);

@@ -1,3 +1,4 @@
+import { Technology } from './features/public/technology';
 import { Routes } from '@angular/router';
 import { roleGuard, assessmentExit } from './core/guards';
 import { AppShell } from './shared/shell';
@@ -29,6 +30,7 @@ const fairs: Routes = [
 ];
 export const routes: Routes = [
   { path: '', component: Landing, pathMatch: 'full' },
+  { path: 'technology', component: Technology },
   { path: 'sign-in', component: Auth, data: { kind: 'login' } },
   { path: 'sign-up', component: Auth, data: { kind: 'candidate' } },
   { path: 'company-sign-up', component: Auth, data: { kind: 'company' } },
@@ -51,6 +53,8 @@ export const routes: Routes = [
       { path: 'jobs/:id', component: CandidateJobs },
       { path: 'jobs/:id/apply', component: CandidateJobs, data: { apply: true } },
       { path: 'applications', component: CandidateApplications },
+      { path: 'applications/:id', component: CandidateApplications },
+      { path: 'companies/:id', component: CompanyProfile },
       ...fairs,
       ...preferences,
     ],
@@ -70,7 +74,7 @@ export const routes: Routes = [
       { path: 'jobs/:id/edit', component: CompanyJobs, data: { editor: true } },
       { path: 'recommendations', component: Talent, data: { recommended: true } },
       { path: 'talent', component: Talent },
-      { path: 'candidates/:id', component: Talent },
+      { path: 'candidates/:id', component: CandidateProfile },
       { path: 'applicants', component: Applicants },
       { path: 'pipeline', component: Applicants, data: { pipeline: true } },
       ...fairs,
@@ -85,6 +89,7 @@ export const routes: Routes = [
     canActivateChild: [roleGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'profile', component: CompanyProfile },
       { path: 'dashboard', component: University, data: { view: 'dashboard' } },
       { path: 'fairs/new', component: Fairs, data: { editor: true } },
       { path: 'fairs/:id/edit', component: Fairs, data: { editor: true } },

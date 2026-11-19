@@ -46,12 +46,61 @@
     @for (j of jobs; track j.id) {
       <s2w-job-card [job]="j" [candidate]="c" />
     } @empty {
-      <s2w-empty />
+      <s2w-empty
+        [text]="hasFilters ? 'No matching results.' : 'No open roles yet.'"
+        [description]="
+          hasFilters
+            ? 'Try fewer filters or a broader search. We will never invent a match.'
+            : 'No roles are published right now. Keep your profile ready for the next opening.'
+        "
+      >
+        @if (hasFilters) {
+          <button class="secondary" (click)="reset()">{{ 'Clear filters' | t }}</button>
+        } @else {
+          <a class="secondary" routerLink="/candidate/profile">{{ 'Review your profile' | t }}</a>
+        }
+      </s2w-empty>
     }
   </div>
+  <section class="career-boost">
+    <img
+      src="assets/career-desk.svg"
+      alt="Career workspace with a laptop, portfolio and magnifying glass"
+    />
+    <div>
+      <p class="eyebrow">{{ 'Make your next move' | t }}</p>
+      <h2>{{ 'A little preparation. A world of possibility.' | t }}</h2>
+      <p>
+        {{
+          'Bring your story, your work and your skills together. Give your next opportunity a clearer picture of you.'
+            | t
+        }}
+      </p>
+      <div class="boost-links">
+        <a routerLink="/candidate/profile"
+          >01
+          <span
+            ><strong>{{ 'Strengthen your profile' | t }}</strong
+            ><small>{{ 'Tell your story' | t }}</small></span
+          > </a
+        ><a routerLink="/candidate/profile" fragment="projects"
+          >02
+          <span
+            ><strong>{{ 'Showcase your projects' | t }}</strong
+            ><small>{{ 'Let your work speak' | t }}</small></span
+          > </a
+        ><a routerLink="/candidate/skills"
+          >03
+          <span
+            ><strong>{{ 'Prove your skills' | t }}</strong
+            ><small>{{ 'Explore optional practice assessment' | t }}</small></span
+          >
+        </a>
+      </div>
+    </div>
+  </section>
 } @else if (job && job.published) {
-  <a class="text-link" routerLink="/candidate/jobs">← {{ 'Back to jobs' | t }}</a
-  ><s2w-header
+  <s2w-header
     [title]="job.title"
     [eyebrow]="s.company(job.companyId).name"
     [subtitle]="job.location + ' · ' + (job.mode | t) + ' · ' + (job.type | t)"
@@ -65,6 +114,10 @@
       >
     }
   </s2w-header>
+  <a class="company-context-link" [routerLink]="['/candidate/companies', job.companyId]"
+    >{{ 'Meet the team at' | t }} {{ s.company(job.companyId).name }}
+    <span aria-hidden="true">↗</span></a
+  >
   @if (applying) {
     <div class="two-column">
       <form class="card" (ngSubmit)="apply()">
@@ -90,7 +143,7 @@
       <aside class="card aura">
         <h3>{{ job.title }}</h3>
         <p>{{ s.company(job.companyId).name }}</p>
-        <s2w-score [value]="s.score(c, job)" />
+        <s2w-score [value]="s.score(c, job)" [coverage]="s.coverage(c, job)" />
       </aside>
     </div>
   } @else {
@@ -104,60 +157,22 @@
             <span>{{ job.salary }}</span>
           }
         </div>
-        <h2 class="spaced">{{ 'Required skills' | t }}</h2>
-        @for (r of job.skills; track r.name) {
-          <div class="list-row">
-            <div class="grow">
-              <h3>{{ r.name }}</h3>
-              <span class="muted"
-                >{{ (r.must ? 'Must-Have' : 'Nice-to-Have') | t }} · {{ 'Weight' | t }}
-                {{ r.weight }}%
-                @if (r.must) {
-                  · {{ 'Minimum' | t }} {{ r.minimum }}/100
-                }
-              </span>
-            </div>
-            <span class="badge" [class.mint]="skillScore(r.name) !== undefined"
-              >{{ skillState(r.name) | t }}
-              @if (skillScore(r.name) !== undefined) {
-                · {{ skillScore(r.name) }}
-              }
-            </span>
-          </div>
-        }
       </article>
-      <aside class="stack">
-        <div class="card aura">
-          <h3>{{ 'Match score' | t }}</h3>
-          <s2w-score [value]="s.score(c, job)" />
-          <div class="progress"><i [style.width.%]="s.score(c, job) ?? 0"></i></div>
-          <details>
-            <summary>{{ 'Why this match?' | t }}</summary>
-            <p class="muted spaced">
-              {{
-                'Each evaluated skill contributes its score multiplied by the job weight. Missing evidence adds no points, not a proven lack of ability.'
-                  | t
-              }}
-            </p>
-            @for (r of job.skills; track r.name) {
-              <div class="row small">
-                <span>{{ r.name }} · {{ r.weight }}% × {{ skillScore(r.name) ?? '—' }}</span
-                ><strong>{{
-                  (r.weight * (skillScore(r.name) ?? 0)) / 100 | number: '1.0-1'
-                }}</strong>
-              </div>
-            }
-          </details>
-        </div>
-        <div class="card">
-          <h3>{{ 'Keep your skills moving forward.' | t }}</h3>
-          <p class="muted">
-            {{ 'Assessment outcomes may increase or decrease a match score.' | t }}
-          </p>
-          <a class="text-link" routerLink="/candidate/skills">{{ 'My skills' | t }} ↗</a>
-        </div>
+      <aside class="job-human-note">
+        <span class="note-symbol" aria-hidden="true">↗</span>
+        <h3>{{ 'You can start a conversation.' | t }}</h3>
+        <p>
+          {{
+            'Your profile and an optional cover letter are enough to apply. Assessment is always optional.'
+              | t
+          }}
+        </p>
+        <p class="muted">
+          {{ 'Your skills can grow. The job details help you decide where to begin.' | t }}
+        </p>
       </aside>
     </div>
+    <s2w-match-explanation [candidate]="c" [job]="job" />
   }
 } @else {
   <s2w-empty text="Page not found"

@@ -10,7 +10,7 @@ import { Job } from '../../core/models';
 import { key } from '../../core/matching';
 @Component({
   selector: 's2w-talent',
-  imports: [FormsModule, RouterLink, DatePipe, TranslatePipe, PageHeader, ScoreCard, EmptyState],
+  imports: [FormsModule, RouterLink, TranslatePipe, PageHeader, ScoreCard, EmptyState],
   templateUrl: './talent.html',
   styleUrl: './talent.css',
 })

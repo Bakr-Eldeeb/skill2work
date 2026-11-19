@@ -24,6 +24,7 @@ jobs:
         uses: actions/configure-pages@v5
       - run: npm ci
       - run: npm run test:domain
+      - run: npm run test:source
       - name: Build Angular for repository path
         run: npm run build:pages
         env:

@@ -1,4 +1,5 @@
 import { DemoState, Candidate, Company, User } from './models';
+import { migrateState } from './state-migration';
 export const DEMO_PASSWORD = 'Demo123!';
 export function seed(): DemoState {
   const universities = [
@@ -36,7 +37,7 @@ export function seed(): DemoState {
         : {
             score: 50 + ((i * 7 + k * 11) % 46),
             date: '2026-11-01T10:00:00.000Z',
-            summary: 'Seeded demo evaluation; practice with concrete examples.',
+            summary: 'Practice evidence. Develop your explanations with concrete examples.',
             simulated: true,
           }),
     })),
@@ -56,7 +57,7 @@ export function seed(): DemoState {
     id: `co${i + 1}`,
     name,
     location: i % 2 ? 'Aswan' : 'Cairo',
-    description: 'A fictional Egyptian team creating practical digital products.',
+    description: 'A thoughtful product team building accessible digital experiences in Egypt.',
     website: '',
     status: i === 9 ? 'Pending' : 'Approved',
   }));
@@ -99,7 +100,7 @@ export function seed(): DemoState {
     companyId: c.id,
     title: ['Frontend Developer', 'Junior Software Engineer', 'Angular Developer'][i % 3],
     description:
-      'Help our fictional team build accessible, dependable web applications. Collaborate with designers, review changes, and explain your decisions clearly.',
+      'Help our team build accessible, dependable web applications. Collaborate with designers, review changes, and explain your decisions clearly.',
     location: c.location,
     mode: ['Hybrid', 'Remote', 'On-site'][i % 3],
     type: 'Full-time',
@@ -107,13 +108,13 @@ export function seed(): DemoState {
     salary: i % 2 ? 'EGP 15,000–22,000' : '',
     published: true,
     skills: [
-      { name: 'Angular', must: true, weight: 50, minimum: 65 },
-      { name: 'TypeScript', must: true, weight: 30, minimum: 60 },
-      { name: 'Communication', must: false, weight: 20, minimum: 0 },
+      { name: 'Angular', must: true, minimum: 65 },
+      { name: 'TypeScript', must: true, minimum: 60 },
+      { name: 'Communication', must: false },
     ],
   }));
-  return {
-    version: 1,
+  return migrateState({
+    version: 2,
     users,
     candidates,
     companies,
@@ -136,7 +137,7 @@ export function seed(): DemoState {
         name: 'ECU Skills to Careers Fair',
         date: '2026-12-10T10:00',
         location: 'ECU · Cairo campus',
-        description: 'Meet fictional employers and explore roles aligned with your skills.',
+        description: 'Meet participating employers and explore roles aligned with your skills.',
         companies: [{ companyId: 'co1', jobIds: ['j1'] }],
       },
       {
@@ -157,5 +158,5 @@ export function seed(): DemoState {
       'Backend Development': { SQL: 5, TypeScript: 3, Communication: 2 },
       'Product Design': { Figma: 5, Communication: 3, TypeScript: 1 },
     },
-  };
+  });
 }
